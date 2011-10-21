@@ -161,7 +161,7 @@ class SeriesController < ApplicationController
       m.publisher = params[:magazine_publisher].strip
       m.save!
     end
-    @serie.magazines << m
+    @serie.magazines << m if m
 
     if params[:book_ids]
       params[:book_ids].each do |bid|
