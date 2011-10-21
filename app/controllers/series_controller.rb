@@ -94,7 +94,7 @@ class SeriesController < ApplicationController
       q[0] += " s.name LIKE ? OR b.name LIKE ? OR a.name LIKE ? OR"
       q += Array.new(3){"%#{str}%"}
     end
-    q[0] = q[0][0..(q[0].length - 3)]
+    q[0] = q[0][0..(q[0].length - 3)] + " ORDER BY s.id DESC"
     @series = Serie.find_by_sql(q)
 
     render "index"
@@ -103,7 +103,7 @@ class SeriesController < ApplicationController
   # GET /series
   # GET /series.xml
   def index
-    @series = Serie.all
+    @series = Serie.order("id DESC")
 
     respond_to do |format|
       format.html # index.html.erb
