@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Node:</b>
+  <%= @browsenodeid.node %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @browsenodeid.name %>
+</p>
+
+<p>
+  <b>Ancestor:</b>
+  <%= @browsenodeid.ancestor %>
+</p>
+
+
+<%= link_to 'Edit', edit_browsenodeid_path(@browsenodeid) %> |
+<%= link_to 'Back', browsenodeids_path %>

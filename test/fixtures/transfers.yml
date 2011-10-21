@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  bookreal: 
+  from: 1
+  to: 1
+  when: 2011-07-02
+  user: 
+
+two:
+  bookreal: 
+  from: 1
+  to: 1
+  when: 2011-07-02
+  user: 

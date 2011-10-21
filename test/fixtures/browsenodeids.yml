@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  node: 
+  name: 
+  ancestor: 1
+
+two:
+  node: 
+  name: 
+  ancestor: 1

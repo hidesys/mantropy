@@ -1,0 +1,23 @@
+<h1>Listing topics</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Appear</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @topics.each do |topic| %>
+  <%= topic.title %>
+  <% topic.posts.each do |post| %>
+    <%= post.name %>
+    <%= post.content %>
+  <% end %>
+<% end %>
+
+
+<br />
+
+<%= link_to 'New Topic', new_topic_path %>

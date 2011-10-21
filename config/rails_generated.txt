@@ -1,0 +1,21 @@
+rails g model author name:string
+rails g model authoridea identify:integer author:references
+rails g model authors_serie role:string author:references serie:references
+rails g model authors_book role:string author:references book:references
+rails g migration create_books_series book:references serie:references
+rails g model bookaffair event:integer book:references
+rails g model magazine name:string publisher:string url:string appear:integer
+rails g migration create_magazines_series magazine:references serie:references
+rails g scaffold book isbn:string name:string publisher:string publicationdate:date kind:integer detailurl:string smallimgurl:string mediumimgurl:string largeimgurl:string
+rails g scaffold serie name:string post:references
+rails g model bookreal book:references memo:text user:references
+rails g model transfer bookreal:references from:integer to:integer when:date user:references
+rails g scaffold topic title:string appear:integer
+rails g scaffold post name:string email:string order:integer  content:text topic:references user:references
+rails g model postfav score:integer post:references user:references
+rails g model reply user:references post:references
+rails g model tag name:string
+rails g migration create_series_tags serie:references tag:references
+rails g model rank rank:integer score:integer ranking:references user:references serie:references
+rails g model ranking name:string
+rails g model user name:string realname:string pcmail:string mbmail:string twitter:string url:string

@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  identify: 1
+  author: 
+
+two:
+  identify: 1
+  author: 

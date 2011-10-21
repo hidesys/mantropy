@@ -1,0 +1,27 @@
+<h1>Listing browsenodeids</h1>
+
+<table>
+  <tr>
+    <th>Node</th>
+    <th>Name</th>
+    <th>Ancestor</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @browsenodeids.each do |browsenodeid| %>
+  <tr>
+    <td><%= browsenodeid.node %></td>
+    <td><%= browsenodeid.name %></td>
+    <td><%= browsenodeid.ancestor %></td>
+    <td><%= link_to 'Show', browsenodeid %></td>
+    <td><%= link_to 'Edit', edit_browsenodeid_path(browsenodeid) %></td>
+    <td><%= link_to 'Destroy', browsenodeid, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Browsenodeid', new_browsenodeid_path %>

@@ -1,0 +1,20 @@
+<% count = 0 %>
+<%= link_to '検索しても出てこない雑誌に掲載された読み切りや・Web漫画などの新しい漫画シリーズを作成する', new_serie_path %>
+<% @series.each do |serie| %>
+  <p class="serie">
+  <%= count += 1 %><br />
+  <%= link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie if count <= 10 %>
+  <p class="serie_detail">
+    <h2><%= link_to serie.name, serie %></h2>
+    <%= link_to 'Destroy', serie, :confirm => 'Are you sure?', :method => :delete if false %>
+    <div class="serie_books">
+      <% serie.books.each do |book| %>
+        <%= link_to book.name, book %><br>
+      <% end %>
+      <br style="clear: both;" />
+    </div>
+  </p>
+  </p>
+<% end if @series %>
+
+<%= link_to 'New Serie', new_serie_path %>

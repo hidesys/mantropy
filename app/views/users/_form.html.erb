@@ -1,0 +1,57 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "ペンネーム" %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label "本名" %><br />
+    <%= f.text_field :realname %>
+  </div>
+  <div class="field">
+    <%= f.label "パソコンメール" %><br />
+    <%= f.email_field :pcmail %>
+  </div>
+  <div class="field">
+    <%= f.label "携帯メール" %><br />
+    <%= f.email_field :mbmail %>
+  </div>
+  <div class="field">
+    <%= f.label "Twitterアカウント" %><br />
+    <%= f.text_field :twitter %>
+  </div>
+  <div class="field">
+    <%= f.label "外部Webサイト" %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label "外部向けAbout" %><br />
+    <%= f.text_area :publicabout, :rows => 4 %>
+  </div>
+  <div class="field">
+    <%= f.label "内部向けAbout" %><br />
+    <%= f.text_area :privateabout, :rows => 4 %>
+  </div>
+  <div class="field">
+    <%= f.label "入トロ年度" %><br />
+    <%= f.text_field :joined %>
+  </div>
+  <div class="field">
+    <%= f.label "入学年度" %><br />
+    <%= f.text_field :entered %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

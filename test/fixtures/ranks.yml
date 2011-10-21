@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  rank: 1
+  score: 1
+  ranking: 
+  user: 
+  serie: 
+
+two:
+  rank: 1
+  score: 1
+  ranking: 
+  user: 
+  serie: 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= title %> -漫トロピーWeb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<%= stylesheet_link_tag :all %>
+<%= javascript_include_tag :defaults %>
+<%= csrf_meta_tag %>
+</head>
+<body>
+
+<div align="center" width="100%">
+
+<table cellpadding="0" cellspacing="0" width="<%= width %>" border=0 bgcolor=white>
+	<tr width="100%">
+        <td align="left"><font size="-1">
+        <%= link_to "漫画一覧", series_path %>
+        　<%= link_to "メンバー", users_path %> | 
+	<a href="irolog/irclog.rb" target="_blank">IRCLog</a>
+	　<a href="http://wiki.livedoor.jp/mantropy/" target="_blank">Wiki</a>
+	　<a href="http://twitter.com/mantropy/lists/mantropy" target="_blank">タイムライン</a>
+	　<a href="http://skydrive.live.com/" target="_blank">SkyDrive</a>
+	</font></td>
+	<td align="right"><font size="-1">
+        <% unless current_user %>
+          <%= link_to 'ログイン', [:new, :userauth_session] %>　
+          <%= link_to 'ユーザー登録', [:new, :userauth_registration] %>
+        <% else %>
+          <%= link_to 'ログアウト', destroy_userauth_session_path, :method => :delete %>
+        <% end %>
+	</font></td>
+	</tr>
+	<tr>
+	<td colspan="2" height="2"></td>
+	</tr>
+	<tr>
+	<td colspan="2" height="2" bgcolor="silver"></td>
+	</tr>
+	<tr>
+	<td colspan="2" height="5"></td>
+	</tr>
+</table>
+
+
+<table cellpadding="0" cellspacing="0" width="<%= width %>" bgcolor=white>
+  <%= form_tag(serie_search_path, {:method => :get}) do %>
+        <tr width="100%">
+	<td align="left" rowspan="2" width="170">
+	<a href="/"><img src="/images/logo.png" alt="漫トロピーWebロゴ" width="164" border=0></a>
+	</td>
+	<td align="left" valign="bottom" nowrap>
+      <%= text_field_tag :str, @str, {:size => 55, :title => "漫トロピーWeb検索", :style => "font-size: 12pt"} %>
+      <%= submit_tag "検索" %>
+	<font size="-1">　<a href="">検索オプション</a></font>
+	</td>
+	</tr>
+	<tr>
+	<td align="left">
+	<font size=-1>
+        <label><%= radio_button_tag :scope, "amazon_all" %>Amazonからいっぱい検索</label>
+        <label><%= radio_button_tag :scope, "amazon", true %>密林もちょっと</label>
+        <label><%= radio_button_tag :scope, "mantropy", %>漫トロピーWebだけ</label>
+        <label><%= radio_button_tag :scope, "mine" %>自分のを探す</label>
+	</font>
+	</td>
+	</tr>
+	<tr><td colspan="2" height="10"></td></tr>
+      <% end %>
+</table>
+
+
+<table cellpadding="0" cellspacing="0" width="<%= width %>">
+	<tr width="100%">
+	<td align="left" colspan="2" height="1" width="1024" bgcolor="cyan"></td>
+	</tr>
+	<tr>
+	<td align=left valign=middle height=24 nowrap bgcolor=aliceblue><%= title %></td>
+        <td align=right valign=middle nowrap bgcolor=aliceblue>
+          <% if current_user %>
+            おはようございます、<b><%= current_user.name %></b>さん
+         <% else %>
+            ウレピー！
+          <% end %>
+        </td>
+	</tr>
+	<tr><td colspan="2" height="10"></td></tr>
+	</form>
+</table>
+
+<div id="main" align="<%= align %>" style="width:<%= width %>px; background-color:#EFEFEF;">
+
+<!-- ここまでが自動生成ヘッダ -->
+
+<p class="notice" style="background-color: green;"><%= notice %></p>
+<p class="alert" style="background-color: red;"><%= alert %></p>
+
+
+<%= yield %>
+
+</div>
+<small>&copy;<a href="/" target="_blank">京大漫トロピー</a></small><br>
+</div>
+
+ページの終わり。。。 <%= "Logined as #{current_user.name}" if current_user %>
+</body>
+</html>

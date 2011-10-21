@@ -1,0 +1,2 @@
+module BrowsenodeidsHelper
+end
