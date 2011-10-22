@@ -64,7 +64,7 @@
     <%= rank.ranking.name %>
     <%= link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks if @user == current_user %>
     <br />
-  <% end %>
+  <% end if @user == current_user %>
   <a href="/"><%= content_tag :b, 'ランキング数が不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless ranks == (1..30).to_a %></a>
 </p>
 
