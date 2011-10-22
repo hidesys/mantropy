@@ -16,7 +16,7 @@
   <b>ランキング登録:</b>
   <%= form_for(@rank) do |f| %>
     掲載誌:<%= select_tag :magazine_id, options_from_collection_for_select(Magazine.all, :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"} %>
-  <%= text_field_tag :magazine_name %>（これな、Web連載の漫画やったらそのWebサイト名を指してるんやで）<br />
+  <%= text_field_tag :magazine_name %>（掲載誌とは、この漫画シリーズに対する掲載行為の発生場所を指すので、Web漫画ならWebサイト名になります）<br />
   順位:<%= f.text_field :rank, {:size => 2, :maxlength => 2} %>
   <%= f.hidden_field :serie_id, :value => @serie.id %>
   <%= f.collection_select :ranking_id, @rankings, :id, :name %><br />
