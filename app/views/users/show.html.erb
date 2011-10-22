@@ -58,6 +58,7 @@
 <% ranks = [] %>
   <% @user.ranks.sort{|a, b| a.rank <=> b.rank}.each do |rank| %>
     <%= content_tag :b, '警告！　順位が重複してるので削除して下さい！', :style => "background-color: red;" if ranks.include? rank.rank %>
+    <% next unless rank.serie %>
     <%= (ranks << rank.rank).last %>位
     <%= link_to image_tag(serie_image_path(rank.serie, :small), :alt=> rank.serie.name), rank.serie %>
     <%= link_to rank.serie.name, rank.serie %>
