@@ -25,7 +25,7 @@
   </div>
   <div class="field">
     <%= f.label "著者・漫画家" %><br />
-    <%= select_tag :author_id, options_from_collection_for_select(Author.all, :id, :name, (@serie.authors.empty? ? nil : @serie.authors.last.id)), {:include_blank => "右のボックスから漫画家を追加"} %>
+    <%= select_tag :author_id, options_from_collection_for_select(Author.order("name"), :id, :name, (@serie.authors.empty? ? nil : @serie.authors.last.id)), {:include_blank => "右のボックスから漫画家を追加"} %>
     <%= text_field_tag :author_name %>
   </div>
   <div class="field">
