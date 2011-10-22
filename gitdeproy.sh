@@ -8,5 +8,6 @@ then
   cd /var/www/mantropy/
   git checkout go_on
   git merge master
+  touch tmp/restart.txt
   cd /var/www/dev/mantropy/
 fi
