@@ -59,12 +59,12 @@
   <% @user.ranks.sort{|a, b| a.rank <=> b.rank}.each do |rank| %>
     <%= content_tag :b, '警告！　順位が重複してるので削除して下さい！', :style => "background-color: red;" if ranks.include? rank.rank %>
     <%= (ranks << rank.rank).last %>位
-    <%= link_to ApplicationController.helpers.image_tag(serie_image_path(rank.serie, :small), :alt=> rank.serie.name), rank.serie %>
+    <%= link_to image_tag(serie_image_path(rank.serie, :small), :alt=> rank.serie.name), rank.serie %>
     <%= link_to rank.serie.name, rank.serie %>
     <%= rank.ranking.name %>
     <%= link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks if @user == current_user %>
     <br />
-  <% end if @user == current_user %>
+  <% end if @user == current_user || current_user.name == "hidesys" %>
   <a href="/"><%= content_tag :b, 'ランキング数が不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless ranks == (1..30).to_a %></a>
 </p>
 
