@@ -30,7 +30,7 @@
   </div>
   <div class="field">
     <%= f.label "掲載誌" %><br />
-    <%= select_tag :magazine_id, options_from_collection_for_select(Magazine.all, :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"} %>
+    <%= select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"} %>
     <%= text_field_tag :magazine_name %>
     雑誌出版社:<%= text_field_tag :magazine_publisher %>
   </div>
