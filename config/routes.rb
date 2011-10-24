@@ -18,6 +18,7 @@ Mantropy::Application.routes.draw do
   match '/users/:name' => 'users#show', :as => 'user'
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
   match '/search' => 'series#search', :as => 'serie_search'
+  match '/ranking(/:str)' => 'series#ranking', :as => 'serie_ranking'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

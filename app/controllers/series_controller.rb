@@ -2,6 +2,29 @@
 class SeriesController < ApplicationController
   @title = "シリーズ"
 
+  def ranking
+    @title = "全体ランキング"
+    unless complete_ranking(1)
+        redirect_to(user_path(current_user.name), :notice => '順位を完全に登録してないから見れないよ')
+        return
+    end
+
+    unless params[:str] == "name" then
+      sql = 'SELECT s.id, s.name, "得点: "||rs.mark||"　重複数: "||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(rank) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=1 and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC'
+    else
+      sql = "SELECT s.id, s.name, \"得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(rank) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=1 and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
+      @series = Serie.find_by_sql(sql)
+      render "ranking_name"
+      return
+    end
+    @series = Serie.find_by_sql(sql)
+
+    respond_to do |format|
+      format.html # ranking.html.erb
+      format.xml  { render :xml => @series }
+    end
+  end
+
   def search
     str = params[:str]
     @title = "#{str} の検索結果"
