@@ -6,12 +6,12 @@ Mantropy::Application.routes.draw do
 
   root :to => 'home#index'
   resources :series, :except => [:new, :show]
-  resources :posts
-  resources :topics
-  resources :books
-  resources :ranks
+  resources :posts, :except => :destroy
+  resources :topics, :except => :destroy
+  resources :books, :except => :destroy
+  resources :ranks, :except => :destroy
 
-  resources :users, :only => [:index, :create, :update, :edit, :destroy, :new]
+  resources :users, :only => [:index, :create, :update, :edit, :new]
 
   match '/series/new(/:id)' => 'series#new', :as => 'new_serie'
   match '/series/:id' => 'series#show', :as => 'serie'

@@ -7,7 +7,9 @@
     <h2><%= link_to serie.name, serie %></h2>
     <%= serie.authors.map{|a| a.name} %>
     <%= serie.magazines.select("DISTINCT *").map{|m| m.name} %><br />
-    <%= serie.ranks.map{|r| r.user.name} %>
+    <% serie.ranks.each do |r| %>
+      <%= link_to r.user.name, user_path(r.user.name) %>
+    <% end %>
   </p>
   <br style="clear: both;" />
 <% end if @series %>
