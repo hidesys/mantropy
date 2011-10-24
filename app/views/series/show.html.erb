@@ -19,7 +19,7 @@
   <%= text_field_tag :magazine_name %>（掲載誌とは、この漫画シリーズに対する掲載行為の発生場所を指すので、Web漫画ならWebサイト名になります）<br />
   順位:<%= f.text_field :rank, {:size => 2, :maxlength => 2} %>
   <%= f.hidden_field :serie_id, :value => @serie.id %>
-  <%= f.collection_select :ranking_id, @rankings, :id, :name %><br />
+  <%= f.collection_select :ranking_id, @rankings, :id, :name, {:selected => (complete_ranking(1) ? 2 : 1)} %>糞漫画ランクングは1~5位までです<br />
   <%= f.submit "登録", :confirm => "ランキング登録してよろしいですか？" %>
 <% end %>
 <p><em style="color: red;">雑誌一覧に掲載誌がない！？</em><br />1. 雑誌名で検索して下さい。検索すると、Amazonに扱いがあれば自動的に追加されます<br />2. Amazonに扱いがない場合、<a href="http://ja.wikipedia.org/" target="_blank">Wikipedia</a>を検索してページ名をコピーし、登録時に「右のボックスから雑誌を追加」を選んだ状態で右のボックスに雑誌名を入力して下さい</p>
