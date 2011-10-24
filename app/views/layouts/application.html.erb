@@ -16,7 +16,8 @@
 	<tr width="100%">
         <td align="left"><font size="-1">
         <%= link_to "漫画一覧", series_path %>
-        　<%= link_to "メンバー", users_path %> | 
+        　<%= link_to "メンバー", users_path %>
+        　<%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name) %> |
 	<a href="irolog/irclog.rb" target="_blank">IRCLog</a>
 	　<a href="http://wiki.livedoor.jp/mantropy/" target="_blank">Wiki</a>
 	　<a href="http://twitter.com/mantropy/lists/mantropy" target="_blank">タイムライン</a>

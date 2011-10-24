@@ -5,7 +5,7 @@ class SeriesController < ApplicationController
   def ranking
     @title = "全体ランキング"
     unless complete_ranking(1)
-        redirect_to(user_path(current_user.name), :notice => '順位を完全に登録してないから見れないよ')
+        redirect_to(current_user ? user_path(current_user.name) : new_userauth_session_path, :notice => '順位を完全に登録してないから見れないよ')
         return
     end
 
