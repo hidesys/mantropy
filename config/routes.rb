@@ -9,7 +9,7 @@ Mantropy::Application.routes.draw do
   resources :posts, :except => :destroy
   resources :topics, :except => :destroy
   resources :books, :except => :destroy
-  resources :ranks, :except => :destroy
+  resources :ranks
 
   resources :users, :only => [:index, :create, :update, :edit, :new]
 
