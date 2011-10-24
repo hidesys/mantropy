@@ -60,6 +60,11 @@ class RanksController < ApplicationController
       s.save
     end
 
+    if complete_ranking(1) && params[:rank][:ranking_id] == "1" then
+      redirect_to(root_path, :notice => "ランキングの変更はできません")
+      return
+    end
+
     msg = nil
     unless (r = Rank.where(:user_id => current_user.id, :rank => params[:rank][:rank])).empty?
       msg = "上書きしました。"
