@@ -66,7 +66,7 @@ class RanksController < ApplicationController
     end
 
     msg = nil
-    unless (r = Rank.where(:user_id => current_user.id, :rank => params[:rank][:rank])).empty?
+    unless (r = Rank.where(:user_id => current_user.id, :rank => params[:rank][:rank], :ranking_id => params[:rank][:ranking_id])).empty?
       msg = "上書きしました。"
       @rank = r[0]
       @rank.serie_id = params[:rank][:serie_id]
