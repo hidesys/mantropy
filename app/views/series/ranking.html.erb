@@ -1,4 +1,5 @@
 <% count = 0 %>
+ランキング得点計算方法：(31 - 順位) + (ランキング登録者数 - 1) * 3 <br />
 <% @series.each do |serie| %>
   <p class="serie">
   <%= "順位 :#{count += 1}　#{serie.url}" %><br />
@@ -7,8 +8,8 @@
     <h2><%= link_to serie.name, serie %></h2>
     <%= serie.authors.map{|a| a.name} %>
     <%= serie.magazines.select("DISTINCT *").map{|m| m.name} %><br />
-    <% serie.ranks.each do |r| %>
-      <%= link_to r.user.name, user_path(r.user.name) %>
+    <% serie.ranks.sort{|a, b| a.rank <=> b.rank}.each do |r| %>
+      <%= link_to "#{r.user.name} (#{r.rank}位)", user_path(r.user.name) %>
     <% end %>
   </p>
   <br style="clear: both;" />

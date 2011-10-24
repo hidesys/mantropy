@@ -114,9 +114,9 @@ class SeriesController < ApplicationController
     end
 
     q = ["SELECT DISTINCT s.* FROM series s LEFT JOIN books_series bs ON s.id = bs.serie_id LEFT JOIN books b ON b.id = bs.book_id LEFT JOIN authors_series as0 ON s.id = as0.serie_id LEFT JOIN authors aa ON as0.author_id = aa.id LEFT JOIN authorideas ai0 ON aa.id = ai0.author_id LEFT JOIN authorideas ai1 ON ai0.idea = ai1.idea LEFT JOIN authors a ON ai1.author_id = a.id WHERE 0<>0"]
-    str.split(/(\s|　)/).each do |s|
+    str.strip.split(/(\s|　)/).each do |s|
       q[0] += " OR s.name LIKE ? OR b.name LIKE ? OR a.name LIKE ?"
-      q += Array.new(3){"%#{str}%"}
+      q += Array.new(3){"%#{s}%"}
     end
     q[0] = q[0] + " ORDER BY s.id DESC"
     @series = Serie.find_by_sql(q)
