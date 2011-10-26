@@ -118,7 +118,7 @@ class SeriesController < ApplicationController
       q[0] += " (s.name LIKE ? OR b.name LIKE ? OR a.name LIKE ?) AND"
       q += Array.new(3){"%#{s}%"}
     end
-    q[0] = q[0][0..(q[0].length - 4)] + " ORDER BY s.id DESC"
+    q[0] = q[0][0..(q[0].length - 4)] + " ORDER BY s.id DESC LIMIT 100"
     @series = Serie.find_by_sql(q)
 
     if @series.length == 1
@@ -131,7 +131,7 @@ class SeriesController < ApplicationController
   # GET /series
   # GET /series.xml
   def index
-    @series = Serie.order("id DESC")
+    @series = Serie.order("id DESC").limit(100)
 
     respond_to do |format|
       format.html # index.html.erb
