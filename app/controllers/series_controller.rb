@@ -121,7 +121,11 @@ class SeriesController < ApplicationController
     q[0] = q[0] + " ORDER BY s.id DESC"
     @series = Serie.find_by_sql(q)
 
-    render "index"
+    if @series.length == 1
+      redirect_to serie_path(@series[0])
+    else
+      render "index"
+    end
   end
 
   # GET /series
