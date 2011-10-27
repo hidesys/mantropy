@@ -201,7 +201,7 @@ module LogColor
     end
 
     def on_topic(orig,time,channel,nick,topic)
-      escaped=html_escape(topic)
+      escaped=html_escape(topic).encode("UTF-8")
       URI_TYPES.each do |item|
         rexp = Regexp.compile("(#{item}://[^\s　)]*)")
         escaped.gsub!(rexp){
