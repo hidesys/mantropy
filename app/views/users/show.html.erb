@@ -63,6 +63,8 @@
     <%= (ranks << rank.rank).last %>位
     <%= link_to image_tag(serie_image_path(rank.serie, :small), :alt=> rank.serie.name), rank.serie %>
     <%= link_to rank.serie.name, rank.serie %>
+    <%= link_to rank.serie.authors.map{|a| a.name} if rank.serie.authors %>
+    <%= link_to rank.serie.magazines.select("DISTINCT *").map{|m| m.name} if rank.serie.magazines %>
     <%= link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks if @user == current_user && (! complete_ranking(1) || rank.ranking_id == 2) %>
     <br />
   <% end if complete_ranking(1) || current_user == @user %>
