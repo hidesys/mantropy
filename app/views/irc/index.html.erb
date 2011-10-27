@@ -2,18 +2,8 @@
 なんか、日付操作がおかしい気がする。とりあえず、最近の2日間を見たいのなら<a href="irc?channel=%25mantropy">こちら</a>
 </p>
 <%= form_tag(irc_path) do %>
-<%= text_field_tag :post %>
+  <%= text_field_tag :post, nil, :size => 20 %>
 <%= submit_tag "発言/更新" %>（空白で更新）
 <% end %>
 <% require "irolog/irclog" %>
 <%=raw Irolog.new.main(params) %>
-<script type="text/javascript">
-<!--
-<%=raw "setTimeout(\"reload()\", #{@refresh_time ? @refresh_time : 5000});" %>
-function reload(){
-  if (document.getElementById("post").value == "") {
-    location.href=''
-  }
-}
-// -->
-</script>
