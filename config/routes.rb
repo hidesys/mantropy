@@ -1,5 +1,7 @@
 Mantropy::Application.routes.draw do
 
+  get "irc/index"
+
   get "home/index"
 
   resources :browsenodeids
@@ -19,6 +21,7 @@ Mantropy::Application.routes.draw do
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
   match '/search' => 'series#search', :as => 'serie_search'
   match '/ranking(/:str)' => 'series#ranking', :as => 'serie_ranking'
+  match '/irc' => 'irc#index', :as => 'irc'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
