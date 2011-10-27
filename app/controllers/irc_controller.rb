@@ -1,4 +1,4 @@
-# encoding :UTF-8
+# encoding: UTF-8
 require "net/telnet"
 class IrcController < ApplicationController
   before_filter :authenticate_user!
