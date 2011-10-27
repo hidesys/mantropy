@@ -101,7 +101,7 @@ module LogColor
   private
 
     def html_escape(s)
-      s.gsub(/\</,"&lt;").gsub(/\>/,"&gt;")
+      s.encode("UTF-8").gsub(/\</,"&lt;").gsub(/\>/,"&gt;")
     end
 
     def timecol(time)      # time="00:00:00"
@@ -315,7 +315,7 @@ module LogColor
     def on_topic(orig,time,channel,nick,topic)
       escaped=html_escape(topic)
       URI_TYPES.each do |item|
-        rexp = Regexp.compile("(#{item}://[^\s　)]*)")
+        rexp = Regexp.compile("(#{item}://[^\s　)]*)", nil, "u")
         escaped.gsub!(rexp){
           "<a href='#{$1}'>#{$1}</a>"
         }
