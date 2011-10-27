@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index]
   # GET /users.xml
   def index
+    @title = "メンバー一覧"
     @users = User.all
 
     respond_to do |format|
@@ -18,6 +19,7 @@ class UsersController < ApplicationController
       redirect_to(:action => 'index', :notice => '存在しないユーザーです')
       return
     end
+    @title = "#{@user.name}"
 
     respond_to do |format|
       format.html # show.html.erb

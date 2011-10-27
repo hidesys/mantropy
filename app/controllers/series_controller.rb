@@ -131,6 +131,7 @@ class SeriesController < ApplicationController
   # GET /series
   # GET /series.xml
   def index
+    @title = "シリーズ一覧"
     @series = Serie.order("id DESC").limit(100)
 
     respond_to do |format|
