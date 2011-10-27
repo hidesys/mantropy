@@ -7,3 +7,13 @@
 <% end %>
 <% require "irolog/irclog" %>
 <%=raw Irolog.new.main(params) %>
+<script type="text/javascript">
+<!--
+<%=raw "setTimeout(\"reload()\", #{@refresh_time ? @refresh_time : 5000});" %>
+function reload(){
+  if (document.getElementById("post").value == "") {
+    window.location.reload();
+  }
+}
+// -->
+</script>

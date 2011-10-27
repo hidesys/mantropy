@@ -11,6 +11,7 @@ class IrcController < ApplicationController
       telnet.puts("USER mantropy 0 * :mantropy")
       telnet.write("PRIVMSG #mantropy@kyoto_u:*.jp :(#{current_user.name}) #{params[:post]}\n")
       telnet.puts("QUIT")
+      @refresh_time = 3000
     elsif params[:post]
       redirect_to irc_path
     end
