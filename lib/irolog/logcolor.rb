@@ -334,7 +334,7 @@ module LogColor
     end
 
     def on_other(orig,time,all)
-      @buf << "<span class='#{timecol(time)}'>#{time}</span> #{all}<br>\n"
+      @buf << "<span class='#{timecol(time)}'>#{time}</span> #{all}<br>\n".encode("UTF-8")
       @lasttime = time
     end
 
