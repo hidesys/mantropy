@@ -12,8 +12,8 @@
     <h2><%= link_to serie.name, serie %></h2>
     <%= serie.authors.map{|a| a.name} %>
     <%= serie.magazines.select("DISTINCT *").map{|m| m.name} %><br />
-    <% serie.ranks.where(:ranking_id => 1).sort{|a, b| a.rank <=> b.rank}.each do |r| %>
-      <%= link_to "#{r.user.name} (#{r.rank}位)", user_path(r.user.name) %>
+    <% serie.ranks.sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.each do |r| %>
+      <%= link_to "#{r.user.name} (#{r.ranking_id == 2 ? "糞" : nil}#{r.rank}位)", user_path(r.user.name) %>
     <% end %>
   </p>
   </p>

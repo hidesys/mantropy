@@ -6,7 +6,7 @@
 ,<%= serie.name -%>
 ,<%= serie.authors.map{|a| a.name}.join("・") if serie.authors -%>
 ,<%= serie.magazines.select("DISTINCT name").map{|m| m.name}.join("・") if serie.magazines -%>
-,<%= serie.ranks.where(:ranking_id => 1).map{|r| [r.rank, r.user.name]}.sort.map{|r| "#{r[1]} (#{r[0]}位)"}.join(" ") -%>
+,<%= serie.ranks.sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.map{|r| "#{r.user.name]} (#{r.ranking_id == 2 ? "糞" : nil}#{r.rank}位)"}.join(" ") -%>
 
 <% end -%>
 <% User.all.each do |u| -%>
