@@ -4,7 +4,7 @@ class IrcController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @title = "漫トロピーIRCチャンネル"
+    @title = "Internet Relay Chat"
     if params[:post] && params[:post] != ""
       telnet = Net::Telnet.new("Host" => "localhost", "Port" => 6660)
       telnet.puts("NICK mantropy")
