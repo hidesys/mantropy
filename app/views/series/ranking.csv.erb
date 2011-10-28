@@ -1,22 +1,23 @@
-<% mark = count = rank = highest = 0; a = [] -%>
+<% mark = count = rank = highest = 0; h = {} -%>
 順位,純得点,補正後得点,重複数,タイトル,漫画家,雑誌,入れた人
 <% @series.each do |serie| -%>
-  <%= "#{mark == $2 && count == $3 && serie.ranks.where(:ranking_id => 1).order("rank DESC").first.rank == highest ? rank : rank += 1},#{$1},#{mark = $2},#{count = $3}" if /^純得点\:\s(\d+)　補正後得点\:\s(\d+)　重複数\:\s(\d+)$/ =~serie.url -%>
-<% highest = serie.ranks.where(:ranking_id => 1).order("rank DESC").first.rank; a << [serie.id, rank] -%>
+<%= "#{mark == $2 && count == $3 && serie.ranks.where(:ranking_id => 1).order("rank DESC").first.rank == highest ? rank : rank += 1},#{$1},#{mark = $2},#{count = $3}" if /^純得点\:\s(\d+)　補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)$/ =~serie.url -%>
+<% highest = serie.ranks.where(:ranking_id => 1).order("rank DESC").first.rank; h[serie.id] = rank -%>
 ,<%= serie.name -%>
 ,<%= serie.authors.map{|a| a.name}.join("・") if serie.authors -%>
 ,<%= serie.magazines.select("DISTINCT name").map{|m| m.name}.join("・") if serie.magazines -%>
-,<%= serie.ranks.sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.map{|r| "#{r.user.name]} (#{r.ranking_id == 2 ? "糞" : nil}#{r.rank}位)"}.join(" ") -%>
+,<%= serie.ranks.sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.map{|r| "#{r.user.name}(#{r.ranking_id == 2 ? "糞" : nil}#{r.rank}位)"}.join(" ") -%>
 
 <% end -%>
 <% User.all.each do |u| -%>
-個人順位,全体順位,タイトル,漫画家,雑誌
-<% u.ranks.rder(:ranking_id, :rank).each do |r| -%>
-,<%= (r.ranking_id == 1 ? r.rank : "糞#{r.rank}") -%>
-,<%= a.map{|m| m[1] if m[0] == r.serie.id}.join("ひぎぃ") -%>
-,<%= r.serie.name -%>
-,<%= r.serie.authors.map{|a| a.name}.join("・") if serie.authors -%>
-,<%= r.serie.magazines.select("DISTINCT name").map{|m| m.name}.join("・") if serie.magazines -%>
+メンバー,個人順位,全体順位,タイトル,漫画家,雑誌
+<% u.ranks.order(:ranking_id, :rank).each do |r| -%>
+<%= u.name -%>
+,<%= r.ranking_id == 1 ? r.rank : "糞#{r.rank}" -%>
+,<%= h[r.serie.id] if r.serie -%>
+,<%= r.serie.name if r.serie -%>
+,<%= r.serie.authors.map{|a| a.name}.join("・") if r.serie && r.serie.authors -%>
+,<%= r.serie.magazines.select("DISTINCT name").map{|m| m.name}.join("・") if r.serie && r.serie.magazines -%>
 
 <% end -%>
 <% end -%>
