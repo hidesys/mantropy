@@ -10,10 +10,15 @@ class SeriesController < ApplicationController
     end
 
     unless params[:str] == "name" then
-      sql = 'SELECT s.id, s.name, "得点: "||rs.mark||"　重複数: "||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(rank) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=1 and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC'
+      ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
+      unless ranking_id = 2 then
+        sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC, rs.count DESC"
+      else
+        sql = "SELECT s.id, s.name, \"純得点: \"||rs.mark||\"　補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rk.count,0)) AS url, (rs.mark + COALESCE(rk.mark,0)) AS amark FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=1 and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id LEFT JOIN (SELECT (SUM(rank - 6) + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=2 GROUP BY serie_id) rk ON s.id = rk.serie_id order by amark DESC, rk.count DESC"
+      end
     else
-      ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]) : 1)
-      sql = "SELECT s.id, s.name, \"得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(rank) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
+      ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
+      sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
       @series = Serie.find_by_sql(sql)
       render "ranking_name"
       return
@@ -23,6 +28,7 @@ class SeriesController < ApplicationController
     respond_to do |format|
       format.html # ranking.html.erb
       format.xml  { render :xml => @series }
+      format.csv  { render :csv => @series }
     end
   end
 

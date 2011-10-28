@@ -1,0 +1,22 @@
+<% mark = count = rank = highest = 0; a = [] -%>
+順位,純得点,補正後得点,重複数,タイトル,漫画家,雑誌,入れた人
+<% @series.each do |serie| -%>
+  <%= "#{mark == $2 && count == $3 && serie.ranks.where(:ranking_id => 1).order("rank DESC").first.rank == highest ? rank : rank += 1},#{$1},#{mark = $2},#{count = $3}" if /^純得点\:\s(\d+)　補正後得点\:\s(\d+)　重複数\:\s(\d+)$/ =~serie.url -%>
+<% highest = serie.ranks.where(:ranking_id => 1).order("rank DESC").first.rank; a << [serie.id, rank] -%>
+,<%= serie.name -%>
+,<%= serie.authors.map{|a| a.name}.join("・") if serie.authors -%>
+,<%= serie.magazines.select("DISTINCT name").map{|m| m.name}.join("・") if serie.magazines -%>
+,<%= serie.ranks.where(:ranking_id => 1).map{|r| [r.rank, r.user.name]}.sort.map{|r| "#{r[1]} (#{r[0]}位)"}.join(" ") -%>
+
+<% end -%>
+<% User.all.each do |u| -%>
+個人順位,全体順位,タイトル,漫画家,雑誌
+<% u.ranks.rder(:ranking_id, :rank).each do |r| -%>
+,<%= (r.ranking_id == 1 ? r.rank : "糞#{r.rank}") -%>
+,<%= a.map{|m| m[1] if m[0] == r.serie.id}.join("ひぎぃ") -%>
+,<%= r.serie.name -%>
+,<%= r.serie.authors.map{|a| a.name}.join("・") if serie.authors -%>
+,<%= r.serie.magazines.select("DISTINCT name").map{|m| m.name}.join("・") if serie.magazines -%>
+
+<% end -%>
+<% end -%>
