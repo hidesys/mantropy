@@ -17,6 +17,6 @@ module ApplicationHelper
 	end
 
         def serie_path(serie)
-          "/#{serie.name}-#{serie.authors.map{|a| a.name}.join(",") if serie.authors}/series/#{serie.id}"
+          "/#{serie.name.gsub("/", "-")}-#{serie.authors.map{|a| a.name.gsub("/", "-")}.join(",") if serie.authors}/series/#{serie.id}"
         end
 end
