@@ -1,5 +1,7 @@
 Mantropy::Application.routes.draw do
 
+  get "home/robots"
+
   get "irc/index"
 
   get "home/index"
@@ -23,6 +25,7 @@ Mantropy::Application.routes.draw do
   match '/search' => 'series#search', :as => 'serie_search'
   match '/ranking(/:str)' => 'series#ranking', :as => 'serie_ranking'
   match '/irc' => 'irc#index', :as => 'irc'
+  match '/robots' => 'home#robots'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
