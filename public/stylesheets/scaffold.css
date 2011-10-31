@@ -27,6 +27,20 @@ background-color: cyan; padding: 0px; margin: 0px; border: 0px;
 background-color: red; padding: 0px; margin: 0px; border: 0px;
 }
 
+.member {
+width: 128px;
+padding: 9px 7px;
+margin: 4px;
+text-align: center;
+border: ridge 5px deeppink;
+border-radius: 8px;
+float: left;
+}
+
+.member a {
+color :deeppink;
+}
+
 #home_index_table {
 background-color: black;
 color: white;

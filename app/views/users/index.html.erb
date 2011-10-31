@@ -1,5 +1,15 @@
-Listing users
+<% @users.each do |user| %>
+  <div class="member">
+    <%= link_to (image_tag "/images/nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name) %>
+    <br />
+    <%= link_to (user.name), user_path(user.name) %>
+    <br />
+    <%= user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..8]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ" %>
+  </div>
+<% end %>
+<br style="clear: both;" />
 
+Listing users
 <table>
   <tr>
     <th>名前</th>
@@ -28,7 +38,7 @@ Listing users
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete if false %></td>
   </tr>
-<% end %>
+<% end if nil %>
 </table>
 
 <br />

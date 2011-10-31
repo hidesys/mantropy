@@ -10,7 +10,7 @@
 </head>
 <body style="background-color:<%= (Rails.env == "development" ? "black" : "#EFEFEF;") -%>">
 
-<div id="body">
+<div id="body" align="center">
 <div id="wrapper" style="width: <%= width -%>px;">
 
 <table cellpadding="0" cellspacing="0" width="<%= width -%>" border=0 bgcolor=white>
@@ -20,15 +20,18 @@
             <%= link_to "活動内容", about_path, :class => :head %>
             <%= link_to "メンバー", users_path, :class => :head %>
         <% if current_user %>
-          | <%= link_to "漫画一覧", series_path, :class => :head %>
+        - <%= link_to "漫画一覧", series_path, :class => :head %>
           <%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name), :class => :head %>
           <%= link_to "(糞)", serie_ranking_path(Ranking.find(2).name), :class => :head %>
-          <%= link_to "IRC", irc_path, :class => :head %> -
-	  <a href="http://wiki.livedoor.jp/mantropy/" target="_blank" class="head">Wiki</a>
+          <%= link_to "IRC", irc_path, :class => :head %>
+	| <a href="http://wiki.livedoor.jp/mantropy/" target="_blank" class="head">Wiki</a>
           <a href="http://skydrive.live.com/" target="_blank" class="head">SkyDrive</a>
+        -
+        <% else %>
+        |
         <% end %>
-        | <a href="http://mantropy.seesaa.net/" target="_blank"><font color=blue>例会報告ブログ</font></a>
-	<a href="http://twitter.com/mantropy/lists/mantropy" target="_blank" class="head">タイムライン</a>
+          <a href="http://mantropy.seesaa.net/" target="_blank"><font color=blue>例会報告ブログ</font></a>
+	  <a href="http://twitter.com/mantropy/lists/mantropy" target="_blank" class="head">タイムライン</a>
 	</font></td>
 	<td align="right"><font size="-1">
         <% unless current_user %>
