@@ -8,6 +8,10 @@ class HomeController < ApplicationController
     @title = "京大漫トロピーについて"
   end
 
+  def how_to_use
+    @title = "ランキング登録説明"
+  end
+
   def robots
     respond_to do |format|
       format.txt

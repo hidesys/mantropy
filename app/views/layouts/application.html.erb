@@ -15,25 +15,25 @@
 <table cellpadding="0" cellspacing="0" width="<%= width -%>" border=0 bgcolor=white>
 	<tr width="100%">
         <td align="left"><font size="-1">
-        <%= link_to "トップ", root_path %>
-        <%= link_to "活動内容", about_path %>
-        <%= link_to "メンバー", users_path %>
+            <%= link_to "トップ", root_path, :class => :head %>
+            <%= link_to "活動内容", about_path, :class => :head %>
+            <%= link_to "メンバー", users_path, :class => :head %>
         <% if current_user %>
-          | <%= link_to "漫画一覧", series_path %>
-          <%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name) %>
-          <%= link_to "(糞)", serie_ranking_path(Ranking.find(2).name) %>
-          <%= link_to "IRC", irc_path %> -
-	  <a href="http://wiki.livedoor.jp/mantropy/" target="_blank">Wiki</a>
-          <a href="http://skydrive.live.com/" target="_blank">SkyDrive</a>
+          | <%= link_to "漫画一覧", series_path, :class => :head %>
+          <%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name), :class => :head %>
+          <%= link_to "(糞)", serie_ranking_path(Ranking.find(2).name), :class => :head %>
+          <%= link_to "IRC", irc_path, :class => :head %> -
+	  <a href="http://wiki.livedoor.jp/mantropy/" target="_blank" class="head">Wiki</a>
+          <a href="http://skydrive.live.com/" target="_blank" class="head">SkyDrive</a>
         <% end %>
-	| <a href="http://twitter.com/mantropy/lists/mantropy" target="_blank">タイムライン</a>
+	| <a href="http://twitter.com/mantropy/lists/mantropy" target="_blank" class="head">タイムライン</a>
 	</font></td>
 	<td align="right"><font size="-1">
         <% unless current_user %>
-          <%= link_to 'ログイン', [:new, :userauth_session] %>
-          <%= link_to 'ユーザー登録', [:new, :userauth_registration] if false %>
+          <%= link_to 'ログイン', [:new, :userauth_session], :class => :head %>
+          <%= link_to 'ユーザー登録', [:new, :userauth_registration], :class => :head if false %>
         <% else %>
-          <%= link_to 'ログアウト', destroy_userauth_session_path, :method => :delete %>
+          <%= link_to 'ログアウト', destroy_userauth_session_path, {:method => :delete, :class => :head} %>
         <% end %>
 	</font></td>
 	</tr>
@@ -81,7 +81,7 @@
       <% end %>
 </table>
 
-<table cellpadding="0" cellspacing="0" width="<%= width -%>">
+<table cellpadding="0" cellspacing="0" width="<%= width -%>" style="margin: 0px;">
 	<tr width="100%">
 	<td align="left" colspan="2" height="1" width="1024" bgcolor="cyan"></td>
 	</tr>
@@ -97,9 +97,9 @@
 	</tr>
 </table>
 
-<div id="main" align="<%= align -%>" style="width:<%= width -%>px; background-color:white; padding: 5px 0px; margin: 0px; border: 0px;">
-<p class="notice" style="background-color: cyan;"><%= notice -%></p>
-<p class="alert" style="background-color: red;"><%= alert -%></p>
+<div id="main" align="<%= align -%>" style="width:<%= width -%>px; background-color: white; padding: 0px; margin: 0px; border: 0px;">
+<p class="notice" style="background-color: cyan; padding: 0px; margin: 0px; border: 0px;"><%= notice -%></p>
+<p class="alert" style="background-color: red; padding: 0px; margin: 0px; border: 0px;"><%= alert -%></p>
 
 <!-- ここまでが自動生成ヘッダ -->
 

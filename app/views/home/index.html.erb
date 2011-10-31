@@ -1,49 +1,62 @@
-<h1><%= link_to "全体ランキング", serie_ranking_path(Ranking.find(1).name) %></h1>
-<h1><%= link_to "全体ランキング（クソ補正）", serie_ranking_path(Ranking.find(2).name) %></h1>
-<h1><%= link_to "個人ランキング", users_path %></h1>
-糞漫画ランキング登録も全体ランキングと同様に行なって下さい。<em stype="color: red;">全体ランキングに載ってない漫画を糞漫画ランキングに登録しないで下さい</em><br />
-<img src="/images/explanation0.png"><hr />
-<img src="/images/explanation1.png"><hr />
-<img src="/images/explanation2.png"><hr />
-<img src="/images/explanation3.png"><hr />
-<img src="/images/explanation4.png"><hr />
-<img src="/images/explanation5.png"><hr />
+<div width="100%" align="center" style="background-color: black; padding: 0px; margin: 0px; border: 0px;">
+<table border=0 width="760" cellspacing=0 cellpadding=0 border=0 style="background-color: black; color: white;">
+<tr><td align=center colspan=2>
+<marquee border="0" scrollamount="3" scrolldelay="48"><font color=skyblue>
+マンガ読みたちが集うサークル、漫トロピーへよおこそ。
+漫トロピーは漫画好きな人たちが集まって漫画の貸し借りをしたり、
+年二回(08年度の場合)漫画についての冊子作成をしたりするサークルです。
+詳細な活動内容は<a href="about">活動内容</a>をご覧ください。
+</font></marquee>
+</td></tr>
+
+<tr>
+<td align="left" valign="top"><img src="images/top.gif" alt="愛生会病院風漫トロピーロゴ"></td>
+
+<td align="left" valign="top">
+<table cellspacing=0 cellpadding=0 border=0 width=360>
+<tr><td colspan=2><img src="images/logo.gif" alt="京大漫トロピー" width=360></td></tr>
+<tr><td>マンガ読みたちが集うサークル、漫トロピーへよおこそ。</td>
+<td><img src="images/logo_.gif" alt="京大漫トロピー" width=180></td></tr>
+<tr><td><img src="images/logo.gif" alt="京大漫トロピー" width=180></td>
+<td>漫トロピーは漫画好きな人たちが集まって漫画の貸し借りをしたり、</td></tr>
+<tr><td>年二回(08年度の場合)漫画についての冊子作成をしたりするサークルです。</td>
+<td><img src="images/logo.gif" alt="京大漫トロピー" width=180></td></tr>
+<tr><td><img src="images/logo_.gif" alt="京大漫トロピー" width=180></td>
+
+<td>詳細な活動内容は上メニューより<a href="about">活動内容</a>をご覧ください。</td></tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td colspan=2 height=8></td>
+</tr>
+
+<tr>
+<td align="left" valign="top" colspan=2>
+<center><h2><a href="product/clonicle.html">漫画読みサークル 京大漫トロピー、夏コミにて会誌総集編を頒布。</a></h2></center>
 <p>
-<em style="color: red;">雑誌一覧に掲載誌がない！？</em><br />
-1. 雑誌名で検索すると、Amazonに扱いがあれば自動的に追加されます<br />
-2. Amazonに扱いがない場合、Wikipediaを検索してページ名をコピーし、登録時に「右のボックスから雑誌を追加」を選んだ状態で右のボックスに雑誌名を入力して下さい<br />
-</p>
+
+英ニュースサイトのMantropyWebやMantropyInternationalBritainなどによると、京大漫トロピーは今夏コミックマーケットにおいて過去の会誌総集編を頒布するようだ。<br />
+今回頒布予定の<strong>『漫トロピー クロニクル vol.1-5』（B5版 144ページ \1,000)</strong>では2008年から2010年に発行した会誌Vol.1～5の総集編となる。2008年から2010年までのおすすめ漫画ランキングやクロスレビューなどの一部が掲載される。販売するのは<strong>C80の3日目となる8月14日で、場所は東2 O-12b</strong>だ。……<br />
+<a href="product/clonicle.html">（記事全文）</a></p>
+<center><h2><a href="https://twitter.com/#!/mantropy/status/99732571960778752" target="_blank">夏コミ初参戦</a></h2></center>
 <p>
-<em style="color: red;">検索しても漫画が出てこない</em><br />
-1. 受け付けるのは、「半角英数字と全角日本語」のみです。<br />
-　　<a href="/search?utf8=%E2%9C%93&str=%E3%82%A2%E3%83%8A%E3%83%AB%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AB">アナルエンジェル</a>は正解で<a href="/search?utf8=%E2%9C%93&str=%EF%BD%B1%EF%BE%85%EF%BE%99%EF%BD%B4%EF%BE%9D%EF%BD%BC%EF%BE%9E%EF%BD%AA%EF%BE%99&commit=%E6%A4%9C%E7%B4%A2&scope=mantropy">ｱﾅﾙｴﾝｼﾞｪﾙ</a>は間違い<br />
-　　<a href="/search?utf8=%E2%9C%93&str=%E3%82%A8%E3%83%AA%E3%82%A251">エリア51</a>は正解で<a href="/search?utf8=%E2%9C%93&str=%E3%82%A8%E3%83%AA%E3%82%A2%EF%BC%95%EF%BC%91&commit=%E6%A4%9C%E7%B4%A2&scope=amazon">エリア５１</a>は間違い<br />
-2. タイトルに数字の入ってる漫画は狂うことがあるみたいです。数字以前の文字で試してみてください<br />
+C80では、会誌Vol.1-5の総集編『漫トロピークロニクル』（新刊）と会誌Vol.6（2011年春号）を頒布する予定です。その他既刊も若干数頒布いたします。是非お越しください。 [8/14 #C80 東2 O-12b]<br />
+<a href="https://twitter.com/#!/mantropy/status/99732571960778752" target="_blank">（記事全文）</a></p>
+
+<p style="color: black;">
+キェェェェエエエエ！！！
 </p>
-<p>
-<em style="color: red;">タイトルで検索しても出てこないかつ、アンソロジーの収録である作品を登録したい</em><br />
-1. アンソロジー名で検索します<br />
-2. 収録のあるアンソロジーをクリックします<br />
-3. [このシリーズに含まれるシリーズを新しく作る]をクリックします<br />
-4. [タイトル], [漫画家], [掲載誌], [掲載書籍]を入力・選択し、[Create Serie]をクリック<br />
-5. 以降、ランキング登録の手順に従って下さい<br />
-</p>
-<p>
-<em style="color: red;">タイトルで検索しても出てこないかつ、雑誌の読み切りである作品を登録したい</em><br />
-1. 雑誌名で検索します<br />
-2. 収録のある雑誌名をクリックします<br />
-3. [このシリーズに含まれるシリーズを新しく作る]をクリックします<br />
-4. [タイトル], [漫画家], [掲載誌], [掲載書籍]を入力・選択し、[Create Serie]をクリック<br />
-5. 以降、ランキング登録の手順に従って下さい<br />
-<img src="/images/explanation7.png"><hr />
-<img src="/images/explanation8.png"><hr />
-<img src="/images/explanation9.png"><hr />
-</p>
-<p>
-<em style="color: red;">タイトルまたは掲載された雑誌検索しても出てこない読み切り作品・Web漫画を登録したい</em><br />
-1. 何かしらで検索します<br />
-3. [検索しても出てこない雑誌に掲載された読み切りや・Web漫画などの新しい漫画シリーズを作成する]をクリックします<br />
-4. [タイトル], [漫画家], [掲載誌]を入力・選択し、[Create Serie]をクリック<br />
-5. 以降、ランキング登録の手順に従って下さい<hr />
-<img src="/images/explanation6.png"><hr />
-</p>
+</td>
+</tr>
+
+
+<tr>
+<td align=center valign=bottom colspan=2 height=302 background="images/mantro_chan.jpg">
+<img src="images/logo_m.gif"><br>
+<font color="black">漫トロのイメージキャラクター、「まんとろちゃん」</font></td>
+</tr>
+
+</table>
+</div>
