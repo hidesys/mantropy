@@ -38,7 +38,7 @@ Listing users
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete if false %></td>
   </tr>
-<% end if nil %>
+<% end if Rails.env != "development" && current_user %>
 </table>
 
 <br />
