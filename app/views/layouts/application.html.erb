@@ -10,7 +10,8 @@
 </head>
 <body style="background-color:<%= (Rails.env == "development" ? "black" : "#EFEFEF;") -%>">
 
-<div align="center" width="100%">
+<div id="body">
+<div id="wrapper" style="width: <%= width -%>px;">
 
 <table cellpadding="0" cellspacing="0" width="<%= width -%>" border=0 bgcolor=white>
 	<tr width="100%">
@@ -26,7 +27,8 @@
 	  <a href="http://wiki.livedoor.jp/mantropy/" target="_blank" class="head">Wiki</a>
           <a href="http://skydrive.live.com/" target="_blank" class="head">SkyDrive</a>
         <% end %>
-	| <a href="http://twitter.com/mantropy/lists/mantropy" target="_blank" class="head">タイムライン</a>
+        | <a href="http://mantropy.seesaa.net/" target="_blank"><font color=blue>例会報告ブログ</font></a>
+	<a href="http://twitter.com/mantropy/lists/mantropy" target="_blank" class="head">タイムライン</a>
 	</font></td>
 	<td align="right"><font size="-1">
         <% unless current_user %>
@@ -97,9 +99,9 @@
 	</tr>
 </table>
 
-<div id="main" align="<%= align -%>" style="width:<%= width -%>px; background-color: white; padding: 0px; margin: 0px; border: 0px;">
-<p class="notice" style="background-color: cyan; padding: 0px; margin: 0px; border: 0px;"><%= notice -%></p>
-<p class="alert" style="background-color: red; padding: 0px; margin: 0px; border: 0px;"><%= alert -%></p>
+<div id="main" align="<%= align -%>" style="width:<%= width -%>px;">
+<p class="notice"><%= notice -%></p>
+<p class="alert"><%= alert -%></p>
 
 <!-- ここまでが自動生成ヘッダ -->
 
@@ -109,6 +111,7 @@
 
 </div>
 <small>&copy;<a href="/" target="_blank">京大漫トロピー</a></small><br>
+</div>
 </div>
 
 ページの終わり。。。 <%= "Logined as #{current_user.name}" if current_user %>
