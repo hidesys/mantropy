@@ -8,26 +8,30 @@
 <%= javascript_include_tag :defaults %>
 <%= csrf_meta_tag %>
 </head>
-<body>
+<body style="background-color:<%= (Rails.env == "development" ? "black" : "#EFEFEF;") -%>">
 
 <div align="center" width="100%">
 
-<table cellpadding="0" cellspacing="0" width="<%= width %>" border=0 bgcolor=white>
+<table cellpadding="0" cellspacing="0" width="<%= width -%>" border=0 bgcolor=white>
 	<tr width="100%">
         <td align="left"><font size="-1">
-        <%= link_to "漫画一覧", series_path %>
-        　<%= link_to "メンバー", users_path %>
-        　<%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name) %>
-        <%= link_to "(糞)", serie_ranking_path(Ranking.find(2).name) %>
-        　<%= link_to "IRC", irc_path %> |
-	<a href="http://wiki.livedoor.jp/mantropy/" target="_blank">Wiki</a>
-	　<a href="http://twitter.com/mantropy/lists/mantropy" target="_blank">タイムライン</a>
-	　<a href="http://skydrive.live.com/" target="_blank">SkyDrive</a>
+        <%= link_to "トップ", root_path %>
+        <%= link_to "活動内容", about_path %>
+        <%= link_to "メンバー", users_path %>
+        <% if current_user %>
+          | <%= link_to "漫画一覧", series_path %>
+          <%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name) %>
+          <%= link_to "(糞)", serie_ranking_path(Ranking.find(2).name) %>
+          <%= link_to "IRC", irc_path %> -
+	  <a href="http://wiki.livedoor.jp/mantropy/" target="_blank">Wiki</a>
+          <a href="http://skydrive.live.com/" target="_blank">SkyDrive</a>
+        <% end %>
+	| <a href="http://twitter.com/mantropy/lists/mantropy" target="_blank">タイムライン</a>
 	</font></td>
 	<td align="right"><font size="-1">
         <% unless current_user %>
-          <%= link_to 'ログイン', [:new, :userauth_session] %>　
-          <%= link_to 'ユーザー登録', [:new, :userauth_registration] %>
+          <%= link_to 'ログイン', [:new, :userauth_session] %>
+          <%= link_to 'ユーザー登録', [:new, :userauth_registration] if false %>
         <% else %>
           <%= link_to 'ログアウト', destroy_userauth_session_path, :method => :delete %>
         <% end %>
@@ -45,7 +49,7 @@
 </table>
 
 
-<table cellpadding="0" cellspacing="0" width="<%= width %>" bgcolor=white>
+<table cellpadding="0" cellspacing="0" width="<%= width -%>" bgcolor=white>
   <%= form_tag(serie_search_path, {:method => :get}) do %>
         <tr width="100%">
 	<td align="left" rowspan="2" width="170">
@@ -59,20 +63,25 @@
 	</tr>
 	<tr>
 	<td align="left">
-	<font size=-1>
+	<font size="-1">
+        <% if current_user %>
         <label><%= radio_button_tag :scope, "amazon_all" %>Amazonからいっぱい検索</label>
         <label><%= radio_button_tag :scope, "amazon", true %>密林もちょっと</label>
+      <% else %>
+        　　　　<label><%= radio_button_tag :scope, "amazon", true %>ぅぅぅ…苦しい……</label>
+        <% end %>
         <label><%= radio_button_tag :scope, "mantropy", %>漫トロピーWebだけ</label>
+        <% if current_user %>
         <label><%= radio_button_tag :scope, "mine" %>自分のを探す</label>
-	</font>
+        <% end %>
+        </font>
 	</td>
 	</tr>
 	<tr><td colspan="2" height="10"></td></tr>
       <% end %>
 </table>
 
-
-<table cellpadding="0" cellspacing="0" width="<%= width %>">
+<table cellpadding="0" cellspacing="0" width="<%= width -%>">
 	<tr width="100%">
 	<td align="left" colspan="2" height="1" width="1024" bgcolor="cyan"></td>
 	</tr>
@@ -86,19 +95,17 @@
           <% end %>
         </td>
 	</tr>
-	<tr><td colspan="2" height="10"></td></tr>
-	</form>
 </table>
 
-<div id="main" align="<%= align %>" style="width:<%= width %>px; background-color:#EFEFEF;">
+<div id="main" align="<%= align -%>" style="width:<%= width -%>px; background-color:white; padding: 5px 0px; margin: 0px; border: 0px;">
+<p class="notice" style="background-color: cyan;"><%= notice -%></p>
+<p class="alert" style="background-color: red;"><%= alert -%></p>
 
 <!-- ここまでが自動生成ヘッダ -->
 
-<p class="notice" style="background-color: cyan;"><%= notice %></p>
-<p class="alert" style="background-color: red;"><%= alert %></p>
-
-
 <%= yield %>
+
+<!-- ここから自動生成フッダ -->
 
 </div>
 <small>&copy;<a href="/" target="_blank">京大漫トロピー</a></small><br>
