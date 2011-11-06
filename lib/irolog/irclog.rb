@@ -1,9 +1,10 @@
-# encoding: UTF-8
+# encoding: EUC-JP
+#!/usr/bin/env ruby
 require 'cgi'
 require 'nkf'
 require 'erb'
-require_relative 'logcolor'
-require_relative 'config'
+require_relative 'logcolor.rb'
+require_relative 'config.rb'
 
 class Time
   def to_ymd
@@ -13,12 +14,12 @@ end
 
 class ERB
   def self.compile(fname,b)
-    ERB.new(File.read(fname)).result(b)
+    ERB.new(File.read(fname, :encoding => "EUC-JP").encode("EUC-JP", {:invalid => :replace, :undef => :replace})).result(b)
   end
 end
 
 class Irolog
-  VERSION = "1.1.0 + hidesys"
+  VERSION = "1.1.0 + hidesys/2011_11_07"
 
   class View
     include ERB::Util
@@ -31,8 +32,7 @@ class Irolog
       tmp = hash.dup
       tmp['channel'] = @channel  unless tmp.key?('channel')
       tmp['date']    = @raw_date unless tmp.key?('date') && @raw_date
-      #"<a href='#{Config::CGINAME}#{make_cgi_params(tmp)}'>#{h value.to_s}</a>"
-      "<a href='irc#{make_cgi_params(tmp)}'>#{h value.to_s}</a>"
+      "<a href='#{Config::CGINAME}#{make_cgi_params(tmp)}'>#{h value.to_s}</a>"
     end
 
     def make_cgi_params(hash)
@@ -89,7 +89,7 @@ class Irolog
 
   end # class View
 
-  DAYS = %w(æ—¥ æœˆ ç« æ°´ æœ¨ é‡‘ åœŸ)
+  DAYS = %w(Æü ·î ²Ğ ¿å ÌÚ ¶â ÅÚ)
   def make
     conv = LogColor::Converter.new(@simple)
     logpath = (Config::CHANNELS.assoc(@channel) || Config::CHANNELS[0]).at(1)
@@ -98,11 +98,11 @@ class Irolog
       fname = (Proc===logpath) ? logpath.call(t) : t.strftime(logpath)
       if File.exist? fname
         conv.append("<h1>#{t.strftime('%Y/%m/%d')} (#{DAYS[t.wday]})</h1>\n")
-        conv.convert(t, File.read(fname))
+        conv.convert(t, File.read(fname).encode("EUC-JP", {:invalid => :replace, :undef => :replace}))
       else
         conv.append(<<-EOD)
           <div class="error">
-          #{t.strftime('%Yå¹´%mæœˆ%dæ—¥')}ã®ãƒ­ã‚°(#{fname})ã¯ã‚ã‚Šã¾ã›ã‚“
+          #{t.strftime('%YÇ¯%m·î%dÆü')}¤Î¥í¥°(#{fname})¤Ï¤¢¤ê¤Ş¤»¤ó
           </div>
         EOD
       end
@@ -171,28 +171,28 @@ class Irolog
     }.sort_by{|a| -a[0].to_i}.each{|t, digest, ch|
       diff = case d = (Time.now - t).to_i
              when 0...60
-               "#{d}ç§’"
+               "#{d}ÉÃ"
              when 60...(60*60)
-               "#{d/60}åˆ†"
+               "#{d/60}Ê¬"
              when (60*60)...(60*60*24)
-               "#{d/60/60}æ™‚é–“"
+               "#{d/60/60}»ş´Ö"
              else
-               "#{d/60/60/24}æ—¥"
+               "#{d/60/60/24}Æü"
              end
       if digest.size==0
         conv.append <<-EOD
           <h1>
-            <a href='irc?channel=#{CGI.escape ch}'>#{ch}</a>
+            <a href='#{Config::CGINAME}?channel=#{CGI.escape ch}'>#{ch}</a>
           </h1>
           <div class="error">
-          ã“ã®ãƒãƒ£ãƒ³ãƒãƒ«ã¯#{BACK_MAX}æ—¥ä»¥ä¸Šç™ºè¨€ãŒã‚ã‚Šã¾ã›ã‚“
+          ¤³¤Î¥Á¥ã¥ó¥Í¥ë¤Ï#{BACK_MAX}Æü°Ê¾åÈ¯¸À¤¬¤¢¤ê¤Ş¤»¤ó
           </div>
         EOD
       else
         conv.append <<-EOD
           <h1>
-            <a href='irc?channel=#{CGI.escape ch}&date=#{t.strftime("%Y%m%d")}'>#{ch}</a>
-            <small>#{diff}å‰ (#{t.strftime('%m/%d %H:%M')})</small>
+            <a href='#{Config::CGINAME}?channel=#{CGI.escape ch}&date=#{t.strftime("%Y%m%d")}'>#{ch}</a>
+            <small>#{diff}Á° (#{t.strftime('%m/%d %H:%M')})</small>
           </h1>
         EOD
       end
@@ -204,22 +204,22 @@ class Irolog
 
   def parse_req(cgi)
     #input
-    @raw_date = date = cgi.params["date"][0]
+    @raw_date = date = cgi.params["date"]
     @channel = cgi.params["channel"] || ""
     @simple = case cgi.params["simple"]
               when "0"; false
               when "1"; true
               else
-                cgi.cookies["simple"]=="0" ? false : true
+                cgi.cookies["simple"][0]=="0" ? false : true
               end
 
-    date=nil if date==""
+    date=nil if date=="" || date == []
 
-    if date==nil then  #æŒ‡å®šãªã—
+    unless date then  #»ØÄê¤Ê¤·
       @dates = [ Time.now-(24*60*60), Time.now ]
-    else                  #æ—¥ä»˜æŒ‡å®š
+    else                  #ÆüÉÕ»ØÄê
       @dates=[]
-      cgi["date"].each_line do |date|
+      cgi.params["date"].each_line do |date|
         if date =~ /\A(\d{4})(\d\d)(\d\d)(?:-(\d+))?\z/
           year, month, day = $1.to_i, $2.to_i, $3.to_i
           range = $4 ? $4.to_i : 1
@@ -253,7 +253,7 @@ class Irolog
       cookie.expires = Time.now + 60*60*24 * 30
 
       #output
-      cgi.out({'charset'=>'UTF-8', 'cookie'=>cookie }) do
+      cgi.out({'charset'=>'euc-jp', 'cookie'=>cookie }) do
         result
       end
     end

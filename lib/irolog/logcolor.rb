@@ -1,23 +1,23 @@
-# encoding: UTF-8
+# encoding: EUC-JP
 #
 # logcolor.rb - colorizing irc logs
 #
 =begin
 = LogColor
-ã€Œè©³ç´°ã€ç”¨ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã¨ã€Œã‚·ãƒ³ãƒ—ãƒ«ã€ç”¨ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã€ãã‚Œã‚‰ã®è¦ªã‚¯ãƒ©ã‚¹ã€
-ãã—ã¦ã‚³ãƒ³ãƒãƒ¼ã‚¿æœ¬ä½“ã§ã‚ã‚‹LogColor::ConverterãŒå®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚
+¡Ö¾ÜºÙ¡×ÍÑ¤Î¥³¡¼¥ë¥Ğ¥Ã¥¯¤È¡Ö¥·¥ó¥×¥ë¡×ÍÑ¤Î¥³¡¼¥ë¥Ğ¥Ã¥¯¡¢¤½¤ì¤é¤Î¿Æ¥¯¥é¥¹¡¢
+¤½¤·¤Æ¥³¥ó¥Ğ¡¼¥¿ËÜÂÎ¤Ç¤¢¤ëLogColor::Converter¤¬ÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤¹¡£
 
 == LogColor::Converter
-ä½¿ã„æ–¹ï¼š
+»È¤¤Êı¡§
   conv = LogColor::Converter.new(is_simple)
   fname = "20061201.txt"
-  t    = Time.mktime(2006,12,1) #=> h1ã¨åˆ‡ã‚Œç›®ã”ã¨ã®ã€Œnæœˆmæ—¥ã€ã®è¡¨ç¤ºã«å¿…è¦
+  t    = Time.mktime(2006,12,1) #=> h1¤ÈÀÚ¤ìÌÜ¤´¤È¤Î¡Ön·îmÆü¡×¤ÎÉ½¼¨¤ËÉ¬Í×
   conv.convert(t, File.read(fname))
   conv.convert(t2, File.read(fname2))
   ...
-
-  conv.result #=> çµæœã®HTML
-  conv.css    #=> CSS  ".col0{ #a099fb } ..."ã®ã‚ˆã†ãªæ„Ÿã˜
+  
+  conv.result #=> ·ë²Ì¤ÎHTML
+  conv.css    #=> CSS  ".col0{ #a099fb } ..."¤Î¤è¤¦¤Ê´¶¤¸
 =end
 
 require_relative "logparser.rb"
@@ -55,7 +55,7 @@ module LogColor
 
       colors=[]
 
-      persons=(@callback.coltable.values.max || -1)+1  #col0ã‹ã‚‰å§‹ã¾ã‚‹ã®ã§+1
+      persons=(@callback.coltable.values.max || -1)+1  #col0¤«¤é»Ï¤Ş¤ë¤Î¤Ç+1
       @callback.coltable.each_with_index do |person,i|
         colors << [
           "col#{i}",
@@ -80,7 +80,7 @@ module LogColor
   class LogColorCallback < LogParser::Callback
 
     URI_TYPES = %w(http https ftp mailto)
-    DAYS_OF_WEEK = %w(æ—¥ æœˆ ç« æ°´ æœ¨ é‡‘ åœŸ)
+    DAYS_OF_WEEK = %w(Æü ·î ²Ğ ¿å ÌÚ ¶â ÅÚ)
 
     def initialize
       @coltable = {}
@@ -101,7 +101,7 @@ module LogColor
   private
 
     def html_escape(s)
-      s.encode("UTF-8").gsub(/\</,"&lt;").gsub(/\>/,"&gt;")
+      s.gsub(/\</,"&lt;").gsub(/\>/,"&gt;")
     end
 
     def timecol(time)      # time="00:00:00"
@@ -142,10 +142,10 @@ module LogColor
         escaped.gsub!(rexp){
           "<a href='#{$1}' target='_blank'>#{$1}</a>"
         }
-        escaped.gsub!(/  /){ "ã€€ " }
-        escaped.gsub!(/\t/){ "ã€€ ã€€ ã€€ ã€€ " }
+        escaped.gsub!(/  /){ "¡¡ " }
+        escaped.gsub!(/\t/){ "¡¡ ¡¡ ¡¡ ¡¡ " }
       end
-      @buf << "<span class='#{timecol(time)}'>#{time}</span> <span class='#{namecol(nick)}'>&lt;#{channel}:#{nick}&gt; #{escaped}</span><br>\n".encode("UTF-8")
+      @buf << "<span class='#{timecol(time)}'>#{time}</span> <span class='#{namecol(nick)}'>&lt;#{channel}:#{nick}&gt; #{escaped}</span><br>\n"
     end
 
     def on_quit(orig,time,nick,comment)
@@ -190,8 +190,8 @@ module LogColor
     end
 
     def on_mode2(time,nick,channel,operation,other)
-      #ãªã‚‹ã¨ãã°ã‚Šã«ã‚‚ã€é…ã£ãŸäººã¨é…ã‚‰ã‚ŒãŸäººã«è‰²ãŒä»˜ãã¾ã™
-      #ã‘ã£ã“ã†ã†ã£ã¨ã†ã—ããªã‚‹ã®ã§ãŠã™ã™ã‚ã—ã¾ã›ã‚“(^^;
+      #¤Ê¤ë¤È¤¯¤Ğ¤ê¤Ë¤â¡¢ÇÛ¤Ã¤¿¿Í¤ÈÇÛ¤é¤ì¤¿¿Í¤Ë¿§¤¬ÉÕ¤­¤Ş¤¹
+      #¤±¤Ã¤³¤¦¤¦¤Ã¤È¤¦¤·¤¯¤Ê¤ë¤Î¤Ç¤ª¤¹¤¹¤á¤·¤Ş¤»¤ó(^^;
       tmp=""
       other.scan(/ (\S+)/) do |name|
         tmp << " <span class='#{namecol(name)}'>#{name}</span>"
@@ -201,9 +201,9 @@ module LogColor
     end
 
     def on_topic(orig,time,channel,nick,topic)
-      escaped=html_escape(topic).encode("UTF-8")
+      escaped=html_escape(topic)
       URI_TYPES.each do |item|
-        rexp = Regexp.compile("(#{item}://[^\sã€€)]*)")
+        rexp = Regexp.compile("(#{item}://[^\s¡¡)]*)")
         escaped.gsub!(rexp){
           "<a href='#{$1}'>#{$1}</a>"
         }
@@ -222,7 +222,7 @@ module LogColor
     end
 
     def on_other(orig,time,all)
-      @buf << "<span class='#{timecol(time)}'>#{time}</span> #{all}<br>\n".encode("UTF-8")
+      @buf << "<span class='#{timecol(time)}'>#{time}</span> #{all}<br>\n"
     end
 
     def on_missing(all)
@@ -279,8 +279,8 @@ module LogColor
         escaped.gsub!(rexp){
           "<a href='#{$1}' target='_blank'>#{$1}</a>"
         }
-        escaped.gsub!(/  /){ "ã€€ " }
-        escaped.gsub!(/\t/){ "ã€€ ã€€ ã€€ ã€€ " }
+        escaped.gsub!(/  /){ "¡¡ " }
+        escaped.gsub!(/\t/){ "¡¡ ¡¡ ¡¡ ¡¡ " }
       end
 
       check_interval(time)
@@ -288,8 +288,8 @@ module LogColor
       #@buf << "<span class='date'>#{date}</span>"
       @buf << "<span class='#{timecol(time)}'>#{time}</span> " 
       @buf << "<span class='#{namecol(nick)}'>"
-      @buf << (nick==@lastnick ? "ã€€ã€€ã€€ã€€" : "&lt;#{nick}&gt; ")
-      @buf << "#{escaped}</span><br>\n".encode("UTF-8")
+      @buf << (nick==@lastnick ? "¡¡¡¡¡¡¡¡" : "&lt;#{nick}&gt; ")
+      @buf << "#{escaped}</span><br>\n"
       @lasttime = time
       @lastnick = nick
     end
@@ -315,7 +315,7 @@ module LogColor
     def on_topic(orig,time,channel,nick,topic)
       escaped=html_escape(topic)
       URI_TYPES.each do |item|
-        rexp = Regexp.compile("(#{item}://[^\sã€€)]*)", nil, "u")
+        rexp = Regexp.compile("(#{item}://[^\s¡¡)]*)")
         escaped.gsub!(rexp){
           "<a href='#{$1}'>#{$1}</a>"
         }
@@ -334,7 +334,7 @@ module LogColor
     end
 
     def on_other(orig,time,all)
-      @buf << "<span class='#{timecol(time)}'>#{time}</span> #{all}<br>\n".encode("UTF-8")
+      @buf << "<span class='#{timecol(time)}'>#{time}</span> #{all}<br>\n"
       @lasttime = time
     end
 
@@ -347,11 +347,11 @@ module LogColor
   module HSV
 
     def self.HSV2RGB(h,s,v)
-      #http://www.joochan.com/rgb-convert.htmlã‚’å‚è€ƒã«ã•ã›ã¦é ‚ãã¾ã—ãŸ
-      # h: Hue(è‰²ç›¸)ã€‚ã„ã‚ã‚†ã‚‹ã€Œè‰²ã€ã€é’ã¨ã‹èµ¤ã¨ã‹
-      # s: Saturation(å½©åº¦)ã€‚ã“ã‚Œã‚’ä¸Šã’ã‚‹ã¨ã„ãã„ãã—ãŸ(oræ´¾æ‰‹ãª)è‰²ã«ãªã‚‹ã€‚
-      #      ä¸‹ã’ã‚‹ã¨ãƒ‘ã‚¹ãƒ†ãƒ«ã‚«ãƒ©ãƒ¼ã«(çµµã®å…·ã®ç™½ã‚’æ··ãœã‚‹æ„Ÿã˜)ã€‚
-      # v: Value(æ˜åº¦ã€Brightnessã¨ã‚‚)ã€‚ã“ã‚Œã‚’ä¸‹ã’ã‚‹ã¨æš—ããªã‚‹ã€‚
+      #http://www.joochan.com/rgb-convert.html¤ò»²¹Í¤Ë¤µ¤»¤ÆÄº¤­¤Ş¤·¤¿
+      # h: Hue(¿§Áê)¡£¤¤¤ï¤æ¤ë¡Ö¿§¡×¡¢ÀÄ¤È¤«ÀÖ¤È¤«
+      # s: Saturation(ºÌÅÙ)¡£¤³¤ì¤ò¾å¤²¤ë¤È¤¤¤­¤¤¤­¤·¤¿(orÇÉ¼ê¤Ê)¿§¤Ë¤Ê¤ë¡£
+      #      ²¼¤²¤ë¤È¥Ñ¥¹¥Æ¥ë¥«¥é¡¼¤Ë(³¨¤Î¶ñ¤ÎÇò¤òº®¤¼¤ë´¶¤¸)¡£
+      # v: Value(ÌÀÅÙ¡¢Brightness¤È¤â)¡£¤³¤ì¤ò²¼¤²¤ë¤È°Å¤¯¤Ê¤ë¡£
       if s==0 then
         r=v; g=v; b=v;
       else

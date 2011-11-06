@@ -1,24 +1,24 @@
 <!-- channels -->
-<a href='irc'>all</a> /
+<a href='<%=h Config::CGINAME %>'>all</a> /
 <%= make_channel_list.map{|ch|
       (ch==@channel) ? (h ch) : link(ch, {'channel'=>ch})
     }.join(' / ') 
-%>ã€€ã€€
+%>¡¡¡¡
 
 <!-- simple -->
 <% if @simple %>
-  ã‚·ãƒ³ãƒ—ãƒ« / <%= link("è©³ç´°", {'simple'=>0}) %>
+  ¥·¥ó¥×¥ë / <%= link("¾ÜºÙ", {'simple'=>0}) %>
 <% else %>
-  <%= link("ã‚·ãƒ³ãƒ—ãƒ«", {'simple'=>1}) %> / è©³ç´°
-<% end %>ã€€ã€€
+  <%= link("¥·¥ó¥×¥ë", {'simple'=>1}) %> / ¾ÜºÙ
+<% end %>¡¡¡¡
 
 <!-- around -->
 <% days, prev_date, succ_date = make_around_days() %>
-<%= link("ï¼œå‰ã®#{days}æ—¥", {'date'=>prev_date}) %>ã€€
-<%= link("æ¬¡ã®#{days}æ—¥ï¼ž", {'date'=>succ_date}) %>ã€€
+<%= link("¡ãÁ°¤Î#{days}Æü", {'date'=>prev_date}) %>¡¡
+<%= link("¼¡¤Î#{days}Æü¡ä", {'date'=>succ_date}) %>¡¡
 
 <!-- top -->
-<a href='<%=Config::TOP_URL%>'>ãƒˆãƒƒãƒ—</a><br>
+<a href='<%=Config::TOP_URL%>'>¥È¥Ã¥×</a><br>
 
 <!-- calendar -->
 <table><tr><td></td><td>S</td><td>M</td><td>T</td><td>W</td><td>T</td><td>F</td><td>S</td></tr>

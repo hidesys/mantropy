@@ -1,10 +1,10 @@
-# encoding: UTF-8
+# encoding: EUC-JP
 #
 # logparser.rb
 #
 =begin
 = example
-Áô∫Ë®Ä„Åå„ÅÇ„Å£„Åünick„ÇíÈõÜ„ÇÅ„Çã
+»Ø∏¿§¨§¢§√§ønick§ÚΩ∏§·§Î
 
  class MyCallback < LogParser::Callback
    def on_init
@@ -47,7 +47,7 @@ class LogParser
     when /(\d\d:\d\d:\d\d) [<>](#{RE_CHANNEL}):(\S+)[<>] (.*)/
       @callback.on_message(line,$1,$2,$3,$4)
     when /(\d\d:\d\d:\d\d) \((#{RE_CHANNEL}):([^\}]+)\) (.*)/ #notice
-      @callback.on_message(line,$1,$2,$3,"> "+$4)
+      @callback.on_message(line,$1,$2,$3,": "+$4)
     when /(\d\d:\d\d:\d\d) ! (\S+)(.*)/
       time,nick = $1,$2
       if $3=~/ \((.+)\)/
