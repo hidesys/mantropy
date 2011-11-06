@@ -3,9 +3,9 @@
 <% @series.each do |serie| %>
   <p class="serie">
   <%= count += 1 %><br />
-  <%= link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie if count <= 10 %>
+  <%= link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if count <= 10 %>
   <p class="serie_detail">
-    <h2><%= link_to serie.name, serie %></h2>
+  <h2><%= link_to serie.name, serie, {:target => "_blank"} %></h2>
     <%= link_to 'Destroy', serie, :confirm => 'Are you sure?', :method => :delete if current_user && current_user.name == "hidesys" %>
     <div class="serie_books">
       <% serie.books.each do |book| %>
