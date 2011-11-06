@@ -9,7 +9,7 @@ class HomeController < ApplicationController
   end
 
   def how_to_use
-    @title = "ランキング登録説明"
+    @title = "はうとぅゆーず"
   end
 
   def robots

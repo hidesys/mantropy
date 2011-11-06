@@ -1,9 +1,7 @@
 Mantropy::Application.routes.draw do
 
   get "home/robots"
-
   get "irc/index"
-
   get "home/index"
 
   resources :browsenodeids
@@ -14,20 +12,21 @@ Mantropy::Application.routes.draw do
   resources :topics, :except => [:destroy, :show]
   resources :books, :except => :destroy
   resources :ranks
-
   resources :users, :only => [:index, :create, :update, :edit, :new]
+
+  devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
 
   match '/series/new(/:id)' => 'series#new', :as => 'new_serie'
   match '/:name/series/:id' => 'series#show', :as => 'serie'
   match '/series/:id' => 'series#show'#, :as => 'serie'
   match '/users/:name' => 'users#show', :as => 'user'
-  devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
   match '/search' => 'series#search', :as => 'serie_search'
   match '/ranking(/:str)' => 'series#ranking', :as => 'serie_ranking'
   match '/irc' => 'irc#index', :as => 'irc'
   match '/about' => 'home#about', :as => 'about'
   match '/robots' => 'home#robots'
   match '/topics/:id(/((:from)(-:to))(|:top))' => 'topics#show', :as => "topic"
+  get '/how_to_use' => 'home#how_to_use', :as => "userauth_root"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
