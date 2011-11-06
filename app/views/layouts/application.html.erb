@@ -20,10 +20,11 @@
             <%= link_to "活動内容", about_path, :class => :head %>
             <%= link_to "メンバー", users_path, :class => :head %>
         <% if current_user %>
-        - <%= link_to "漫画一覧", series_path, :class => :head %>
+        - <%= link_to "掲示板", topics_path, :class => :head %>
+          <%= link_to "IRC", irc_path, :class => :head %>
           <%= link_to "ランキング", serie_ranking_path(Ranking.find(1).name), :class => :head %>
           <%= link_to "(糞)", serie_ranking_path(Ranking.find(2).name), :class => :head %>
-          <%= link_to "IRC", irc_path, :class => :head %>
+          <%= link_to "漫画一覧", series_path, :class => :head %>
 	| <a href="http://wiki.livedoor.jp/mantropy/" target="_blank" class="head">Wiki</a>
           <a href="http://skydrive.live.com/" target="_blank" class="head">SkyDrive</a>
         -

@@ -11,7 +11,7 @@ Mantropy::Application.routes.draw do
   root :to => 'home#index'
   resources :series, :except => [:new, :show]
   resources :posts, :except => :destroy
-  resources :topics, :except => :destroy
+  resources :topics, :except => [:destroy, :show]
   resources :books, :except => :destroy
   resources :ranks
 
@@ -27,6 +27,7 @@ Mantropy::Application.routes.draw do
   match '/irc' => 'irc#index', :as => 'irc'
   match '/about' => 'home#about', :as => 'about'
   match '/robots' => 'home#robots'
+  match '/topics/:id(/((:from)(-:to))(|:top))' => 'topics#show', :as => "topic"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

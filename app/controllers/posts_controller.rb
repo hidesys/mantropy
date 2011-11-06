@@ -1,4 +1,6 @@
+# encoding: UTF-8
 class PostsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /posts
   # GET /posts.xml
   def index
@@ -41,15 +43,21 @@ class PostsController < ApplicationController
   # POST /posts.xml
   def create
     @post = Post.new(params[:post])
-
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to(@post, :notice => 'Post was successfully created.') }
-        format.xml  { render :xml => @post, :status => :created, :location => @post }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
+    topic = @post.topic
+    redirect_path = (topic.title ? topic : serie_path(Serie.find_by_topic_id(topic.id)))
+    begin
+      Post.transaction do
+        @post.user = current_user
+        @post.order = Post.where(:topic_id => @post.topic_id).count + 1
+        @post.save!
+        unless /sage/ =~ params[:post][:email] then
+          topic.updated_at = Time.now
+          topic.save!
+        end
       end
+      redirect_to(redirect_path, :notice => '書き込みに成功しました')
+    rescue
+      redirect_to(redirect_path, :notice => "何かがおかしい。")
     end
   end
 

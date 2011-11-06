@@ -1,15 +1,1 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Title:</b>
-  <%= @topic.title %>
-</p>
-
-<p>
-  <b>Appear:</b>
-  <%= @topic.appear %>
-</p>
-
-
-<%= link_to 'Edit', edit_topic_path(@topic) %> |
-<%= link_to 'Back', topics_path %>
+<%= render :file => "topics/_topic", :locals => {:topic => @topic, :i => nil}%>

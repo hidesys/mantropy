@@ -1,0 +1,120 @@
+a.head {
+padding: 1px;
+margin: 1px;
+}
+
+#body {
+  width: 100%;
+}
+
+#wrapper {
+margin: 0px auto;
+background-color: white;
+}
+
+#main {
+background-color: white;
+padding: 0px;
+margin: 0px;
+border: 0px;
+}
+
+.post dt {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.post dd {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.notice {
+background-color: cyan; padding: 0px; margin: 0px; border: 0px;
+}
+
+.alert {
+background-color: red; padding: 0px; margin: 0px; border: 0px;
+}
+
+.member {
+width: 128px;
+padding: 9px 7px;
+margin: 4px;
+text-align: center;
+background-color: Snow;
+border: ridge 5px deeppink;
+border-radius: 8px;
+float: left;
+}
+
+.member a {
+color :deeppink;
+}
+
+#home_index_table {
+background-color: black;
+color: white;
+}
+
+#home_index_table * a {
+color: cyan;
+}
+
+body {
+margin:0;
+padding:0;
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a:hover { color: #fff; background-color:blue; }
+
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}

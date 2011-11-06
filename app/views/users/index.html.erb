@@ -4,7 +4,7 @@
     <br />
     <%= link_to (user.name), user_path(user.name) %>
     <br />
-    <%= user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..8]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ" %>
+    <%= user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..7]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ" %>
   </div>
 <% end %>
 <br style="clear: both;" />

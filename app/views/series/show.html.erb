@@ -36,3 +36,4 @@
 </p>
 <%= link_to 'Edit', edit_serie_path(@serie) %> |
 <%= link_to 'Back', series_path %>
+<%= render :file => "topics/_topic", :locals => {:topic => @serie.topic, :i => nil} %>

@@ -1,8 +1,10 @@
+# encoding: UTF-8
 class TopicsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /topics
   # GET /topics.xml
   def index
-    @topics = Topic.all
+    @topics = Topic.where(:appear => 1).order("updated_at DESC, id DESC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,9 +17,13 @@ class TopicsController < ApplicationController
   def show
     @topic = Topic.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @topic }
+    if @topic.title == nil
+      redirect_to serie_path(Serie.find_by_topic_id(@topic.id))
+    else
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @topic }
+      end
     end
   end
 
@@ -38,18 +44,24 @@ class TopicsController < ApplicationController
   end
 
   # POST /topics
-  # POST /topics.xml
   def create
-    @topic = Topic.new(params[:topic])
+    begin
+      Topic.transaction do
+        @topic = Topic.new(params[:topic])
+        @topic.appear = 1
+        @topic.save!
 
-    respond_to do |format|
-      if @topic.save
-        format.html { redirect_to(@topic, :notice => 'Topic was successfully created.') }
-        format.xml  { render :xml => @topic, :status => :created, :location => @topic }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @topic.errors, :status => :unprocessable_entity }
+        post = Post.new
+        post.content = params[:content]
+        post.email = params[:email]
+        post.user = current_user
+        post.order = 1
+        post.topic = @topic
+        post.save!
       end
+      redirect_to(topics_path, :notice => 'スレッド作成と書き込みに成功しました。')
+    rescue
+      redirect_to(topics_path, :alreat => '何かおかしいで。')
     end
   end
 

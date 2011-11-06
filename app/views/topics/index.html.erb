@@ -1,23 +1,91 @@
-<h1>Listing topics</h1>
+<table border="1" cellspacing="7" cellpadding="3" width="100%" bgcolor="#CCFFCC" align="center">
+    <tr>
+        <td align=center>
+            <table border="0" cellpadding="1" width="100%">
+                <tr>
+                    <td nowrap COLSPAN="2">
+                        <font size=+1>
+                            <b><a href="/">京大漫トロピー</a> 内部掲示板</b>
+                        </font>
+                        <br />
+                    </td>
+                    <td nowrap width=5% align=right valign=top>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=3>
+                        <h2 style="color:#FFA500;"></h2>
+                        <ul>
+                        私的メモみたいな
+                        <li>E-mail欄はE-mailアドレスを書く場所ではありません
+                          <ul><li>sageとか書く場所です、たぶん。</li></ul>
+                          </li>
+                        <li>sage機能を実装する　→</li>
+                        <li>ていうか、先ず上げ機能を実装しないと　→</li>
+                        <li>http://をリンクにする</li>
+                        <li>リンクにして&lt;div&gt;ポップアップしたい</li>
+                    </td>
+                </tr>
+                <tr>
+                    <td nowrap align=right></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Appear</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
-<% @topics.each do |topic| %>
-  <%= topic.title %>
-  <% topic.posts.each do |post| %>
-    <%= post.name %>
-    <%= post.content %>
-  <% end %>
+<table border=1 cellspacing=7 cellpadding=3 width="100%" bgcolor="#CCFFCC"align="center">
+    <tr>
+        <td>
+            <font size=2>
+              <% i = 0 %>
+              <% @topics.each do |topic| %>
+                <% if (i += 1) <= 10 then %>
+                  <%= link_to "#{i}:", topic %>
+                  <%= link_to topic.title, "##{i}" %>　
+                <% else %>
+                  <%= link_to "#{i}: #{topic.title}", topic %>　
+                <% end %>
+              <% end %>
+                <div align="right">
+                  <%= link_to "スレッド一覧はこちら", topics_path %>
+                </div>
+            </font>
+        </td>
+    </tr>
+</table>
+
+<% @topics.each_with_index do |topic, i| %>
+  <% break if (i += 1) > 10 %>
+    <table border=1 cellspacing=7 cellpadding=3 width="100%" bgcolor="#EFEFEF" align=center>
+      <tr>
+        <td>
+          <%= render :file => "topics/_topic", :locals => {:topic => topic, :i => i} %>
+        </td>
+      </tr>
+    </table>
 <% end %>
 
+<table border=1 cellspacing=7 cellpadding=3 width="100%" align=center bgcolor="#CCFFCC">
+  <tr>
+    <td nowrap>
+      <dl>
+        <dt>
+          <%= form_for topic = Topic.new do |f| %>
+          タイトル：<%= f.text_field :title %>
+          <%= f.submit "新規スレッド作成" %><br />
+          E-mail： <%= text_field_tag :email %>
+        </dt>
+        <dd>
+          <%= text_area_tag :content, nil, {:rows => 5, :cols => 64} %>
+        </dd>
+      </dl>
+      <% end %>
+    </td>
+  </tr>
+</table>
 
 <br />
-
-<%= link_to 'New Topic', new_topic_path %>
+<a href="/">漫トロピーWeb</a> BBS.RB - 2010/12/01*2011/11/05 +
+<a href="/">京大漫トロピー</a> + Linux + Apache2 + Passenger + Ruby + Rails<br>
