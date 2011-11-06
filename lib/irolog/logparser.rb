@@ -46,7 +46,7 @@ class LogParser
     case line
     when /(\d\d:\d\d:\d\d) [<>](#{RE_CHANNEL}):(\S+)[<>] (.*)/
       @callback.on_message(line,$1,$2,$3,$4)
-    when /(\d\d:\d\d:\d\d) \{(#{RE_CHANNEL}):([^\}]+)\} (.*)/ #notice
+    when /(\d\d:\d\d:\d\d) \((#{RE_CHANNEL}):([^\}]+)\) (.*)/ #notice
       @callback.on_message(line,$1,$2,$3,"> "+$4)
     when /(\d\d:\d\d:\d\d) ! (\S+)(.*)/
       time,nick = $1,$2

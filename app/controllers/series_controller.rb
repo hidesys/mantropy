@@ -155,6 +155,13 @@ class SeriesController < ApplicationController
     @rank = Rank.new
     @rankings = Ranking.all
 
+    unless @serie.topic then
+      topic = Topic.new
+      topic.save!
+      @serie.topic = topic
+      @serie.save!
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @serie }
