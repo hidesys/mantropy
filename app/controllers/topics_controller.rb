@@ -50,7 +50,7 @@ class TopicsController < ApplicationController
       Topic.transaction do
         @topic = Topic.new(params[:topic])
         @topic.appear = 1
-        raise if @topic.title == "" || @title.title == nil
+        raise if @topic.title == "" || @topic.title == nil
         @topic.save!
 
         post = Post.new
@@ -64,7 +64,7 @@ class TopicsController < ApplicationController
       irc_write("[#{@topic.title ? @topic.title : Serie.find_by_topic_id(@topic.id).name}] #{post.content}")
       redirect_to(topics_path, :notice => 'スレッド作成と書き込みに成功しました。')
     rescue
-      redirect_to(topics_path, :alreat => '何かおかしいで。')
+      redirect_to(topics_path, :alert => '何かおかしいで。')
     end
   end
 
