@@ -55,11 +55,11 @@ class PostsController < ApplicationController
           topic.save!
         end
       end
-      irc_write("[#{topic.title ? topic.title : Serie.find_by_topic_id(topic.id).name}] #{@post.content}")
       redirect_to(redirect_path, :notice => '書き込みに成功しました')
     rescue
       redirect_to(redirect_path, :notice => "何かがおかしい。")
     end
+      irc_write("[#{(tt = topic.title) ? topic.title : (s = Serie.find_by_topic_id(topic.id)).name}] #{@post.content}", tt ? topic_path(topic) : serie_path(s))
   end
 
   # PUT /posts/1
