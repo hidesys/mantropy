@@ -13,8 +13,6 @@ Listing users
 <table>
   <tr>
     <th>名前</th>
-    <th>個人ランキング登録数</th>
-    <th>クソ漫画登録数</th>
     <th>漫画コメント数</th>
     <th></th>
     <th></th>
@@ -28,8 +26,6 @@ Listing users
 <% @users.each do |user| %>
   <tr>
     <td><%= user.name %></td>
-    <td><%= (complete_ranking(1, 1..30, user) ? "個人ランキング提出済み" : content_tag(:b, user.ranks.where(:ranking_id => 1).size, :style =>"color: black;")) %></td>
-    <td><%= (complete_ranking(2, 1..5, user) ? "クソランキング提出済み" : content_tag(:b, user.ranks.where(:ranking_id => 2).size, :style =>"color: black;")) %></td>
     <td><%= user.posts.count %></td>
     <td><%=  %></td>
     <td><%=  %></td>
