@@ -1,39 +1,30 @@
-<h1><%= @serie.name %></h1>
-<%= image_tag(serie_image_path(@serie, :large), :alt => @serie.name) %>
+<div class="serie_image">
+  <%= image_tag(serie_image_path(@serie, :large), :alt => @serie.name) %>
+</div>
 <div class="serie_detail">
   <h1><%= @serie.name %></h1>
   <p class="serie_authors">
   <b>著者:</b>
   <%= @serie.authors.map{|a| a.name} if @serie.authors %>
   </p>
+  <p class="serie_magazines">
+  <b>掲載誌:</b>
+  <%= @serie.magazines.map{|m| m.name} if @serie.magazines %>
+  </p>
   <p class="serie_post">
   <b>細部:</b>
-  <%= simple_format @serie.post.content if @serie.post %>
+  <%= render :file => "topics/_post", :locals => {:post => @serie.post} if @serie.post %>
   </p>
-
+  <%= link_to 'シリーズ情報を修正する', edit_serie_path(@serie), :class => :serie_edit %>
 </div>
-<p class="serie_ranks">
-  <b>ランキング登録:</b>
-  <%= form_for(@rank) do |f| %>
-    掲載誌:<%= select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"} %>
-  <%= text_field_tag :magazine_name %>（掲載誌とは、この漫画シリーズに対する掲載行為の発生場所を指すので、Web漫画ならWebサイト名になります）<br />
-  順位:<%= f.text_field :rank, {:size => 2, :maxlength => 2} %>
-  <%= f.hidden_field :serie_id, :value => @serie.id %>
-  <%= f.collection_select :ranking_id, @rankings, :id, :name, {:selected => (complete_ranking(1) ? 2 : 1)} %>糞漫画ランクングは1~5位までです<br />
-  <%= f.submit "登録", :confirm => "ランキング登録してよろしいですか？" %>
-<% end %>
-<p><em style="color: red;">雑誌一覧に掲載誌がない！？</em><br />1. 雑誌名で検索して下さい。検索すると、Amazonに扱いがあれば自動的に追加されます<br />2. Amazonに扱いがない場合、<a href="http://ja.wikipedia.org/" target="_blank">Wikipedia</a>を検索してページ名をコピーし、登録時に「右のボックスから雑誌を追加」を選んだ状態で右のボックスに雑誌名を入力して下さい</p>
-</p>
-<%= link_to "このシリーズに含まれるシリーズを新しく作る", new_serie_path(@serie) %>
-<p class="serie_books">
+
+<%= render :file => "topics/_topic", :locals => {:topic => @serie.topic, :i => nil} %>
+<div class="serie_books">
 <b>書籍収録情報</b>
 <% @serie.books.each do |book|%>
   <div>
-    <%= link_to image_tag((book.smallimgurl ? book.smallimgurl : 'nil_small.jpg'), :alt => book.name), book  %>
+    <%= link_to image_tag(book.smallimgurl ||  'nil_small.jpg', :alt => book.name), book  %>
     <%= link_to book.name, book %>
   </div>
   <% end %>
-</p>
-<%= link_to 'Edit', edit_serie_path(@serie) %> |
-<%= link_to 'Back', series_path %>
-<%= render :file => "topics/_topic", :locals => {:topic => @serie.topic, :i => nil} %>
+</div>

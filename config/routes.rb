@@ -7,7 +7,7 @@ Mantropy::Application.routes.draw do
   resources :browsenodeids
 
   root :to => 'home#index'
-  resources :series, :except => [:new, :show]
+  resources :series, :except => [:new, :show, :update]
   resources :posts, :except => :destroy
   resources :topics, :except => [:destroy, :show]
   resources :books, :except => :destroy
@@ -17,8 +17,12 @@ Mantropy::Application.routes.draw do
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
 
   match '/series/new(/:id)' => 'series#new', :as => 'new_serie'
-  match '/:name/series/:id' => 'series#show', :as => 'serie'
+  match '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
+  match '/:name/series/:id' => 'series#update', :as => 'serie', :via => :put
   match '/series/:id' => 'series#show'#, :as => 'serie'
+  match '/series/:id/update_author' => 'series#update_author', :via => :post
+  match '/series/:id/update_magazine' => 'series#update_magazine', :via => :post
+  match '/series/:id/update_post' => 'series#update_post', :via => :post
   match '/users/:name' => 'users#show', :as => 'user'
   match '/search' => 'series#search', :as => 'serie_search'
   match '/ranking(/:str)' => 'series#ranking', :as => 'serie_ranking'
