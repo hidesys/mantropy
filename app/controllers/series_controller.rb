@@ -268,7 +268,7 @@ class SeriesController < ApplicationController
   def update_magazine
     @serie = Serie.find(params[:id])
     if params[:mode] == "remove" then
-      @serie.magazines_series.where(:magazine_id => params[:magazine_id]).destroy_all
+      @serie.magazines.delete(Magazine.find params[:magazine_id])
     elsif params[:mode] == "add"
       m = Magazine.find_by_id(params[:magazine_id])
       @serie.magazines << m if m && !(@serie.magazines.include?(m))
