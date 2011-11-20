@@ -5,6 +5,11 @@ class SeriesController < ApplicationController
 
   def ranking
     @title = "全体ランキング"
+    @series = Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=3 ORDER BY r.rank")
+  end
+
+  def ranking_now
+    @title = "全体ランキング"
 
     unless params[:str] == "name" then
       ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 2)
