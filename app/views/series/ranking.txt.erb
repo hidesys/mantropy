@@ -1,4 +1,5 @@
 <% @series.each do |serie| %>
+<%= "順位: #{(r = serie.ranks.where(:ranking_id => 3).first).rank}　得点（重複修正）: #{r.score}　糞修正順位: #{(r = serie.ranks.where(:ranking_id => 4).first).rank}　糞修正得点: #{r.score}" %>
 <%= serie.name %>
 <%= serie.authors.map{|a| a.name}.join("　") %>
 <%= serie.magazines.select("DISTINCT name").map{|m| m.name}.join("　") %>
