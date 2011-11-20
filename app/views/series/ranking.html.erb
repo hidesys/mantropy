@@ -5,7 +5,7 @@
   <% else %>
     <p class="serie">
   <% end %>
-  <%= "順位: #{(r = serie.ranks.where(:ranking_id => 3).first).rank}　得点（重複修正）: #{r.score}　糞修正順位: #{(r = serie.ranks.where(:ranking_id => 4).first).rank}　糞修正得点: #{r.score}" %><br />
+  <%= "順位: #{(r = serie.ranks.where(:ranking_id => 3).first).rank}　得点（重複修正）: #{r.score}　重複数: #{serie.ranks.where(:ranking_id => 1).count}　糞修正順位: #{(r = serie.ranks.where(:ranking_id => 4).first).rank}　糞修正得点: #{r.score}" %><br />
   <%= link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if (count += 1) <= 30 %>
   <p class="serie_detail">
   <h2><%= link_to serie.name, serie, {:target => "_blank"} %></h2>
