@@ -26,6 +26,7 @@ class SeriesController < ApplicationController
       format.html # ranking.html.erb
       format.xml  { render :xml => @series }
       format.csv  { render :csv => @series }
+      format.txt  { render :txt => @series }
     end
   end
 
