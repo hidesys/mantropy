@@ -28,6 +28,14 @@
 </div>
 
 <%= render :file => "topics/_topic", :locals => {:topic => @serie.topic, :i => nil} %>
+<div class="serie_similar">
+  <b>似ている漫画（デモ）</b> この漫画をランキングに入れた人が他にランキングに入れてる漫画、だと。どうしてもランキング上位の漫画ばかり出てきてしまうなあ。<br />
+  <% @similar_series.each do |serie| %>
+    <%= link_to image_tag(serie_image_path(serie, :small), :alt => serie.name), serie %>
+    <%= link_to serie.name, serie %>
+    <br />
+  <% end %>
+</div>
 <div class="serie_books">
 <b>書籍収録情報</b>
 <% @serie.books.each do |book|%>
