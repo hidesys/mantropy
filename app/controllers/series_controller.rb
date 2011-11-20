@@ -6,6 +6,11 @@ class SeriesController < ApplicationController
   def ranking
     @title = "全体ランキング"
     @series = Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=3 ORDER BY r.rank")
+
+    respond_to do |format|
+      format.html # ranking.html.erb
+      format.txt  { render :txt => @series }
+    end
   end
 
   def ranking_now

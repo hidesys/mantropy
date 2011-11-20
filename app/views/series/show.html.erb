@@ -17,6 +17,15 @@
   </p>
   <%= link_to 'シリーズ情報を修正する', edit_serie_path(@serie), :class => :serie_edit %>
 </div>
+<div class="serie_ranks">
+  <% @serie.ranks.order("ranking_id DESC, rank").each do |rank| %>
+    <%= rank.ranking.name %>
+    <%= rank.rank %>位
+    <%= rank.score %>点
+    <%= link_to rank.user.name, user_path(rank.user.name) if rank.user %>
+    <br />
+  <% end %>
+</div>
 
 <%= render :file => "topics/_topic", :locals => {:topic => @serie.topic, :i => nil} %>
 <div class="serie_books">
