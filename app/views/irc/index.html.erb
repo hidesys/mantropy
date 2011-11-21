@@ -3,7 +3,7 @@
 </p>
 <%= form_tag(irc_path) do %>
   <%= text_field_tag :post, nil, :size => 80 %>
-<%= submit_tag "発言/更新" %>（空白で更新）
+<%= submit_tag "発言/更新" %>（空文字で更新）
 <% end %>
 <% require "irolog/irclog" %>
 <%=raw Irolog.new.main(params).encode("UTF-8") %>

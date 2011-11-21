@@ -5,7 +5,7 @@ class IrcController < ApplicationController
 
   def index
     @title = "Internet Relay Chat"
-    if params[:post] && params[:post] != ""
+    if params[:post] && /^[\s　]*$/ !~ params[:post]
       telnet = Net::Telnet.new("Host" => "localhost", "Port" => 6660)
       telnet.puts("NICK mantropy")
       telnet.puts("USER mantropy 0 * :mantropy")
