@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class SeriesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :search]
+  before_filter :authenticate_user!, :except => [:show, :search, :ranking]
   @title = "シリーズ"
 
   def ranking
