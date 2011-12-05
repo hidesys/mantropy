@@ -15,7 +15,7 @@ Mantropy::Application.routes.draw do
   resources :users, :only => [:index, :create, :update, :edit, :new]
   resources :magazines, :only => [:index, :update]
 
-  devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
+  devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}, :path_names => { :sign_up => "ah_atamagaaaa_buwawa" }
 
   match '/series/new(/:id)' => 'series#new', :as => 'new_serie'
   match '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
