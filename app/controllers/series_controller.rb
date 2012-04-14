@@ -5,7 +5,7 @@ class SeriesController < ApplicationController
 
   def ranking
     @title = "全体ランキング"
-    @series = Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=3 ORDER BY r.rank")
+    @series = Kaminari.paginate_array(Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=3 ORDER BY r.rank")).page(params[:page])
 
     respond_to do |format|
       format.html # ranking.html.erb
@@ -26,11 +26,11 @@ class SeriesController < ApplicationController
     else
       ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
       sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
-      @series = Serie.find_by_sql(sql)
+      @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
       render "ranking_name"
       return
     end
-    @series = Serie.find_by_sql(sql)
+    @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
 
     respond_to do |format|
       format.html # ranking.html.erb
@@ -132,8 +132,8 @@ class SeriesController < ApplicationController
       q[0] += " (s.name LIKE ? OR b.name LIKE ? OR a.name LIKE ?) AND"
       q += Array.new(3){"%#{s}%"}
     end
-    q[0] = q[0][0..(q[0].length - 4)] + " ORDER BY s.id DESC LIMIT 100"
-    @series = Serie.find_by_sql(q)
+    q[0] = q[0][0..(q[0].length - 4)] + " ORDER BY s.id"
+    @series = Kaminari.paginate_array(Serie.find_by_sql(q)).page(params[:page])
 
     if @series.length == 1
       redirect_to serie_path(@series[0])
@@ -146,7 +146,7 @@ class SeriesController < ApplicationController
   # GET /series.xml
   def index
     @title = "シリーズ一覧"
-    @series = Serie.order("id DESC").limit(100)
+    @series = Serie.order("id DESC").page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

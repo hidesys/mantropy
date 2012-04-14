@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111020200440) do
+ActiveRecord::Schema.define(:version => 20120414130449) do
 
   create_table "authorideas", :force => true do |t|
     t.integer  "identify"
@@ -219,6 +219,16 @@ ActiveRecord::Schema.define(:version => 20111020200440) do
     t.string   "privateabout"
     t.string   "joined"
     t.string   "entered"
+  end
+
+  create_table "wikis", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.string   "content"
+    t.integer  "is_private"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

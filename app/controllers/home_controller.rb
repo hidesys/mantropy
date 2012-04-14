@@ -2,10 +2,7 @@
 class HomeController < ApplicationController
   def index
     @title = "京大の漫画読みサークル 京大漫トロピー"
-  end
-
-  def about
-    @title = "京大漫トロピーについて"
+    @content = HikiDoc.to_html(Wiki.where(name: "top").order("created_at DESC").limit(1)[0].content)
   end
 
   def how_to_use

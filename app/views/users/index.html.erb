@@ -31,7 +31,7 @@ Listing users
     <td><%=  %></td>
     <td><%=  %></td>
     <td><%= link_to 'Show', user_path(user.name) %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) if user == current_user %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete if false %></td>
   </tr>
 <% end if current_user %>

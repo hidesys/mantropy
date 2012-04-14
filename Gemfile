@@ -8,6 +8,8 @@ gem 'ruby-aaws', :require => 'amazon/aws/search'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'kaminari'
+gem 'hikidoc'
 
 # Use unicorn as the web server
 # gem 'unicorn'

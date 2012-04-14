@@ -20,12 +20,12 @@
 
 <p>
   <b>twitter screen name:</b>
-  <%= @user.twitter %>
+  <%= link_to @user.twitter, "http://twitter.com/#{@user.twitter}", :target => "_blank" %>
 </p>
 
 <p>
   <b>url:</b>
-  <%= @user.url %>
+  <%= link_to @user.url, @user.url, :target => "_blank" %>
 </p>
 
 <p>
@@ -50,7 +50,7 @@
 
 <p>
   <b>.userauths.email:</b>
-  <%= @user.userauths.map{|a| a.email } %>
+  <% @user.userauths.map{|a| a.email } %>
 </p>
 
 <p>
@@ -83,5 +83,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to '編集する', edit_user_path(@user) if @user == current_user %> |
 <%= link_to 'Back', users_path %>

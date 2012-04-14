@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 	has_many :transfers
 	has_many :bookreals
 	has_many :userauths
+        has_many :wikis
   private
   def name_valid?
     errors.add(:name, '. # % : \ / を含む文字列は、ユーザー名には使えません') if name =~ /[\.\#\%\:\/\\]/

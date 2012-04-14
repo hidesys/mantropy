@@ -1,0 +1,28 @@
+<%=raw @content %>
+
+<% if current_user %>
+  <hr />
+  <h2>情報</h2>
+  <p>
+    <b>内部のみ？:</b>
+    <%= @wiki.is_private ? "はい" : "いいえ" %>
+  </p>
+  <p>
+    <b>編集者:</b>
+    <%= @wiki.user.name %>
+  </p>
+  <%= link_to '編集する', new_wiki_path(id: @wiki.id) %>
+  <p>
+  <h2>全ての版</h2>
+  <% @wikis.each do |wiki| %>
+    <p>
+      <%= link_to wiki.created_at, wiki %>
+      <%= link_to wiki.title, wiki %>
+      <%= link_to (user_name = wiki.user.name), user_path(user_name) %>
+      <%= @wiki == wiki ? "<= 閲覧中" : nil %>
+    </p>
+  <% end %>
+  </p>
+  <%= link_to "Wikiページ一覧に戻る", wikis_path %>
+<% end %>
+
