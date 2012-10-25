@@ -1,0 +1,15 @@
+= link_to '検索しても出てこない雑誌に掲載された読み切りや・Web漫画などの新しい漫画シリーズを作成する', new_serie_path if current_user
+= paginate @series
+- @series.each do |serie|
+  %p.serie
+    = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"}
+  %p.serie_detail
+  %h2= link_to serie.name, serie, {:target => "_blank"}
+  = link_to 'Destroy', serie, :confirm => 'Are you sure?', :method => :delete if current_user && current_user.name == "hidesys"
+  .serie_books
+    - serie.books.each do |book|
+      = link_to book.name, book
+      %br/
+    %br{:style => "clear: both;"}/
+= paginate @series
+= link_to '検索しても出てこない雑誌に掲載された読み切りや・Web漫画などの新しい漫画シリーズを作成する', new_serie_path if current_user

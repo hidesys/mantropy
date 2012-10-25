@@ -1,0 +1,19 @@
+%h1 Listing browsenodeids
+%table
+  %tr
+    %th Node
+    %th Name
+    %th Ancestor
+    %th
+    %th
+    %th
+  - @browsenodeids.each do |browsenodeid|
+    %tr
+      %td= browsenodeid.node
+      %td= browsenodeid.name
+      %td= browsenodeid.ancestor
+      %td= link_to 'Show', browsenodeid
+      %td= link_to 'Edit', edit_browsenodeid_path(browsenodeid)
+      %td= link_to 'Destroy', browsenodeid, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Browsenodeid', new_browsenodeid_path

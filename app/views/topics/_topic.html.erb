@@ -18,6 +18,8 @@
 </dl>
 
 <dl>
-  <%= render :file => "topics/_new_post", :locals => {:topic => topic} %>
+  <% if current_user %>
+    <%= render :file => "topics/_new_post", :locals => {:topic => topic} %>
+  <% end %>
 </dl>
 </div>

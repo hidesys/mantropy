@@ -1,0 +1,107 @@
+!!!
+%html{:lang => "ja"}
+  %head
+    %title
+      = title
+      \-漫トロピーWeb
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "text/css", "http-equiv" => "Content-Style-Type"}/
+    = stylesheet_link_tag :all
+    = javascript_include_tag :defaults
+    = csrf_meta_tag
+  %body{:style => "background-color:#{(Rails.env == "development" ? "black" : "#EFEFEF;")}"}
+    #body{:align => "center"}
+      #wrapper{:style => "width: #{width}px;"}
+        %table{:bgcolor => "white", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => width}
+          %tr{:width => "100%"}
+            %td{:align => "left"}
+              %font{:size => "-1"}
+                = link_to "トップ", root_path, :class => :head
+                = link_to "活動内容", "/about", :class => :head
+                = link_to "メンバー", users_path, :class => :head
+                = link_to "ランキング", serie_ranking_path(Ranking.find(1).name), :class => :head
+                - if current_user
+                  \- #{link_to "掲示板", topics_path, :class => :head}
+                  \#{link_to "IRC", irc_path, :class => :head}
+                  \#{link_to "(糞)", serie_ranking_path(Ranking.find(2).name), :class => :head}
+                  \#{link_to "漫画一覧", series_path, :class => :head}
+                  | #{link_to "Wiki", wikis_path, :class => :head}
+                  %a.head{:href => "http://wiki.livedoor.jp/mantropy/", :target => "_blank"} (旧Wiki)
+                  %a.head{:href => "http://skydrive.live.com/", :target => "_blank"} SkyDrive
+                  \-
+                - else
+                  |
+                - #<a href="http://mantropy.seesaa.net/" target="_blank"><font color=blue>例会報告ブログ</font></a>
+                  %a.head{:href => "http://twitter.com/mantropy/mantropy", :target => "_blank"} タイムライン
+            %td{:align => "right"}
+              %font{:size => "-1"}
+                - unless current_user
+                  = link_to 'ログイン', [:new, :userauth_session], :class => :head
+                  = link_to 'ユーザー登録', [:new, :userauth_registration], :class => :head if false
+                - else
+                  = link_to 'ログアウト', destroy_userauth_session_path, {:method => :delete, :class => :head}
+          %tr
+            %td{:colspan => "2", :height => "2"}
+          %tr
+            %td{:bgcolor => "silver", :colspan => "2", :height => "2"}
+          %tr
+            %td{:colspan => "2", :height => "5"}
+        %table{:bgcolor => "white", :cellpadding => "0", :cellspacing => "0", :width => width}
+          = form_tag(serie_search_path, {:method => :get}) do
+            %tr{:width => "100%"}
+              %td{:align => "left", :rowspan => "2", :width => "170"}
+                %a{:href => "/"}
+                  %img{:alt => "漫トロピーWebロゴ", :border => "0", :src => "/images/logo.png", :width => "164"}/
+              %td{:align => "left", :nowrap => "", :valign => "bottom"}
+                = text_field_tag :str, @str, {:size => 55, :title => "漫トロピーWeb検索", :style => "font-size: 12pt"}
+                = submit_tag "検索"
+                %font{:size => "-1"}
+                  　
+                  %a{:href => ""} 検索オプション
+            %tr
+              %td{:align => "left"}
+                %font{:size => "-1"}
+                  - if current_user
+                    %label
+                      = radio_button_tag :scope, "amazon_all"
+                      Amazonからいっぱい検索
+                    %label
+                      = radio_button_tag :scope, "amazon", true
+                      密林もちょっと
+                  - else
+                    　　　　
+                    %label
+                      = radio_button_tag :scope, "amazon", true
+                      ぎも゛ぢいぃ゛いぃ゛ぃ
+                  %label
+                    = radio_button_tag :scope, "mantropy",
+                    漫トロピーWebだけ
+                  - if current_user
+                    %label
+                      = radio_button_tag :scope, "mine"
+                      自分のを探す
+            %tr
+              %td{:colspan => "2", :height => "10"}
+        %table{:cellpadding => "0", :cellspacing => "0", :style => "margin: 0px;", :width => width}
+          %tr{:width => "100%"}
+            %td{:align => "left", :bgcolor => "cyan", :colspan => "2", :height => "1", :width => "1024"}
+          %tr
+            %td{:align => "left", :bgcolor => "aliceblue", :height => "24", :nowrap => "", :valign => "middle"}= title
+            %td{:align => "right", :bgcolor => "aliceblue", :nowrap => "", :valign => "middle"}
+              - if current_user
+                おはようございます、
+                %b>= current_user.name
+                さん
+              - else
+                ウレピー！
+        #main{:align => align, :style => "width:#{width}px;"}
+          %p.notice= notice
+          %p.alert= alert
+          / ここまでが自動生成ヘッダ
+          = yield
+          / ここから自動生成フッダ
+      %small
+        \&copy;
+        %a{:href => "/", :target => "_blank"} 京大漫トロピー
+      %br/
+    ページの終わり。。。 #{"Logined as #{current_user.name}" if current_user}

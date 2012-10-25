@@ -1,0 +1,17 @@
+= form_tag :action => :merge do
+  = select_tag :to, options_from_collection_for_select(@magazines, :id, :name, nil)
+  に
+  \#{select_tag :with, options_from_collection_for_select(@magazines, :id, :name, nil)}を
+  \#{submit_tag "統合する", :confirm => "！危険！　雑誌の統合は元に戻せません！　実行して本当によろしいですか？？ "}
+%hr/
+- @magazines.each do |magazine|
+  = form_for magazine, :action => :update do |f|
+    = magazine.id
+    = f.text_field :name
+    = f.text_field :publisher
+    = f.submit "変更"
+    %br/
+    - magazine.series.select("DISTINCT *").limit(4) .each do |serie|
+      = link_to serie.name, serie_path(serie)
+    %br/
+    %br/

@@ -1,0 +1,71 @@
+.serie_image
+  = image_tag(serie_image_path(@serie, :large), :alt => @serie.name)
+.serie_detail
+  %h1
+    = @serie.name
+    シリーズ情報修正
+  %p.serie_authors
+    = form_for(@serie) do |f|
+      %b タイトル:
+      = f.text_field :name
+      = f.submit "変更"
+  %p.serie_authors
+    %b 著者:
+    - @serie.authors.each do |a|
+      = form_tag :action => :update_author, :method => :post do
+        = a.name
+        = hidden_field_tag :mode, :remove
+        = hidden_field_tag :author_id, a.id
+        = submit_tag "取り除く", :confirm => "#{a.name} を #{@serie.name} から取り除いてよろしいですか？"
+    - end if @serie.authors
+    = form_tag :action => :update_author, :method => :post do
+      = hidden_field_tag :mode, "add"
+      = text_field_tag :author_name
+      = submit_tag "追加する"
+  %p.serie_magazines
+    %b 掲載誌:
+    - @serie.magazines.each do |m|
+      = form_tag :action => :update_magazine, :method => :post do
+        = m.name
+        = hidden_field_tag :mode, :remove
+        = hidden_field_tag :magazine_id, m.id
+        = submit_tag "取り除く", :confirm => "#{m.name} を #{@serie.name} から取り除いてよろしいですか？"
+    - end if @serie.magazines
+    = form_tag :action => :update_magazine, :method => :post do
+      = hidden_field_tag :mode, :add
+      = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, nil)
+      = submit_tag "追加する"
+  %p.serie_post
+    %b 細部:
+    = form_tag :action => :update_post, :method => :post do
+      %dt
+        = hidden_field_tag "post[topic_id]", @serie.topic_id
+        = submit_tag "書き込み"
+        E-mail： #{text_field_tag "post[email]"}
+      %dd
+        = text_area_tag "post[content]", nil, {:rows => 5, :cols => 64}
+%hr/
+= link_to 'Show', @serie
+|
+\#{link_to 'Back', series_path}
+%p.serie_ranks
+  %b ランキング登録:
+  = form_for(Rank.new) do |f|
+    掲載誌:#{select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}}
+    \#{text_field_tag :magazine_name}（掲載誌とは、この漫画シリーズに対する掲載行為の発生場所を指すので、Web漫画ならWebサイト名になります）
+    %br/
+    順位:#{f.text_field :rank, {:size => 2, :maxlength => 2}}
+    \#{f.hidden_field :serie_id, :value => @serie.id}
+    \#{f.collection_select :ranking_id, Ranking.all, :id, :name, {:selected => (complete_ranking(1) ? 2 : 1)}}糞漫画ランクングは1~5位までです
+    %br/
+    = f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
+  %p
+    %em{:style => "color: red;"} 雑誌一覧に掲載誌がない！？
+    = succeed "1." do
+      %br/
+    雑誌名で検索して下さい。検索すると、Amazonに扱いがあれば自動的に追加されます
+    %br>/
+    2. Amazonに扱いがない場合、
+    %a{:href => "http://ja.wikipedia.org/", :target => "_blank"}> Wikipedia
+    を検索してページ名をコピーし、登録時に「右のボックスから雑誌を追加」を選んだ状態で右のボックスに雑誌名を入力して下さい
+= link_to "このシリーズに含まれるシリーズを新しく作る", new_serie_path(@serie)

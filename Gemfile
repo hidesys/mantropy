@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem "haml"
+gem "erb2haml"
 gem 'rails', '3.0.7'
 gem 'devise'
 gem 'ruby-aaws', :require => 'amazon/aws/search'

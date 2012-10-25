@@ -1,0 +1,19 @@
+- count = 0
+- @series.each do |serie|
+  - if current_user && serie.ranks.where(:ranking_id => 1).map{|r| r.user_id}.include?(current_user.id)
+    %p.serie{:style => "background-color: cyan;"}
+  - else
+    %p.serie
+  = "順位: #{(r = serie.ranks.where(:ranking_id => 3).first).rank}　得点（重複修正）: #{r.score}　重複数: #{serie.ranks.where(:ranking_id => 1).count}　糞修正順位: #{(r = serie.ranks.where(:ranking_id => 4).first).rank}　糞修正得点: #{r.score}"
+  %br/
+  = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if (count += 1) <= 30
+  %p.serie_detail
+  %h2= link_to serie.name, serie, {:target => "_blank"}
+  = serie.authors.map{|a| a.name}
+  = serie.magazines.select("DISTINCT *").map{|m| m.name}
+  %br/
+  - serie.ranks.where(:ranking_id => [1,2]).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.each do |r|
+    = link_to "#{r.user.name} (#{r.ranking_id == 2 ? "糞" : nil}#{r.rank}位)", user_path(r.user.name)
+  %br{:style => "clear: both;"}/
+- end if @series
+= paginate @series

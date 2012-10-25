@@ -1,0 +1,10 @@
+%dl.post
+  %dt.post
+    = post.order
+    \:
+    名前：
+    %b= link_to post.user.name, user_path(post.user.name), :title => post.email
+    = post.created_at.localtime.strftime("%Y/%m/%d (%A) %H:%M:%S")
+    %small{:style => "color: gray;"}= post.id
+  %dd.post= auto_link simple_format(post.content)
+  </dl
