@@ -60,8 +60,9 @@ class RanksController < ApplicationController
       s.save
     end
 
-    if complete_ranking(1) && params[:rank][:ranking_id] == "1" then
-      redirect_to(root_path, :notice => "ランキングの変更はできません")
+    #complete_ranking(1)
+    if ["1", "2", "3", "4"].include? params[:rank][:ranking_id] then
+      redirect_to(user_path(current_user.name), :notice => "ランキングの変更はできません")
       return
     end
 

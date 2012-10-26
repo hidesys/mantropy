@@ -20,6 +20,7 @@ class UsersController < ApplicationController
       return
     end
     @title = "#{@user.name}"
+    @ranks = @user.ranks.where(:ranking_id => 5)
 
     respond_to do |format|
       format.html # show.html.erb

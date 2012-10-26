@@ -47,6 +47,7 @@ class WikisController < ApplicationController
     else
       @wiki = Wiki.new
     end
+    @notation = @@notation
 
     respond_to do |format|
       format.html # new.html.erb
@@ -57,6 +58,7 @@ class WikisController < ApplicationController
   # GET /wikis/1/edit
   def edit
     @wiki = Wiki.find(params[:id])
+    @notation = @@notation
   end
 
   # POST /wikis
@@ -105,7 +107,7 @@ class WikisController < ApplicationController
     end
   end
 
-@@notation = <<EoN
+  @@notation = <<EoN
 !Hiki記法の使い方
 !!パラグラフ
 *連続した複数器用は連結されて1つのパラグラフになります。
@@ -288,5 +290,6 @@ class WikisController < ApplicationController
 ||項目1-1||項目2-2||項目3-3
 ||1234||25||5
 ||あいうえお||かきくけこ||さしすせそ
+anal
 EoN
 end

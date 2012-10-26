@@ -45,7 +45,7 @@ class SeriesController < ApplicationController
     @title = "#{str} の検索結果"
     @str = str
 
-    begin
+    #begin
      if params[:scope] == "amazon_all" && current_user
         aaawss = Aaaws.search(str, 4)
       elsif params[:scope] == "amazon" && current_user
@@ -55,9 +55,9 @@ class SeriesController < ApplicationController
       else
         aaawss = AaawsResponseArray.new
       end
-    rescue
-        aaawss = AaawsResponseArray.new
-    end
+    #rescue
+        #aaawss = AaawsResponseArray.new
+    #end
 
     aaawss.node_lists.each do |n|
       unless Browsenodeid.where(:node => n[0], :name => n[1], :ancestor => n[2]).exists?
