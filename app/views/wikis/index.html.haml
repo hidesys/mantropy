@@ -9,9 +9,9 @@
     %th
   - @wikis.each do |wiki|
     %tr
-      %td= link_to wiki.name, wiki
-      %td= link_to wiki.title, wiki
-      %td= link_to wiki.content[0..100], wiki
+      %td= link_to wiki.name, wiki_path(name: wiki.name)
+      %td= link_to wiki.title, wiki_path(name: wiki.name)
+      %td= link_to wiki.content[0..100], wiki_path(name: wiki.name)
       %td= wiki.is_private
       %td= link_to wiki.user.name, user_path(wiki.user.name)
       %td= link_to 'Show', wiki

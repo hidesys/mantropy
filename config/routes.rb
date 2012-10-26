@@ -15,7 +15,7 @@ Mantropy::Application.routes.draw do
   resources :ranks
   resources :users, :only => [:index, :create, :update, :edit, :new]
   resources :magazines, :only => [:index, :update]
-  resources :wikis, :only => [:show, :index, :create, :new]
+  resources :wikis, :only => [:index, :create, :new]
 
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}, :path_names => { :sign_up => "ah_atamagaaaa_buwawa" }
 
@@ -33,7 +33,7 @@ Mantropy::Application.routes.draw do
   match '/robots' => 'home#robots'
   match '/topics/:id(/((:from)(-:to))(|:top))' => 'topics#show', :as => "topic"
   match '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge', :via => :post
-  get '/:name' => 'wikis#show'
+  get '/:name' => 'wikis#show', :as => "wiki"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -16,7 +16,7 @@ class WikisController < ApplicationController
   # GET /wikis/1
   # GET /wikis/1.xml
   def show
-    @wiki = Wiki.where(id: params[:id]).order("created_at DESC").limit(1)
+    @wiki = Wiki.where(name: params[:name]).order("created_at DESC").limit(1)
     if @wiki.empty?
       @wiki = Wiki.where(name: params[:name]).order("created_at DESC").limit(1)[0]
     else
