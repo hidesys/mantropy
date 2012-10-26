@@ -1,9 +1,0 @@
-<p>
-便利なIRC専用クライアントでチャットに参加する方法は<a href="how_to_join_irc.pdf" target="_blank">こちら(pdf)</a>
-</p>
-<%= form_tag(irc_path) do %>
-  <%= text_field_tag :post, nil, :size => 80 %>
-<%= submit_tag "発言/更新" %>（空文字で更新）
-<% end %>
-<% require "irolog/irclog" %>
-<%=raw Irolog.new.main(params).encode("UTF-8") %>

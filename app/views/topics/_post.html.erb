@@ -1,9 +1,0 @@
-<dl class="post">
-  <dt class="post">
-    <%= post.order %>:
-    名前：<b><%= link_to post.user.name, user_path(post.user.name), :title => post.email %></b>
-    <%= post.created_at.localtime.strftime("%Y/%m/%d (%A) %H:%M:%S") %>
-    <small style="color: gray;"><%= post.id %></small>
-  </dt>
-  <dd class="post"><%= auto_link simple_format(post.content) %></dd>
-</dl

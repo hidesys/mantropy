@@ -1,8 +1,0 @@
-<% @series.each do |serie| %>
-  <%= "順位: #{(r = serie.ranks.where(:ranking_id => 3).first).rank}　得点（重複修正）: #{r.score}　重複数: #{serie.ranks.where(:ranking_id => 1).count}　糞修正順位: #{(r = serie.ranks.where(:ranking_id => 4).first).rank}　糞修正得点: #{r.score}" %>
-<%= serie.name %>
-<%= serie.authors.map{|a| a.name}.join("　") %>
-<%= serie.magazines.select("DISTINCT name").map{|m| m.name}.join("　") %>
-<%=raw serie.topic.posts.map{|p| "#{p.content.gsub(/([^。、\s　])[\r\n]/, "\\1\s\n").gsub(/[\r\n]/, "").gsub(/\>\>\s?(\d+)/) {">>#{p.topic.posts.where(:order => $1).first.user.name}"}}（#{(u = p.user).name}#{(r =u.ranks.where(:serie_id => serie.id).first) ? "：#{r.ranking_id == 1 ? r.rank : "糞#{r.rank}"}位" : nil}）"}.join("　") if (t = serie.topic) && t.posts %>
-
-<% end %>
