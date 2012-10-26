@@ -13,7 +13,7 @@
     = render :file => "topics/_post", :locals => {:post => @serie.post} if @serie.post
   = link_to 'シリーズ情報を修正する', edit_serie_path(@serie), :class => :serie_edit
 .serie_ranks
-  - @serie.ranks.order("ranking_id DESC, rank").each do |rank|
+  - @ranks.each do |rank|
     = rank.ranking.name
     = rank.rank
     位
