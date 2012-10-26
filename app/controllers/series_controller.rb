@@ -227,7 +227,7 @@ class SeriesController < ApplicationController
 
     respond_to do |format|
       if @serie.save
-        format.html { redirect_to(@serie, :notice => 'Serie was successfully created.') }
+        format.html { redirect_to(root_path, :notice => 'Serie was successfully created.') }
         format.xml  { render :xml => @serie, :status => :created, :location => @serie }
       else
         format.html { render :action => "new" }
