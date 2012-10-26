@@ -54,9 +54,11 @@
     掲載誌:#{select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}}
     \#{text_field_tag :magazine_name}（掲載誌とは、この漫画シリーズに対する掲載行為の発生場所を指すので、Web漫画ならWebサイト名になります）
     %br/
-    順位:#{f.text_field :rank, {:size => 2, :maxlength => 2}}
-    \#{f.hidden_field :serie_id, :value => @serie.id}
-    \#{f.collection_select :ranking_id, Ranking.all, :id, :name, {:selected => (complete_ranking(1) ? 2 : 1)}}糞漫画ランクングは1~5位までです
+    順位:
+    = f.text_field :rank, {:size => 2, :maxlength => 2}
+    = f.hidden_field :serie_id, :value => @serie.id
+    = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => 5}
+    糞漫画ランクングは1~5位までです
     %br/
     = f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
   %p
