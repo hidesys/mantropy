@@ -42,7 +42,7 @@
 %p
   %h2 ランキング
   - ranks = []
-  - if complete_ranking(5) || current_user == @user
+  - if @do_show_ranking
     - @ranks.sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}.each do |rank|
       = content_tag :b, '警告！　順位が重複してるので削除して下さい！', :style => "background-color: red;" if ranks.include? rank.rank  && rank.ranking_id == 1
       - next unless rank.serie
@@ -56,7 +56,7 @@
           = link_to author.name, serie_search_path(:str => author.name)
       = link_to rank.serie.magazines.select("DISTINCT *").map{|m| m.name} if rank.serie.magazines
       = link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks if @user == current_user && rank.ranking_id == 5
-    %br/
+      %br/
   %a{:href => "/"}= content_tag :b, '個人ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(1, 1..30, @user)
   %a{:href => "/"}= content_tag :b, '糞漫画ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(2, 1..5, @user)
 = link_to '編集する', edit_user_path(@user) if @user == current_user
