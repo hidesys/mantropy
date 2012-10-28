@@ -13,8 +13,8 @@
   %h2 全ての版
   - @wikis.each do |wiki|
     %p
-      = link_to wiki.created_at, wiki
-      = link_to wiki.title, wiki
+      = link_to wiki.created_at, wiki_path(:id => wiki.id)
+      = link_to wiki.title, wiki_path(:id => wiki.id)
       = link_to (user_name = wiki.user.name), user_path(user_name)
       = @wiki == wiki ? "<= 閲覧中" : nil
   = link_to "Wikiページ一覧に戻る", wikis_path

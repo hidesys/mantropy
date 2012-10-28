@@ -16,12 +16,13 @@ class WikisController < ApplicationController
   # GET /wikis/1
   # GET /wikis/1.xml
   def show
-    @wiki = Wiki.where(name: params[:name]).order("created_at DESC").limit(1)
-    if @wiki.empty?
-      @wiki = Wiki.where(name: params[:name]).order("created_at DESC").limit(1)[0]
+    @wiki = nil
+    if !params[:id]
+      @wiki = Wiki.where(name: params[:name]).order("created_at DESC").limit(1).first
     else
-      @wiki = @wiki[0]
+      @wiki = Wiki.find(params[:id])
     end
+
     if @wiki == nil then
       redirect_to root_path, :alreat => "該当するページがありません"
     elsif ! current_user && Wiki.where(name: @wiki.name, created_at: Wiki.where(name: @wiki.name).maximum(:created_at))[0].is_private
@@ -70,7 +71,7 @@ class WikisController < ApplicationController
 
     respond_to do |format|
       if @wiki.save
-        format.html { redirect_to(@wiki, :notice => 'Wiki was successfully created.') }
+        format.html { redirect_to(wiki_path(:name => @wiki.name, :id => @wiki.id), :notice => 'Wiki was successfully created.') }
         format.xml  { render :xml => @wiki, :status => :created, :location => @wiki }
       else
         format.html { render :action => "new" }
