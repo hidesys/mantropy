@@ -312,6 +312,7 @@ class SeriesController < ApplicationController
   end
 
   def remove_duplications
-    @series = Serie.select("DISTINCT series.*").joins(:ranks).where(ranks: {ranking_id: params[:ranking_id]}).order(:name).page(params[:page]).per(1000)
+    order_by = params[:order_by] || {:authors => :name}
+    @series = Serie.select("DISTINCT series.*").joins(:ranks).joins(:authors).where(ranks: {ranking_id: params[:ranking_id]}).order().page(params[:page]).per(1000)
   end
 end

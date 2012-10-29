@@ -33,7 +33,7 @@ Mantropy::Application.routes.draw do
   match '/robots' => 'home#robots'
   match '/topics/:id(/((:from)(-:to))(|:top))' => 'topics#show', :as => "topic"
   match '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge', :via => :post
-  get '/remove_duplications/:ranking_id' => "series#remove_duplications"
+  get '/remove_duplications/:ranking_id(/:order_by)' => "series#remove_duplications"
   get '/:name' => 'wikis#show', :as => "wiki"
 
   # The priority is based upon order of creation:
