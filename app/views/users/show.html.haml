@@ -57,7 +57,7 @@
       = link_to rank.serie.magazines.select("DISTINCT *").map{|m| m.name} if rank.serie.magazines
       = link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks if @user == current_user && rank.ranking_id == 5
       %br/
-  %a{:href => "/"}= content_tag :b, '個人ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(1, 1..30, @user)
+  %a{:href => "/"}= content_tag :b, '個人ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(5, 1..30, @user)
   %a{:href => "/"}= content_tag :b, '糞漫画ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(2, 1..5, @user)
 = link_to '編集する', edit_user_path(@user) if @user == current_user
 |

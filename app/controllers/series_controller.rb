@@ -55,7 +55,10 @@ class SeriesController < ApplicationController
       else
         aaawss = AaawsResponseArray.new
       end
-    rescue
+    rescue => evar
+        if Rails.env == "development"
+          raise evar
+        end
         aaawss = AaawsResponseArray.new
     end
 
