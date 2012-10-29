@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     end
     @title = "#{@user.name}"
     @ranks = @user.ranks.where(:ranking_id => 5)
-    @do_show_ranking = current_user == @user || complete_ranking(5) || User.where(:name => ["hidesys", "zeki", "オグリビー", "ななせ"]).include?(current_user)
+    @do_show_ranking = current_user == @user || complete_ranking(5) || User.where(:name => ["hidesys", "zeki", "オグリビー", "ななせ", "ふわふわ"]).include?(current_user)
 
     respond_to do |format|
       format.html # show.html.erb
