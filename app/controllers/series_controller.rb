@@ -310,4 +310,9 @@ class SeriesController < ApplicationController
 
     redirect_to @serie
   end
+
+  def remove_duplications
+    @series = Serie.select("DISTINCT series.*").joins(:ranks).where(ranks: {ranking_id: params[:ranking_id]}).order(:name).page(params[:page]).per(100)
+    render "index"
+  end
 end
