@@ -16,21 +16,41 @@ class SeriesController < ApplicationController
   def ranking_now
     @title = "全体ランキング"
 
-    unless params[:str] == "name" then
-      ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 2)
-      unless ranking_id == 2 then
-        sql = "SELECT s.id, s.name, \"コメント数:\"||(COALESCE((SELECT COUNT(*) FROM topics t INNER JOIN posts p ON t.id = p.topic_id WHERE t.id = s.topic_id),0))||\"　純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC, rs.count DESC"
-      else
-        sql = "SELECT s.id, s.name, \"純得点: \"||rs.mark||\"　補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rk.count,0)) AS url, (rs.mark + COALESCE(rk.mark,0)) AS amark FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=1 and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id LEFT JOIN (SELECT (SUM(rank - 6) * 2 + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=2 GROUP BY serie_id) rk ON s.id = rk.serie_id order by amark DESC, rk.count DESC"
+    ranking_id = Ranking.find_by_name(params[:str])
+    ranking_id ||= 5
+    #sql = "SELECT s.id, s.name, \"コメント数:\"||(COALESCE((SELECT COUNT(*) FROM topics t INNER JOIN posts p ON t.id = p.topic_id WHERE t.id = s.topic_id),0))||\"　純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC, rs.count DESC"
+    sql = "SELECT s.id, s.name, " +
+      "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0)) AS url, " +
+      "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
+      "FROM series s " +
+      "INNER JOIN (" +
+      "SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=5 GROUP BY serie_id" +
+      ") rs ON s.id=rs.serie_id " +
+      "LEFT JOIN (" +
+      "SELECT (SUM(rank - 6) * 2 + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=6 GROUP BY serie_id" +
+      ") rk ON s.id = rk.serie_id " +
+      "order by amark DESC, rs.count DESC, rk.count DESC"
+    #ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
+    #sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
+    #@series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
+    #render "ranking_name"
+    #return
+    @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page]).per(1000)
+    rank = rank_ = sum_of_mark = count_users = sum_of_mark_ = count_users_ = 0
+    @series.map! do |serie|
+      rank_ += 1
+      if /^合計得点\:\s(\d+).+　重複数\:\s(\d+).+/ =~ serie.url
+        sum_of_mark = $1
+        count_users = $2
+        if !(sum_of_mark == sum_of_mark_ && count_users == count_users_)
+          rank = rank_
+        end
+        sum_of_mark_ = sum_of_mark
+        count_users_ = count_users
       end
-    else
-      ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
-      sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
-      @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
-      render "ranking_name"
-      return
+      serie.url = "順位: #{rank}　#{serie.url}"
+      serie
     end
-    @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
 
     respond_to do |format|
       format.html # ranking.html.erb
@@ -193,7 +213,7 @@ class SeriesController < ApplicationController
   # GET /series/1/edit
   def edit
     @serie = Serie.find(params[:id])
-    @rankings = Ranking.where(:id => 5)
+    @rankings = Ranking.where(:id => [5, 6])
 
     ma = @serie.magazine_ids.uniq.clone
     @serie.magazines.clear
@@ -312,7 +332,7 @@ class SeriesController < ApplicationController
   end
 
   def remove_duplications
-    order_by = params[:order_by] || "authors.name"
-    @series = Serie.select("DISTINCT series.*").joins(:ranks).joins(:authors).where(ranks: {ranking_id: params[:ranking_id]}).order(order_by).page(params[:page]).per(1000)
+    order_by = (params[:order_by] ? params[:order_by].gsub(/\_/, ".") : nil) || "authors.name"
+    @series = Serie.select("DISTINCT series.*").includes(:ranks, :authors).where(ranks: {ranking_id: params[:ranking_id]}).order(order_by).page(params[:page]).per(1000)
   end
 end

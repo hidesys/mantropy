@@ -57,7 +57,7 @@
     順位:
     = f.text_field :rank, {:size => 2, :maxlength => 2}
     = f.hidden_field :serie_id, :value => @serie.id
-    = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => 5}
+    = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => (complete_ranking(5) ? 6 : 5)}
     糞漫画ランクングは1~5位までです
     %br/
     = f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
