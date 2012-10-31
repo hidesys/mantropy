@@ -9,6 +9,7 @@
   - @users.each do |user|
     = link_to (user.name), user_path(user.name)
     %a{:href => "/"}= content_tag :b, '個人ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(5, 1..30, user)
+    %a{:href => "/"}= content_tag :b, '糞漫画ランキングが不十分です。提出はまだ完了していません', :style => "background-color: yellow;" unless complete_ranking(6, 1..5, user)
     %br/
 %br{:style => "clear: both;"}/
 %br/
