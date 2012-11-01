@@ -16,47 +16,76 @@ class SeriesController < ApplicationController
   def ranking_now
     @title = "全体ランキング"
 
-    ranking_id = Ranking.find_by_name(params[:str])
-    ranking_id ||= 5
     #sql = "SELECT s.id, s.name, \"コメント数:\"||(COALESCE((SELECT COUNT(*) FROM topics t INNER JOIN posts p ON t.id = p.topic_id WHERE t.id = s.topic_id),0))||\"　純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC, rs.count DESC"
-    sql = "SELECT s.id, s.name, " +
-      "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0)) AS url, " +
-      "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
-      "FROM series s " +
-      "INNER JOIN (" +
-      "SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=5 GROUP BY serie_id" +
-      ") rs ON s.id=rs.serie_id " +
-      "LEFT JOIN (" +
-      "SELECT (SUM(rank - 6) * 2 + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=6 GROUP BY serie_id" +
-      ") rk ON s.id = rk.serie_id " +
-      "order by rs.mark DESC, rs.count DESC, rk.count DESC"
     #ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
     #sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
     #@series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
     #render "ranking_name"
     #return
-    @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page]).per(1000)
-    rank = rank_ = sum_of_mark = count_users = sum_of_mark_ = count_users_ = 0
-    @series.map! do |serie|
-      rank_ += 1
-      if /^合計得点\:\s(\d+).+　重複数\:\s(\d+).+/ =~ serie.url
-        sum_of_mark = $1
-        count_users = $2
-        if !(sum_of_mark == sum_of_mark_ && count_users == count_users_)
-          rank = rank_
-        end
-        sum_of_mark_ = sum_of_mark
-        count_users_ = count_users
-      end
-      serie.url = "順位: #{rank}　#{serie.url}"
-      serie
-    end
 
-    respond_to do |format|
-      format.html # ranking.html.erb
-      format.xml  { render :xml => @series }
-      format.csv  { render :csv => @series }
-      format.txt  { render :txt => @series }
+    ranking = Ranking.find_by_name(params[:str]) || Ranking.find(params[:str])
+    ranking_id = ranking ? ranking.id : 5
+    is_ranking_now = [1, 2, 5, 6].include? ranking_id
+    if is_ranking_now
+      ranking_id_plus = {1 => 1, 2 => 1, 5 => 5, 6 => 5}[ranking_id]
+      ranking_id_minus = {1 => 2, 2 => 2, 5 => 6, 6 => 6}[ranking_id]
+      sql = "SELECT s.id, s.name, " +
+        "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0)) AS url, " +
+        "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
+        "FROM series s " +
+        "INNER JOIN (" +
+        "SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=#{ranking_id_plus} GROUP BY serie_id" +
+        ") rs ON s.id=rs.serie_id " +
+        "LEFT JOIN (" +
+        "SELECT (SUM(rank - 6) * 2 + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=#{ranking_id_minus} GROUP BY serie_id" +
+        ") rk ON s.id = rk.serie_id"
+      if ranking_id == ranking_id_plus
+        sql += " order by rs.mark DESC, rs.count DESC, rk.count DESC"
+      else ranking_id == ranking_id_minus
+        sql += " order by amark DESC, rs.count DESC, rk.count DESC"
+      end
+
+      @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page]).per(1000)
+      @series.map! do |serie|
+        if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)$/ =~ serie.url
+          serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4}
+        end
+        serie
+      end
+      if ranking_id == ranking_id_plus
+        rank = rank_ = sum_of_mark = count_rank = 0
+        @series.map! do |serie|
+          rank_ += 1
+          if !(serie.url[:sum_of_mark] == sum_of_mark && serie.url[:count_rank] == count_rank)
+            rank = rank_
+          end
+          sum_of_mark = serie.url[:sum_of_mark]
+          count_rank = serie.url[:count_rank]
+          serie.url[:rank] = rank
+          serie
+        end
+      else ranking_id == ranking_id_minus
+        rank = rank_ = sum_of_mark_with_kuso = count_kuso = 0
+        @series.map! do |serie|
+          rank_ += 1
+          if !(serie.url[:sum_of_mark_with_kuso] == sum_of_mark_with_kuso && serie.url[:count_kuso] == count_kuso)
+            rank = rank_
+          end
+          sum_of_mark_with_kuso = serie.url[:sum_of_mark_with_kuso]
+          count_kuso = serie.url[:count_kuso]
+          serie.url[:rank] = rank
+          serie
+        end
+      end
+
+      respond_to do |format|
+        format.html # ranking_now.html.erb
+        format.xml  { render :xml => @series }
+        format.csv  { render :csv => @series }
+        format.txt  { render :txt => @series }
+      end
+    else
+      redirect_to root_path
     end
   end
 

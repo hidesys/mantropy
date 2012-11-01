@@ -1,0 +1,4 @@
+<%- @users.each do |user| -%>
+アカウント名,順位,serie_id,タイトル,漫画家,雑誌
+<%- user.ranks.where(ranking_id: [5, 6]).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}.each do |rank| -%><%= user.name -%>,<%= rank.ranking_id == 5 ? nil : "糞" -%><%= rank.rank -%>,<%= serie.id -%>,<%= rank.serie.name -%>,<%= rank.serie.authors.map{|a| a.name}.join("　") if rank.serie.authors -%>,<%= rank.serie.magazines.select("DISTINCT *").map{|m| m.name}.join("　") if rank.serie.magazines %>
+<%- end -%><%- end -%>

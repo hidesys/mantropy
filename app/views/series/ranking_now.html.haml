@@ -1,9 +1,19 @@
 - count = 0
 - @series.each do |serie|
   - if current_user && serie.ranks.where(:ranking_id => 5).map{|r| r.user_id}.include?(current_user.id)
-    %p.serie{:style => "background-color: cyan;"}= serie.url
-  - else
-    %p.serie= serie.url
+    %p.serie{:style => "background-color: cyan;"}
+      ランキングへ入れています
+  %p.serie
+    順位:
+    = serie.url[:rank]
+    合計得点:
+    = serie.url[:sum_of_mark]
+    糞修正後得点:
+    = serie.url[:sum_of_mark_with_kuso]
+    ランキング重複数:
+    = serie.url[:count_rank]
+    糞重複数:
+    = serie.url[:count_kuso]
   = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if (count += 1) <= 30
   %p.serie_detail
     %h2= link_to serie.name, serie, {:target => "_blank"}
