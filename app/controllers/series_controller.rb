@@ -30,7 +30,7 @@ class SeriesController < ApplicationController
       ranking_id_plus = {1 => 1, 2 => 1, 5 => 5, 6 => 5}[ranking_id]
       ranking_id_minus = {1 => 2, 2 => 2, 5 => 6, 6 => 6}[ranking_id]
       sql = "SELECT s.id, s.name, " +
-        "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0)) AS url, " +
+        "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0))||\"　コメント数: \"||COALESCE(pc.countp, 0) AS url, " +
         "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
         "FROM series s " +
         "INNER JOIN (" +
@@ -38,7 +38,10 @@ class SeriesController < ApplicationController
         ") rs ON s.id=rs.serie_id " +
         "LEFT JOIN (" +
         "SELECT (SUM(rank - 6) * 2 + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=#{ranking_id_minus} GROUP BY serie_id" +
-        ") rk ON s.id = rk.serie_id"
+        ") rk ON s.id = rk.serie_id " +
+        "LEFT JOIN (" +
+        "SELECT COUNT(p.id) AS countp, p.topic_id FROM posts p WHERE p.created_at > (SELECT created_at FROM rankings WHERE id=#{ranking_id_plus}) GROUP BY p.topic_id" +
+        ") pc ON s.topic_id=pc.topic_id"
       if ranking_id == ranking_id_plus
         sql += " order by rs.mark DESC, rs.count DESC, rk.count DESC"
       else ranking_id == ranking_id_minus
@@ -47,8 +50,8 @@ class SeriesController < ApplicationController
 
       @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page]).per(1000)
       @series.map! do |serie|
-        if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)$/ =~ serie.url
-          serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4}
+        if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)　コメント数\:\s(\d+)$/ =~ serie.url
+          serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4, count_post: $5}
         end
         serie
       end
