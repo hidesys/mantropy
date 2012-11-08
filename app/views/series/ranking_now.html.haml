@@ -1,3 +1,4 @@
+= paginate @series
 - count = 0
 - @series.each do |serie|
   - if current_user && serie.ranks.where(:ranking_id => 5).map{|r| r.user_id}.include?(current_user.id)

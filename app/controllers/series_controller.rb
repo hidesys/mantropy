@@ -48,7 +48,7 @@ class SeriesController < ApplicationController
         sql += " order by amark DESC, rs.count DESC, rk.count DESC"
       end
 
-      @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page]).per(1000)
+      @series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page]).per(50)
       @series.map! do |serie|
         if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)　コメント数\:\s(\d+)$/ =~ serie.url
           serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4, count_post: $5}
