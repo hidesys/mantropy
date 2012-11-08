@@ -1,5 +1,4 @@
 = paginate @series
-- count = 0
 - @series.each do |serie|
   - if current_user && serie.ranks.where(:ranking_id => 5).map{|r| r.user_id}.include?(current_user.id)
     %p.serie{:style => "background-color: cyan;"}
@@ -17,7 +16,7 @@
     = serie.url[:count_kuso]
     コメント数:
     = serie.url[:count_post]
-  = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if (count += 1) <= 30
+  = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if serie.url[:rank] <= 30
   %p.serie_detail
     %h2= link_to serie.name, serie, {:target => "_blank"}
     = serie.authors.map{|a| a.name}
