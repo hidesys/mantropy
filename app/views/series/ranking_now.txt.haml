@@ -1,0 +1,14 @@
+- @series.each do |serie|
+  %rank= "#{serie.url[:rank]}位"
+  %name= serie.name
+  %authors= serie.authors.map{|a| a.name}.join("・")
+  %ranking= "（#{serie.url[:sum_of_mark]}点： 得票数#{serie.url[:count_rank]}, クソ修正後得点#{serie.url[:sum_of_mark_with_kuso]}点, クソ得票数#{serie.url[:count_kuso]}）"
+  %magazine= serie.magazines.select("DISTINCT *").map{|m| m.name}.join("・")
+  %detail= serie.post.content if serie.post
+  %comments
+    - if serie.topic
+      - serie.topic.posts.each do |post|
+        %post= "#{post.content}（#{post.user.name}#{(rank = serie.ranks.where(ranking_id: @ranking_ids, user_id: post.user.id).first) ? ":#{rank.ranking_id == @ranking_ids[0] ? nil : "糞"}#{rank.rank}位" : nil}）"
+  %ranks
+    - serie.ranks.where(:ranking_id => @ranking_ids).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.each do |r|
+      = "#{r.user.name}(#{r.ranking_id == @ranking_ids[0] ? nil : "糞"}#{r.rank}位)"

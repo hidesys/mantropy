@@ -48,6 +48,7 @@ class SeriesController < ApplicationController
         sql += " order by amark DESC, rs.count DESC, rk.count DESC"
       end
 
+      @ranking_ids = [ranking_id_plus, ranking_id_minus]
       @series = Serie.find_by_sql(sql)
       @series.map! do |serie|
         if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)　コメント数\:\s(\d+)$/ =~ serie.url
@@ -84,6 +85,7 @@ class SeriesController < ApplicationController
       respond_to do |format|
         format.html { render :html => @series = Kaminari.paginate_array(@series).page(params[:page]).per(64) }
         format.csv  { render :csv => @series }
+        format.txt  { render :txt => @series = @series[0..55] }
       end
     else
       redirect_to root_path
