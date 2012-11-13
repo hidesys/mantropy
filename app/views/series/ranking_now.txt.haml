@@ -7,8 +7,5 @@
   %detail= serie.post.content if serie.post
   %comments
     - if serie.topic
-      - serie.topic.posts.each do |post|
-        %post= "#{post.content}（#{post.user.name}#{(rank = serie.ranks.where(ranking_id: @ranking_ids, user_id: post.user.id).first) ? ":#{rank.ranking_id == @ranking_ids[0] ? nil : "糞"}#{rank.rank}位" : nil}）"
-  %ranks
-    - serie.ranks.where(:ranking_id => @ranking_ids).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.each do |r|
-      = "#{r.user.name}(#{r.ranking_id == @ranking_ids[0] ? nil : "糞"}#{r.rank}位)"
+      - (serie.topic.posts - [serie.post]).each do |post|
+        = "#{post.content}（#{post.user.name}#{(rank = serie.ranks.where(ranking_id: @ranking_ids, user_id: post.user.id).first) ? ":#{rank.ranking_id == @ranking_ids[0] ? nil : "糞"}#{rank.rank}位" : nil}）"
