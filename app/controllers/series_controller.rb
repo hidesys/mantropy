@@ -30,11 +30,11 @@ class SeriesController < ApplicationController
       ranking_id_plus = {1 => 1, 2 => 1, 5 => 5, 6 => 5}[ranking_id]
       ranking_id_minus = {1 => 2, 2 => 2, 5 => 6, 6 => 6}[ranking_id]
       sql = "SELECT s.id, s.name, s.topic_id, s.post_id, " +
-        "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0))||\"　コメント数: \"||COALESCE(pc.countp, 0) AS url, " +
+        "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0))||\"　コメント数: \"||COALESCE(pc.countp, 0)||\"　最高順位: \"||rs.min_rank AS url, " +
         "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
         "FROM series s " +
         "INNER JOIN (" +
-        "SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=#{ranking_id_plus} GROUP BY serie_id" +
+        "SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count, MIN(rank) AS min_rank FROM ranks WHERE ranking_id=#{ranking_id_plus} GROUP BY serie_id" +
         ") rs ON s.id=rs.serie_id " +
         "LEFT JOIN (" +
         "SELECT (SUM(rank - 6) * 2 + (COUNT(*) -1) * (-3)) AS mark, serie_id, count(id) AS count FROM ranks WHERE ranking_id=#{ranking_id_minus} GROUP BY serie_id" +
@@ -43,40 +43,42 @@ class SeriesController < ApplicationController
         "SELECT COUNT(p.id) AS countp, p.topic_id FROM posts p WHERE p.created_at > (SELECT created_at FROM rankings WHERE id=#{ranking_id_plus}) GROUP BY p.topic_id" +
         ") pc ON s.topic_id=pc.topic_id"
       if ranking_id == ranking_id_plus
-        sql += " order by rs.mark DESC, rs.count DESC, rk.count DESC"
+        sql += " order by rs.mark DESC, rs.count DESC, rs.min_rank, rk.count"
       else ranking_id == ranking_id_minus
-        sql += " order by amark DESC, rs.count DESC, rk.count DESC"
+        sql += " order by amark DESC, rs.count DESC, rs.min_rank, rk.count"
       end
 
       @ranking_ids = [ranking_id_plus, ranking_id_minus]
       @series = Serie.find_by_sql(sql)
       @series.map! do |serie|
-        if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)　コメント数\:\s(\d+)$/ =~ serie.url
-          serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4, count_post: $5}
+        if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)　コメント数\:\s(\d+)　最高順位\:\s(\d+)$/ =~ serie.url
+          serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4, count_post: $5, min_rank: $6}
         end
         serie
       end
       if ranking_id == ranking_id_plus
-        rank = rank_ = sum_of_mark = count_rank = 0
+        rank = rank_ = sum_of_mark = count_rank = min_rank = 0
         @series.map! do |serie|
           rank_ += 1
-          if !(serie.url[:sum_of_mark] == sum_of_mark && serie.url[:count_rank] == count_rank)
+          if !(serie.url[:sum_of_mark] == sum_of_mark && serie.url[:count_rank] == count_rank && serie.url[:min_rank] == min_rank)
             rank = rank_
           end
           sum_of_mark = serie.url[:sum_of_mark]
           count_rank = serie.url[:count_rank]
+          min_rank = serie.url[:min_rank]
           serie.url[:rank] = rank
           serie
         end
       else ranking_id == ranking_id_minus
-        rank = rank_ = sum_of_mark_with_kuso = count_kuso = 0
+        rank = rank_ = sum_of_mark_with_kuso = count_kuso = min_rank = 0
         @series.map! do |serie|
           rank_ += 1
-          if !(serie.url[:sum_of_mark_with_kuso] == sum_of_mark_with_kuso && serie.url[:count_kuso] == count_kuso)
+          if !(serie.url[:sum_of_mark_with_kuso] == sum_of_mark_with_kuso && serie.url[:count_kuso] == count_kuso && serie.url[:min_rank] == min_rank)
             rank = rank_
           end
           sum_of_mark_with_kuso = serie.url[:sum_of_mark_with_kuso]
           count_kuso = serie.url[:count_kuso]
+          min_rank = serie.url[:min_rank]
           serie.url[:rank] = rank
           serie
         end
