@@ -5,6 +5,7 @@
   %ranking= "（#{serie.url[:sum_of_mark]}点： 得票数#{serie.url[:count_rank]}, クソ修正後得点#{serie.url[:sum_of_mark_with_kuso]}点, クソ得票数#{serie.url[:count_kuso]}）"
   %magazine= serie.magazines.select("DISTINCT *").map{|m| m.name}.join("・")
   %detail= serie.post.content if serie.post
+  %detail_by= serie.post.user.name if serie.post
   %comments
     - if serie.topic
       - (serie.topic.posts - [serie.post]).each do |post|
