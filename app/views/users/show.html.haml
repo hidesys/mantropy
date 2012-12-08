@@ -2,15 +2,6 @@
   %b アカウント名:
   = @user.name
 %p
-  %b 本名:
-  = @user.realname
-%p
-  %b パソコンメールアドレス:
-  = @user.pcmail
-%p
-  %b 携帯メールアドレス:
-  = @user.mbmail
-%p
   %b twitter screen name:
   = link_to @user.twitter, "http://twitter.com/#{@user.twitter}", :target => "_blank"
 %p
@@ -20,17 +11,27 @@
   %b 外部向け自己紹介:
   = @user.publicabout
 %p
-  %b 内部向け自己紹介:
-  = @user.privateabout
-%p
   %b 入トロ:
   = @user.joined
-%p
-  %b 入学:
-  = @user.entered
-%p
-  %b .userauths.email:
-  - @user.userauths.map{|a| a.email }
+- if current_user
+  %p
+    %b 本名:
+    = @user.realname
+  %p
+    %b パソコンメールアドレス:
+    = @user.pcmail
+  %p
+    %b 携帯メールアドレス:
+    = @user.mbmail
+  %p
+    %b 入学:
+    = @user.entered
+  %p
+    %b 内部向け自己紹介:
+    = @user.privateabout
+  %p
+    %b .userauths.email:
+    = @user.userauths.map{|a| a.email }
 %p
   %h2 ポスト
   最新10件

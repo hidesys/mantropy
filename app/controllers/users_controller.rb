@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index]
+  before_filter :authenticate_user!, :except => [:index, :show]
   # GET /users.xml
   def index
     @title = "メンバー一覧"
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     end
     @title = "#{@user.name}"
     @ranks = @user.ranks.where(:ranking_id => [5, 6]).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
-    @do_show_ranking = current_user == @user || complete_ranking(5) || User.where(:name => ["hidesys", "zeki", "オグリビー", "ななせ", "ふわふわ"]).include?(current_user)
+    @do_show_ranking = current_user == @user || complete_ranking(5) || User.where(:name => ["hidesys", "zeki", "オグリビー", "ななせ", "ふわふわ"]).include?(current_user) || true
 
     respond_to do |format|
       format.html # show.html.erb

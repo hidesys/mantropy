@@ -18,6 +18,6 @@ module ApplicationHelper
 
   def serie_to_amazon_url(serie)
     serie= serie.books.order("publicationdate DESC").first
-    serie && serie.detailurl ? serie.detailurl.gsub(/mantropy\-22/, "kumantropy-22") : "/"
+    serie && serie.detailurl ? serie.detailurl.gsub(/kumantropy\-22/, "mantropy-22").gsub(/mantropy\-22/, "kumantropy-22") : "/"
   end
 end
