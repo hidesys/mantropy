@@ -1,5 +1,5 @@
 .serie_image
-  = image_tag(serie_image_path(@serie, :large), :alt => @serie.name)
+  = link_to image_tag(serie_image_path(@serie, :large), :alt => @serie.name), serie_to_amazon_url(@serie), {:target => "_blank", :title=>"Amazonで購入"}
 .serie_detail
   %h1= @serie.name
   %p.serie_authors
