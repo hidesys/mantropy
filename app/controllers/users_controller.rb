@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   # GET /users.xml
   def index
     @title = "メンバー一覧"
-    @users = User.all
+    @users = (User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year) + User.where("created_at > ?", Time.now - 6.month)).uniq
 
     respond_to do |format|
       format.html # index.html.erb
