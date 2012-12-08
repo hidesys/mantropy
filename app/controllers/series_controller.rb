@@ -1,11 +1,14 @@
 # encoding: UTF-8
 class SeriesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :search]
+  before_filter :authenticate_user!, :except => [:show, :search, :ranking, :ranking_now]
   @title = "シリーズ"
 
   def ranking
     @title = "全体ランキング"
-    @series = Kaminari.paginate_array(Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=3 ORDER BY r.rank")).page(params[:page])
+    ranking = Ranking.find_by_name(params[:str]) || Ranking.find(params[:str])
+    ranking_id = ranking ? ranking.id : 5
+
+    @series = Kaminari.paginate_array(Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=#{ranking_id} ORDER BY r.rank")).page(params[:page])
 
     respond_to do |format|
       format.html # ranking.html.erb
