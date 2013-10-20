@@ -263,7 +263,7 @@ class SeriesController < ApplicationController
   # GET /series/1/edit
   def edit
     @serie = Serie.find(params[:id])
-    @rankings = Ranking.where(:id => [5, 6])
+    @rankings = Ranking.where(:is_registerable => 1)
 
     ma = @serie.magazine_ids.uniq.clone
     @serie.magazines.clear

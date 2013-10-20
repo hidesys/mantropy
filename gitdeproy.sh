@@ -5,7 +5,6 @@ then
   git add .
   git rm --cached Gemfile.lock
   git commit -m $1
-  git push
   cd /var/www/mantropy
   git pull
   touch tmp/restart.txt

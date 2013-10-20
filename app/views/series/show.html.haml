@@ -11,7 +11,8 @@
   %p.serie_post
     %b 細部:
     = render :file => "topics/_post", :locals => {:post => @serie.post} if @serie.post
-  = link_to 'シリーズ情報を修正する', edit_serie_path(@serie), :class => :serie_edit
+  - if current_user
+    = link_to 'ランキング登録・シリーズ情報修正', edit_serie_path(@serie), :class => :serie_edit
 .serie_ranks
   - @ranks.each do |rank|
     = rank.ranking.name

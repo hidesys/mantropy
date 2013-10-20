@@ -1,0 +1,20 @@
+%h1 ランキング一覧
+%table
+  %tr
+    %th Name
+    %th Name
+    %th IsRegisterable
+    %th
+  - @rankings.each do |ranking|
+    %tr
+      %td= link_to ranking.name, ranking
+      = form_for(ranking) do |f|
+        %td= f.text_field :name
+        %td= f.check_box :is_registerable
+        %td= f.submit "変更"
+  %tr
+    %td
+    = form_for(@new_ranking) do |f|
+      %td= f.text_field :name
+      %td= f.check_box :is_registerable
+      %td= f.submit "新規登録"

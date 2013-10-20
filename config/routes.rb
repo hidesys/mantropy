@@ -1,6 +1,5 @@
 Mantropy::Application.routes.draw do
 
-
   get "home/robots"
   get "irc/index"
   get "home/index"
@@ -8,7 +7,7 @@ Mantropy::Application.routes.draw do
   resources :browsenodeids
 
   root :to => 'home#index'
-  resources :series, :except => [:new, :show, :update]
+  resources :series, :except => [:new, :show, :update, :destroy]
   resources :posts, :except => :destroy
   resources :topics, :except => [:destroy, :show]
   resources :books, :except => :destroy
@@ -16,6 +15,7 @@ Mantropy::Application.routes.draw do
   resources :users, :only => [:index, :create, :update, :edit, :new]
   resources :magazines, :only => [:index, :update]
   resources :wikis, :only => [:index, :create, :new]
+  resources :rankings, :only => [:index, :show, :update, :create]
 
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
 

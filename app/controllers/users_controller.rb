@@ -20,8 +20,8 @@ class UsersController < ApplicationController
       return
     end
     @title = "#{@user.name}"
-    @ranks = @user.ranks.where(:ranking_id => [5, 6]).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
-    @do_show_ranking = current_user == @user || complete_ranking(5) || User.where(:name => ["hidesys", "zeki", "オグリビー", "ななせ", "ふわふわ"]).include?(current_user) || true
+    @ranks = @user.ranks.where(:ranking_id => Ranking.where(:is_registerable => 1)).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
+    @do_show_ranking = current_user == @user || complete_ranking(Ranking.where(:is_registerable => 1).min{|r| r.id})
 
     respond_to do |format|
       format.html # show.html.erb
