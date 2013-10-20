@@ -35,11 +35,12 @@
                   %a.head{:href => "http://twitter.com/mantropy/mantropy", :target => "_blank"} タイムライン
             %td{:align => "right"}
               %font{:size => "-1"}
-                - unless current_user
-                  = link_to 'ログイン', [:new, :userauth_session], :class => :head
-                  = link_to 'ユーザー登録', [:new, :userauth_registration], :class => :head if false
-                - else
+                - if current_user
                   = link_to 'ログアウト', destroy_userauth_session_path, {:method => :delete, :class => :head}
+                - elsif current_userauth
+                  = link_to "ユーザー細部登録", new_user_path
+                - else
+                  = link_to 'ログイン', [:new, :userauth_session], :class => :head
           %tr
             %td{:colspan => "2", :height => "2"}
           %tr

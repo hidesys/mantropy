@@ -2,7 +2,6 @@
 class User < ActiveRecord::Base
 	validates :name, :presence => true, :uniqueness => true
         validates :realname, :presence => true
-        validates :pcmail, :presence => true
         validates :mbmail, :presence => true
         validates :joined, :presence => true
         validates :entered, :presence => true

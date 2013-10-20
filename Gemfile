@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem "haml"
 gem "erb2haml"
-gem 'rails', '3.0.7'
+gem 'rails', '3.2.14'
 gem 'devise'
 gem 'ruby-aaws', :require => 'amazon/aws/search'
 gem "iconv", "~> 1.0.3"
