@@ -31,7 +31,7 @@ Mantropy::Application.routes.draw do
   match '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
   match '/irc' => 'irc#index', :as => 'irc'
   match '/robots' => 'home#robots'
-  match '/topics/:id(/((:from)(-:to))(|:top))' => 'topics#show', :as => "topic"
+  match '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show', :as => "topic"
   match '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge', :via => :post
   get '/remove_duplications/:ranking_id(/:order_by)' => "series#remove_duplications"
   get '/:name' => 'wikis#show', :as => "wiki"
