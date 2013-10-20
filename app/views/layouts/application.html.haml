@@ -38,7 +38,7 @@
                 - if current_user
                   = link_to 'ログアウト', destroy_userauth_session_path, {:method => :delete, :class => :head}
                 - elsif current_userauth
-                  = link_to "ユーザー細部登録", new_user_path
+                  = link_to "ユーザー細部登録", new_user_path, :class => :head
                 - else
                   = link_to 'ログイン', [:new, :userauth_session], :class => :head
           %tr

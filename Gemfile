@@ -7,6 +7,7 @@ gem 'devise'
 gem 'ruby-aaws', :require => 'amazon/aws/search'
 gem "iconv", "~> 1.0.3"
 gem "devise-encryptable"
+gem 'jquery-rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
