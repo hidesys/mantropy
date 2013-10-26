@@ -3,16 +3,26 @@
 .serie_detail
   %h1= @serie.name
   %p.serie_authors
-    %b 著者:
+    %h3 著者
     = @serie.authors.map{|a| a.name} if @serie.authors
   %p.serie_magazines
-    %b 掲載誌:
-    = @serie.magazines.map{|m| m.name} if @serie.magazines
+    %h3 掲載誌
+    %table
+      %tr
+        %th 雑誌名
+        %th 雑誌掲載情報
+        %th 出版社
+      - @serie.magazines_series.each do |ms|
+        %tr
+          %td= ms.magazine && ms.magazine.name
+          %td= ms.placed
+          %td= ms.magazine && ms.magazine.publisher
   %p.serie_post
-    %b 細部:
+    %h3 細部
     = render :file => "topics/_post", :locals => {:post => @serie.post} if @serie.post
   - if current_user
     = link_to 'ランキング登録・シリーズ情報修正', edit_serie_path(@serie), :class => :serie_edit
+%h3 ランキング情報
 .serie_ranks
   - @ranks.each do |rank|
     = rank.ranking.name

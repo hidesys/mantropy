@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def index
     @title = "メンバー一覧"
     @users = (User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year) + User.where("created_at > ?", Time.now - 6.month)).uniq
+    @registerable_rankings = Ranking.where(:is_registerable => 1)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,13 +16,14 @@ class UsersController < ApplicationController
   # GET /users/名前
   # GET /users/1.xml
   def show
-    unless @user = User.find_by_name(params[:name])
+    if !(@user = User.find_by_name(params[:name]))
       redirect_to(:action => 'index', :notice => '存在しないユーザーです')
       return
     end
     @title = "#{@user.name}"
-    @ranks = @user.ranks.where(:ranking_id => Ranking.where(:is_registerable => 1)).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
-    @do_show_ranking = current_user == @user || complete_ranking(Ranking.where(:is_registerable => 1).min{|r| r.id})
+    @registerable_rankings = Ranking.where(:is_registerable => 1)
+    @ranks = @user.ranks.where(:ranking_id => @registerable_rankings).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
+    @do_show_ranking = current_user == @user || complete_ranking(@registerable_rankings.min{|r| r.id})
 
     respond_to do |format|
       format.html # show.html.erb

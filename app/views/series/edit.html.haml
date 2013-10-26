@@ -3,14 +3,14 @@
 .serie_detail
   %h1
     = @serie.name
-    シリーズ情報修正
+  %h2 シリーズ情報修正
   %p.serie_authors
     = form_for(@serie) do |f|
       %b タイトル:
       = f.text_field :name
       = f.submit "変更"
   %p.serie_authors
-    %b 著者:
+    %h3 著者:
     - @serie.authors.each do |a|
       = form_tag :action => :update_author, :method => :post do
         = a.name
@@ -23,23 +23,41 @@
       = text_field_tag :author_name
       = submit_tag "追加する"
   %p.serie_magazines
-    %b 掲載誌:
-    - @serie.magazines_series.each do |ms|
-      = form_tag :action => :update_magazine, :method => :post do
-        雑誌名
-        %b= ms.magazine.name
-        掲載情報
-        %b= ms.placed
-        = hidden_field_tag :mode, :remove
-        = hidden_field_tag :magazines_serie_id, ms.id
-        = submit_tag "取り除く", :confirm => "#{ms.magazine.name}, #{ms.placed}を #{@serie.name} から取り除いてよろしいですか？"
-    - end if @serie.magazines_series
-    = form_tag :action => :update_magazine, :method => :post do
-      = hidden_field_tag :mode, :add
-      = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, nil)
-      = submit_tag "追加する"
+    %h3 掲載誌:
+    %dl
+      %dt 現在の掲載誌情報
+      %dd
+        %table
+          %tr
+            %th 雑誌名
+            %th 雑誌掲載情報
+            %th 出版社
+            %th 操作
+          - @serie.magazines_series.each do |ms|
+            %tr
+              = form_tag :action => :update_magazines_series, :method => :post do
+                %td= ms.magazine && ms.magazine.name
+                %td= ms.placed
+                %td= ms.magazine && ms.magazine.publisher
+                = hidden_field_tag :mode, :remove
+                = hidden_field_tag :magazines_serie_id, ms.id
+                %td= submit_tag "取り除く", :confirm => "#{ms.magazine.name}, #{ms.placed}を #{@serie.name} から取り除いてよろしいですか？"
+      %dt 掲載誌情報の追加
+      %dd
+        %dl
+          = form_tag :action => :update_magazines_series, :method => :post do
+            = hidden_field_tag :mode, :add
+            %dt 雑誌名
+            %dd
+              = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}
+              もしくは
+              = text_field_tag :magazine_name
+            %dt 雑誌掲載情報（読み切りの場合は掲載号、Web漫画はURL、など）
+            %dd= text_field_tag :magazine_placed
+            %dt 操作
+            %dd= submit_tag "追加する"
   %p.serie_post
-    %b 細部:
+    %h3 細部:
     = form_tag :action => :update_post, :method => :post do
       %dt
         = hidden_field_tag "post[topic_id]", @serie.topic_id
@@ -52,16 +70,16 @@
 |
 \#{link_to 'Back', series_path}
 %p.serie_ranks
-  %b ランキング登録:
+  %h2 ランキング登録
   = form_for(Rank.new) do |f|
     %dl
       %dt 掲載誌
       %dd
         雑誌を選ぶ
         = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}
-        もしくは新しく作る
+        もしくは
         = text_field_tag :magazine_name
-      %dt 雑誌掲載情報
+      %dt 雑誌掲載情報（読み切りの場合は掲載号、Web漫画はURL、など）
       %dd= text_field_tag :magazine_placed
       %dt ランキング
       %dd
@@ -71,15 +89,15 @@
       = f.hidden_field :serie_id, :value => @serie.id
       %dd
         どのランキング
-        = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => (complete_ranking(5) ? 6 : 5)}
+        = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => @rankings.map{|r| complete_ranking(r) && r.id}.compact.min}
       %dt= f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
   %p
     %em{:style => "color: red;"} 雑誌一覧に掲載誌がない！？
     = succeed "1." do
       %br/
     雑誌名で検索して下さい。検索すると、Amazonに扱いがあれば自動的に追加されます
-    %br>/
+    %br
     2. Amazonに扱いがない場合、
-    %a{:href => "http://ja.wikipedia.org/", :target => "_blank"}> Wikipedia
+    %a{:href => "http://ja.wikipedia.org/", :target => "_blank"} Wikipedia
     を検索してページ名をコピーし、登録時に「右のボックスから雑誌を追加」を選んだ状態で右のボックスに雑誌名を入力して下さい
 = link_to "このシリーズに含まれるシリーズを新しく作る", new_serie_path(@serie)

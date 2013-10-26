@@ -27,7 +27,7 @@ Mantropy::Application.routes.draw do
   match '/:name/series/:id' => 'series#update', :as => 'serie', :via => :put
   match '/series/:id' => 'series#show'#, :as => 'serie'
   match '/series/:id/update_author' => 'series#update_author', :via => :post
-  match '/series/:id/update_magazine' => 'series#update_magazine', :via => :post
+  match '/series/:id/update_magazine' => 'series#update_magazines_series', :via => :post
   match '/series/:id/update_post' => 'series#update_post', :via => :post
   match '/users/:name' => 'users#show', :as => 'user'
   match '/search' => 'series#search', :as => 'serie_search'

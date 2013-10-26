@@ -46,29 +46,33 @@ class RanksController < ApplicationController
     params[:rank][:rank].tr!("０-９", "0-9")
     @rank = Rank.new(params[:rank])
     @rank.user_id = current_user.id
-
-    ms = MagazinesSerie.new
-    ms.placed = params[:magazine_placed]
     s = Serie.find(@rank.serie_id)
-    if params[:magazine_name].strip != "" && Magazine.find_by_name(params[:magazine_name].strip) == nil
-      m = Magazine.new
-      m.name = params[:magazine_name].strip
-      m.publisher = s.books.first.publisher unless s.books.empty?
-    elsif params[:magazine_id] != ""
-      m = Magazine.find(params[:magazine_id])
+
+    magazine_name = params[:magazine_name].strip
+    if !magazine_name.empty? && Magazine.find_by_name(magazine_name) == nil
+      magazine = Magazine.new
+      magazine.name = magazine_name
+      magazine.publisher = s.books.first && s.books.first.publisher
+    else
+      magazine = Magazine.find_by_name(magazine_name) || Magazine.find_by_id(params[:magazine_id])
     end
-    ms.magazine = m
-    ms.serie = s
-    ms.save!
+    placed = params[:magazine_placed].strip
+    if s.magazines_series.where(:magazine_id => magazine.id, :placed => placed).empty?
+      ms = MagazinesSerie.new
+      ms.magazine = magazine
+      ms.placed = placed
+      ms.serie = s
+      ms.save!
+    end
 
     #complete_ranking(1)
-    if ["1", "2", "3", "4"].include? params[:rank][:ranking_id] then
+    if !Ranking.find(params[:rank][:ranking_id]).is_registerable
       redirect_to(user_path(current_user.name), :notice => "ランキングの変更はできません")
       return
     end
 
     msg = nil
-    unless (r = Rank.where(:user_id => current_user.id, :rank => params[:rank][:rank], :ranking_id => params[:rank][:ranking_id])).empty?
+    if !((r = Rank.where(:user_id => current_user.id, :rank => params[:rank][:rank], :ranking_id => params[:rank][:ranking_id])).empty?)
       msg = "上書きしました。"
       @rank = r[0]
       @rank.serie_id = params[:rank][:serie_id]

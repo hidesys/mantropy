@@ -4,6 +4,9 @@
     %th Name
     %th Name
     %th IsRegisterable
+    %th ScopeMin
+    %th ScopeMax
+    %th Kind
     %th
   - @rankings.each do |ranking|
     %tr
@@ -11,10 +14,16 @@
       = form_for(ranking) do |f|
         %td= f.text_field :name
         %td= f.check_box :is_registerable
+        %td= f.text_field :scope_min, size: 2
+        %td= f.text_field :scope_max, size: 2
+        %td= f.text_field :kind
         %td= f.submit "変更"
   %tr
     %td
     = form_for(@new_ranking) do |f|
       %td= f.text_field :name
       %td= f.check_box :is_registerable
+      %td= f.text_field :scope_min, size: 2
+      %td= f.text_field :scope_max, size: 2
+      %td= f.text_field :kind
       %td= f.submit "新規登録"
