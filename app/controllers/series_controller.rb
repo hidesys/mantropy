@@ -264,12 +264,6 @@ class SeriesController < ApplicationController
   def edit
     @serie = Serie.find(params[:id])
     @rankings = Ranking.where(:is_registerable => 1)
-
-    ma = @serie.magazine_ids.uniq.clone
-    @serie.magazines.clear
-    ma.each do |mi|
-      @serie.magazines << Magazine.find(mi)
-    end
   end
 
   # POST /series
