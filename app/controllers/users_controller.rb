@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @title = "#{@user.name}"
     @registerable_rankings = Ranking.where(:is_registerable => 1)
     @ranks = @user.ranks.where(:ranking_id => @registerable_rankings).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
-    @do_show_ranking = current_user == @user || complete_ranking(@registerable_rankings.min{|r| r.id})
+    @do_show_ranking = current_user == @user || complete_ranking(@registerable_rankings.order(:id).first)
 
     respond_to do |format|
       format.html # show.html.erb
