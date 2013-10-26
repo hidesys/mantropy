@@ -24,13 +24,16 @@
       = submit_tag "追加する"
   %p.serie_magazines
     %b 掲載誌:
-    - @serie.magazines.each do |m|
+    - @serie.magazines_series.each do |ms|
       = form_tag :action => :update_magazine, :method => :post do
-        = m.name
+        雑誌名
+        %b= ms.magazine.name
+        掲載情報
+        %b= ms.placed
         = hidden_field_tag :mode, :remove
-        = hidden_field_tag :magazine_id, m.id
-        = submit_tag "取り除く", :confirm => "#{m.name} を #{@serie.name} から取り除いてよろしいですか？"
-    - end if @serie.magazines
+        = hidden_field_tag :magazines_serie_id, ms.id
+        = submit_tag "取り除く", :confirm => "#{ms.magazine.name}, #{ms.placed}を #{@serie.name} から取り除いてよろしいですか？"
+    - end if @serie.magazines_series
     = form_tag :action => :update_magazine, :method => :post do
       = hidden_field_tag :mode, :add
       = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, nil)
@@ -51,16 +54,25 @@
 %p.serie_ranks
   %b ランキング登録:
   = form_for(Rank.new) do |f|
-    掲載誌:#{select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}}
-    \#{text_field_tag :magazine_name}（掲載誌とは、この漫画シリーズに対する掲載行為の発生場所を指すので、Web漫画ならWebサイト名になります）
-    %br/
-    順位:
-    = f.text_field :rank, {:size => 2, :maxlength => 2}
-    = f.hidden_field :serie_id, :value => @serie.id
-    = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => (complete_ranking(5) ? 6 : 5)}
-    糞漫画ランクングは1~5位までです
-    %br/
-    = f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
+    %dl
+      %dt 掲載誌
+      %dd
+        雑誌を選ぶ
+        = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}
+        もしくは新しく作る
+        = text_field_tag :magazine_name
+      %dt 雑誌掲載情報
+      %dd= text_field_tag :magazine_placed
+      %dt ランキング
+      %dd
+        順位
+        = f.text_field :rank, {:size => 2, :maxlength => 2}
+        ※個人ランキングは1~30位、クソランキングは1~5位です
+      = f.hidden_field :serie_id, :value => @serie.id
+      %dd
+        どのランキング
+        = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => (complete_ranking(5) ? 6 : 5)}
+      %dt= f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
   %p
     %em{:style => "color: red;"} 雑誌一覧に掲載誌がない！？
     = succeed "1." do

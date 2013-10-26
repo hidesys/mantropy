@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131020204522) do
+ActiveRecord::Schema.define(:version => 20131020221216) do
 
   create_table "authorideas", :force => true do |t|
     t.integer  "identify"
@@ -103,7 +103,8 @@ ActiveRecord::Schema.define(:version => 20131020204522) do
     t.integer  "book_id"
   end
 
-  create_table "magazines_series", :id => false, :force => true do |t|
+  create_table "magazines_series", :force => true do |t|
+    t.string  "placed"
     t.integer "magazine_id"
     t.integer "serie_id"
   end

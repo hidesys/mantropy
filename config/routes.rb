@@ -1,5 +1,8 @@
 Mantropy::Application.routes.draw do
 
+  resources :magazines_series
+
+
   get "home/robots"
   get "irc/index"
   get "home/index"

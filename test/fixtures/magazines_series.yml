@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  magazines: 
+  series: 
+  placed: MyString
+
+two:
+  magazines: 
+  series: 
+  placed: MyString

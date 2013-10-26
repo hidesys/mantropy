@@ -1,0 +1,2 @@
+module MagazinesSeriesHelper
+end

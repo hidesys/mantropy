@@ -47,18 +47,19 @@ class RanksController < ApplicationController
     @rank = Rank.new(params[:rank])
     @rank.user_id = current_user.id
 
+    ms = MagazinesSerie.new
+    ms.placed = params[:magazine_placed]
+    s = Serie.find(@rank.serie_id)
     if params[:magazine_name].strip != "" && Magazine.find_by_name(params[:magazine_name].strip) == nil
       m = Magazine.new
       m.name = params[:magazine_name].strip
-      s = Serie.find(@rank.serie_id)
       m.publisher = s.books.first.publisher unless s.books.empty?
-      m.series << s
-      m.save
     elsif params[:magazine_id] != ""
-      s = Serie.find(@rank.serie_id)
-      s.magazines << Magazine.find(params[:magazine_id])
-      s.save
+      m = Magazine.find(params[:magazine_id])
     end
+    ms.magazine = m
+    ms.serie = s
+    ms.save!
 
     #complete_ranking(1)
     if ["1", "2", "3", "4"].include? params[:rank][:ranking_id] then
