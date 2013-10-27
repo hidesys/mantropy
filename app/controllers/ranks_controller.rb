@@ -56,13 +56,15 @@ class RanksController < ApplicationController
     else
       magazine = Magazine.find_by_name(magazine_name) || Magazine.find_by_id(params[:magazine_id])
     end
-    placed = params[:magazine_placed].strip
-    if s.magazines_series.where(:magazine_id => magazine.id, :placed => placed).empty?
-      ms = MagazinesSerie.new
-      ms.magazine = magazine
-      ms.placed = placed
-      ms.serie = s
-      ms.save!
+    if magazine
+      placed = params[:magazine_placed].strip
+      if s.magazines_series.where(:magazine_id => magazine.id, :placed => placed).empty?
+        ms = MagazinesSerie.new
+        ms.magazine = magazine
+        ms.placed = placed
+        ms.serie = s
+        ms.save!
+      end
     end
 
     #complete_ranking(1)
