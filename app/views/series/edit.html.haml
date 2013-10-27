@@ -41,7 +41,7 @@
                 %td= ms.magazine && ms.magazine.publisher
                 = hidden_field_tag :mode, :remove
                 = hidden_field_tag :magazines_serie_id, ms.id
-                %td= submit_tag "取り除く", :confirm => "#{ms.magazine.name}, #{ms.placed}を #{@serie.name} から取り除いてよろしいですか？"
+                %td= submit_tag "取り除く", :confirm => "#{ms.magazine && ms.magazine.name}, #{ms.placed}を #{@serie.name} から取り除いてよろしいですか？"
       %dt 掲載誌情報の追加
       %dd
         %dl
@@ -89,7 +89,7 @@
       = f.hidden_field :serie_id, :value => @serie.id
       %dd
         どのランキング
-        = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => @rankings.map{|r| complete_ranking(r) && r.id}.compact.min}
+        = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => @rankings.map{|r| complete_ranking(r) ? nil : r.id}.compact.min}
       %dt= f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
   %p
     %em{:style => "color: red;"} 雑誌一覧に掲載誌がない！？
