@@ -28,10 +28,10 @@ class SeriesController < ApplicationController
 
     ranking = Ranking.find_by_name(params[:str]) || Ranking.find(params[:str])
     ranking_id = ranking ? ranking.id : 5
-    is_ranking_now = [1, 2, 5, 6].include? ranking_id
+    is_ranking_now = [1, 2, 5, 6, 7, 8].include? ranking_id
     if is_ranking_now
-      ranking_id_plus = {1 => 1, 2 => 1, 5 => 5, 6 => 5}[ranking_id]
-      ranking_id_minus = {1 => 2, 2 => 2, 5 => 6, 6 => 6}[ranking_id]
+      ranking_id_plus = {1 => 1, 2 => 1, 5 => 5, 6 => 5, 7 => 7, 8 => 7}[ranking_id]
+      ranking_id_minus = {1 => 2, 2 => 2, 5 => 6, 6 => 6, 7 => 8, 8 => 8}[ranking_id]
       sql = "SELECT s.id, s.name, s.topic_id, s.post_id, " +
         "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0))||\"　コメント数: \"||COALESCE(pc.countp, 0)||\"　最高順位: \"||rs.min_rank AS url, " +
         "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
