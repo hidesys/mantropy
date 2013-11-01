@@ -11,9 +11,10 @@ def ms(s0, s1)
       exit 1
     end
 
-    a.magazines << b.magazines
+    a.magazines_series << b.magazines_series
     a.books << b.books
     a.ranks << b.ranks
+    a.authors << b.authors
 
     a.save!
     b.destroy

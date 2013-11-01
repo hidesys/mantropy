@@ -32,6 +32,7 @@ Mantropy::Application.routes.draw do
   match '/users/:name' => 'users#show', :as => 'user'
   match '/search' => 'series#search', :as => 'serie_search'
   match '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
+  #match '/ranking/:str/name' => 'series#ranking_name'
   match '/irc' => 'irc#index', :as => 'irc'
   match '/robots' => 'home#robots'
   match '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show', :as => "topic"

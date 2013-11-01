@@ -7,7 +7,7 @@
     = link_to serie.name, serie
   = serie.id
   = serie.authors.map{|a| a.name}
-  = serie.magazines.select("DISTINCT *").map{|m| m.name}
+  = serie.magazines.map{|m| m.name}.uniq
   %br/
   - before = serie.name
 - end if @series
