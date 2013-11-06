@@ -1,6 +1,6 @@
 = paginate @series
 - @series.each do |serie|
-  - if current_user && serie.ranks.where(:ranking_id => 5).map{|r| r.user_id}.include?(current_user.id)
+  - if current_user && serie.ranks.where(:ranking_id => [7, 8]).map{|r| r.user_id}.include?(current_user.id)
     %p.serie{:style => "background-color: cyan;"}
       ランキングへ入れています
   %p.serie
