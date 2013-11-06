@@ -53,7 +53,7 @@
         - rank.serie.authors.each do |author|
           = link_to author.name, serie_search_path(:str => author.name)
       = link_to rank.serie.magazines.select("DISTINCT *").map{|m| m.name} if rank.serie.magazines
-      - if @user == current_user
+      - if @user == current_user && @registerable_rankings.map{|r| r.id}.include?(rank.ranking_id)
         = link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks
       %br/
   - @registerable_rankings.each do |ranking|
