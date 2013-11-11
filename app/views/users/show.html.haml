@@ -52,7 +52,7 @@
       - if rank.serie.authors then
         - rank.serie.authors.each do |author|
           = link_to author.name, serie_search_path(:str => author.name)
-      = link_to rank.serie.magazines.select("DISTINCT *").map{|m| m.name} if rank.serie.magazines
+      = link_to rank.serie.magazines_series.map{|ms| ms.magazine ? (ms.magazine.name + (ms.placed ? (ms.placed != "" ? "（#{ms.placed}）" : "") : "")) : nil}.compact.uniq.join("　"), edit_serie_path(rank.serie)
       - if @user == current_user && @registerable_rankings.map{|r| r.id}.include?(rank.ranking_id)
         = link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks
       %br/
