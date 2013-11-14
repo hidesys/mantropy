@@ -7,6 +7,7 @@ class Serie < ActiveRecord::Base
   has_many :magazines_series
   has_many :magazines, :through => :magazines_series
   has_and_belongs_to_many :tags
+  has_many :posts, :through => :topic
   belongs_to :post
   belongs_to :topic
 end
