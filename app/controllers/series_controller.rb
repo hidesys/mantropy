@@ -18,10 +18,10 @@ class SeriesController < ApplicationController
 
   def ranking_now
     @title = "全体ランキング"
-    if !(current_user && complete_ranking(Ranking.find(7), current_user))
-      redirect_to root_path
-      return
-    end
+    #if !(current_user && complete_ranking(Ranking.find(7), current_user))
+    #  redirect_to root_path
+    #  return
+    #end
 
     #sql = "SELECT s.id, s.name, \"コメント数:\"||(COALESCE((SELECT COUNT(*) FROM topics t INNER JOIN posts p ON t.id = p.topic_id WHERE t.id = s.topic_id),0))||\"　純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC, rs.count DESC"
     #ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
