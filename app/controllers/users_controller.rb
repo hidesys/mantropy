@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       return
     end
     @title = "#{@user.name}"
-    @registerable_rankings = Ranking.where(:is_registerable => 1)
+    @registerable_rankings = Ranking.where(["name LIKE ?", "#{Ranking.where(is_registerable: 1).last.name[0...4]}%"])
     list_rankings = @registerable_rankings.empty? ? Ranking.all : @registerable_rankings
     @ranks = @user.ranks.where(:ranking_id => list_rankings).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
     @do_show_ranking = current_user == @user || current_user && (@registerable_rankings.empty? || complete_ranking(@registerable_rankings.order(:id).first))
