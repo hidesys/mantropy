@@ -111,11 +111,14 @@ class RanksController < ApplicationController
   # DELETE /ranks/1.xml
   def destroy
     @rank = Rank.find(params[:id])
-    @rank.destroy if @rank.user_id == current_user.id
-
-    respond_to do |format|
-      format.html { redirect_to(user_path(current_user.name)) }
-      format.xml  { head :ok }
+    if @rank.user_id == current_user.id && @rank.ranking.is_registerable == 1
+      @rank.destroy
+      respond_to do |format|
+        format.html { redirect_to(user_path(current_user.name)) }
+        format.xml  { head :ok }
+      end
+    else
+      redirect_to user_path(@rank.user.name), alert: "あなたはこのランキングデータのユーザーでないか、またはこのランキングデータは修正できないものです"
     end
   end
 end
