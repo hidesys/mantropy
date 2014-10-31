@@ -5,11 +5,11 @@ class UsersController < ApplicationController
   def index
     @title = "メンバー一覧"
     @users = (User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year) + User.where("created_at > ?", Time.now - 6.month)).uniq
-    @registerable_rankings = Ranking.where(:is_registerable => 1)
+    @registerable_rankings = Ranking.where(["name LIKE ?", "#{Ranking.where(is_registerable: 1).last.name[0...4]}%"]).order(:id)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.csv  { render :csv => @users }
+      format.csv if current_user && (@registerable_rankings.empty? || complete_ranking(@registerable_rankings.first))
     end
   end
 
