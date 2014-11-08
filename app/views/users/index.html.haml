@@ -8,7 +8,7 @@
 - if current_user
   - @users.each do |user|
     = link_to (user.name), user_path(user.name)
-    - @registerable_rankings.each do |ranking|
+    - @registering_rankings.each do |ranking|
       - if !complete_ranking(ranking, user)
         %b{:style => "background-color: yellow;"}= ranking.name + '不十分'
         提出数

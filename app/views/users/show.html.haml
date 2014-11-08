@@ -56,7 +56,7 @@
       - if @user == current_user && @registerable_rankings.map{|r| r.id}.include?(rank.ranking_id)
         = link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks
       %br/
-  - @registerable_rankings.each do |ranking|
+  - @registering_rankings.each do |ranking|
     %b{:style => "background-color: yellow;"}= ranking.name + '不十分' if !complete_ranking(ranking, @user)
 = link_to 'ユーザー情報を編集する', edit_user_path(@user) if @user == current_user
 |

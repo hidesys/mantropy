@@ -5,11 +5,11 @@ class UsersController < ApplicationController
   def index
     @title = "メンバー一覧"
     @users = (User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year) + User.where("created_at > ?", Time.now - 6.month)).uniq
-    @registerable_rankings = Ranking.where(["name LIKE ?", "#{Ranking.where(is_registerable: 1).last.name[0...4]}%"]).order(:id)
+    @registering_rankings = registering_rankings
 
     respond_to do |format|
       format.html # index.html.erb
-      format.csv if current_user && (@registerable_rankings.empty? || complete_ranking(@registerable_rankings.first))
+      format.csv if current_user && (registerable_rankings.empty? || complete_ranking(@registering_rankings.first))
     end
   end
 
@@ -21,10 +21,11 @@ class UsersController < ApplicationController
       return
     end
     @title = "#{@user.name}"
-    @registerable_rankings = Ranking.where(["name LIKE ?", "#{Ranking.where(is_registerable: 1).last.name[0...4]}%"])
-    list_rankings = @registerable_rankings.empty? ? Ranking.all : @registerable_rankings
+    @registerable_rankings = registerable_rankings
+    @registering_rankings = registering_rankings
+    list_rankings = @registerable_rankings.empty? ? Ranking.all : registering_rankings
     @ranks = @user.ranks.where(:ranking_id => list_rankings).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? or a.rank <=> b.rank}
-    @do_show_ranking = current_user == @user || current_user && (@registerable_rankings.empty? || complete_ranking(@registerable_rankings.order(:id).first))
+    @do_show_ranking = current_user == @user || current_user && (@registerable_rankings.empty? || complete_ranking(@registering_rankings.order(:id).first))
 
     respond_to do |format|
       format.html # show.html.erb
