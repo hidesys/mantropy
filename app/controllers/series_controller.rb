@@ -99,7 +99,8 @@ class SeriesController < ApplicationController
       respond_to do |format|
         format.html { render :html => @series = Kaminari.paginate_array(@series).page(params[:page]).per(64) }
         format.csv  { render :csv => @series }
-        format.txt  { render :txt => @series = @series[0..55] }
+        format.xml  { @series = @series[0..55] }
+        format.json { @series = @series[0..55] }
       end
     else
       redirect_to root_path, :notice => "ランキングは集計中なのでメンバーだけが見れるよ"
