@@ -6,10 +6,12 @@ class UsersController < ApplicationController
     @title = "メンバー一覧"
     @users = (User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year) + User.where("created_at > ?", Time.now - 6.month)).uniq
     @registering_rankings = registering_rankings
+    @display_rankings = @registering_rankings.empty? ? Ranking.where("name LIKE ? AND (kind == ? OR kind == ?)", "#{Time.now.year}%", "kojin", "kuso") : @registering_rankings
 
     respond_to do |format|
       format.html # index.html.erb
       format.csv if current_user && (registerable_rankings.empty? || complete_ranking(@registering_rankings.first))
+      format.json if current_user && (registerable_rankings.empty? || complete_ranking(@registering_rankings.first))
     end
   end
 
