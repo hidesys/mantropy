@@ -15,4 +15,14 @@ class KaishiMailer < ActionMailer::Base
 
     mail to: mail_address, subject: "【本日12時まで】個人ランキングページの確認"
   end
+
+  def kaishi2014_kojin_ranking2(user, mail_address)
+    @user = user
+    attachments["#{user.name}.png"] = {
+      :content => File.read("tmp/kaishi2014/#{user.name}.png", :mode => 'rb'),
+      :transfer_encoding => :binary
+    }
+
+    mail to: mail_address, subject: "個人ランキングページ最終"
+  end
 end
