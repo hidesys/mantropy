@@ -39,7 +39,7 @@ class SeriesController < ApplicationController
       ranking_plus = Ranking.where(["name LIKE ? AND kind = ?", "#{ranking.name[0...4]}%", "kojin"]).last
       ranking_minus = ranking
     end
-    if ![10, 11].include?(Time.now.month) || current_user
+    if !(Time.now.month == 10 || (Time.now.month == 11 && Time.now.day < 25)) || current_user
       sql = "SELECT s.id, s.name, s.topic_id, s.post_id, " +
         "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0))||\"　コメント数: \"||COALESCE(pc.countp, 0)||\"　最高順位: \"||rs.min_rank AS url, " +
         "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
