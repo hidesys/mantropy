@@ -22,21 +22,21 @@ Mantropy::Application.routes.draw do
 
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
 
-  match '/series/new(/:id)' => 'series#new', :as => 'new_serie'
-  match '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
-  match '/:name/series/:id' => 'series#update', :as => 'serie', :via => :put
-  match '/series/:id' => 'series#show'#, :as => 'serie'
-  match '/series/:id/update_author' => 'series#update_author', :via => :post
-  match '/series/:id/update_magazine' => 'series#update_magazines_series', :via => :post
-  match '/series/:id/update_post' => 'series#update_post', :via => :post
-  match '/users/:name' => 'users#show', :as => 'user'
-  match '/search' => 'series#search', :as => 'serie_search'
-  match '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
+  get '/series/new(/:id)' => 'series#new', :as => 'new_serie'
+  get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
+  post '/:name/series/:id' => 'series#update'
+  get '/series/:id' => 'series#show'#, :as => 'serie'
+  post '/series/:id/update_author' => 'series#update_author'
+  post '/series/:id/update_magazine' => 'series#update_magazines_series'
+  post '/series/:id/update_post' => 'series#update_post'
+  get '/users/:name' => 'users#show'
+  get '/search' => 'series#search', :as => 'serie_search'
+  get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
   #match '/ranking/:str/name' => 'series#ranking_name'
-  match '/irc' => 'irc#index', :as => 'irc'
-  match '/robots' => 'home#robots'
-  match '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show', :as => "topic"
-  match '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge', :via => :post
+  get '/irc' => 'irc#index', :as => 'irc'
+  get '/robots' => 'home#robots'
+  get '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show'
+  post '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge'
   get '/remove_duplications/:ranking_id(/:order_by)' => "series#remove_duplications"
   get '/:name' => 'wikis#show', :as => "wiki"
 
