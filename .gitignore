@@ -5,5 +5,5 @@ log/*.log
 tmp/
 vendor/bundle
 config/amazonrc
-config/initializers/_sensitive.rb
+config/sensitive.rb
 
