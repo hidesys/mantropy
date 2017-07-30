@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_filter :development_basic_authentication
+  before_action :development_basic_authentication
   protect_from_forgery
 
   helper_method :current_user, :complete_ranking, :serie_path

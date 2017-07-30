@@ -6,4 +6,5 @@ tmp/
 vendor/bundle
 config/amazonrc
 config/sensitive.rb
+public/assets/*
 
