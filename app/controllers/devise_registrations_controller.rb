@@ -1,6 +1,6 @@
 # coding: utf-8
 class DeviseRegistrationsController < Devise::RegistrationsController
-  before_filter :basic_authentication
+  before_action :basic_authentication
 
   protected
   def after_sign_up_path_for(resource)

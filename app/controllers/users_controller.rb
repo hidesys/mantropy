@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show]
+  before_action :authenticate_user!, :except => [:index, :show]
   # GET /users.xml
   def index
     @title = "メンバー一覧"
