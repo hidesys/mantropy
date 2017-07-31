@@ -4,7 +4,10 @@ class UsersController < ApplicationController
   # GET /users.xml
   def index
     @title = "メンバー一覧"
-    @users = (User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year) + User.where("created_at > ?", Time.now - 6.month)).uniq
+    @users = (
+      User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year).references(:ranks) +
+      User.where("created_at > ?", Time.now - 6.month)
+    ).uniq
     @registering_rankings = registering_rankings
     @display_rankings = @registering_rankings.empty? ? Ranking.where("name LIKE ? AND (kind == ? OR kind == ?)", "#{Time.now.year}%", "kojin", "kuso") : @registering_rankings
 

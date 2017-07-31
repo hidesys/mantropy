@@ -35,5 +35,6 @@ Mantropy::Application.configure do
     :enable_starttls_auto => true,
   }
 
+  config.assets.digest = false
 end
 

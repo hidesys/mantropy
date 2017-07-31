@@ -44,5 +44,5 @@
   %b 書籍収録情報
   - @serie.books.each do |book|
     %div
-      = link_to image_tag(book.smallimgurl ||  'nil_small.jpg', :alt => book.name), book
+      = link_to image_tag(book.smallimgurl ||  '/images/nil_small.jpg', :alt => book.name), book
       = link_to book.name, book
