@@ -38,10 +38,14 @@ class ApplicationController < ActionController::Base
 
   def serie_path(serie, *args)
     if serie.class == Serie && args.length == 0
-      "/#{"#{serie.name.gsub(/[\/\?\.\#\!]/, "-")}-#{serie.authors.map{|a| a.name.gsub(/[\/\?\.\#\!]/, "-")}.join(",") if serie.authors}"[0..31]}/series/#{serie.id}"
+      clean_serie_name(serie)
     else
       serie_url(serie, *args)
     end
+  end
+
+  def clean_serie_name(serie)
+    URI.encode("/#{"#{serie.name.gsub(/[\/\?\.\#\!]/, "-")}-#{serie.authors.map{|a| a.name.gsub(/[\/\?\.\#\!]/, "-")}.join(",") if serie.authors}"[0..31]}/series/#{serie.id}")
   end
 
   def bitly(long_url)
