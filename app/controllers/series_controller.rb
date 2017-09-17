@@ -111,6 +111,10 @@ class SeriesController < ApplicationController
     str = params[:str]
     @title = "#{str} の検索結果"
     @str = str
+    if str.blank?
+      redirect_to root_path
+      return
+    end
 
     begin
       if params[:scope] =~ /^amazon/ && current_user
