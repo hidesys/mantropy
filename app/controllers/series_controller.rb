@@ -201,7 +201,7 @@ class SeriesController < ApplicationController
     serie_arel = Serie.arel_table[:name].matches_all(search_strs)
     authors = Author.where(Author.arel_table[:name].matches_all(search_strs))
     unless authors.empty?
-      authors.map{|a| a.authors_series.map{|as| as.serie_id}}.flatten
+      author_serie_ids = authors.map{|a| a.authors_series.map{|as| as.serie_id}}.flatten
       serie_arel = serie_arel.or(Serie.arel_table[:id].in_any(author_serie_ids))
     end
     @series = Kaminari.paginate_array(Serie.where(serie_arel).uniq).page(params[:page])
