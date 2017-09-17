@@ -92,11 +92,8 @@ class ApplicationController < ActionController::Base
   private
   def post_params
     params.require(:post).permit(
-      :name,
       :email,
-      :order,
-      :content,
-      :topic_id
+      :content
     )
   end
 end

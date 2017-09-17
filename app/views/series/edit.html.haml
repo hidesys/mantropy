@@ -60,7 +60,7 @@
     %h3 細部:
     = form_tag :action => :update_post, :method => :post do
       %dt
-        = hidden_field_tag "post[topic_id]", @serie.topic_id
+        = hidden_field_tag "topic_id", @serie.topic_id
         = submit_tag "書き込み"
         E-mail： #{text_field_tag "post[email]"}
       %dd

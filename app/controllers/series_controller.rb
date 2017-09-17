@@ -385,6 +385,7 @@ class SeriesController < ApplicationController
     Post.transaction do
       @serie = Serie.find(params[:id])
       post = Post.new(post_params)
+      post.topic_id = params[:topic_id]
       post.user = current_user
       post.order = Post.where(:topic_id => post.topic_id).count + 1
       post.save!
