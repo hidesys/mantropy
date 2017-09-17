@@ -86,10 +86,10 @@
         順位
         = f.text_field :rank, {:size => 2, :maxlength => 2}
         ※個人ランキングは1~30位、クソランキングは1~5位です
-      = hidden_field_tag :serie_id, @serie.id
+      = f.hidden_field :serie_id, :value => @serie.id
       %dd
         どのランキング
-        = collection_select_tag :ranking_id, @rankings, :id, :name, {:selected => @rankings.map{|r| complete_ranking(r) ? nil : r.id}.compact.min}
+        = f.collection_select :ranking_id, @rankings, :id, :name, {:selected => @rankings.map{|r| complete_ranking(r) ? nil : r.id}.compact.min}
       %dt= f.submit "登録", :confirm => "ランキング登録してよろしいですか？"
   %p
     %em{:style => "color: red;"} 雑誌一覧に掲載誌がない！？

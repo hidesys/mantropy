@@ -46,8 +46,6 @@ class RanksController < ApplicationController
     params[:rank][:rank].tr!("０-９", "0-9")
     @rank = Rank.new(rank_params)
     @rank.user_id = current_user.id
-    @rank.serie_id = params[:serie_id]
-    @rank.ranking_id = params[:ranking_id]
     s = Serie.find(@rank.serie_id)
 
     magazine_name = params[:magazine_name].strip
@@ -128,7 +126,9 @@ class RanksController < ApplicationController
   def rank_params
     params.require(:rank).permit(
       :rank,
-      :score
+      :score,
+      :ranking_id,
+      :serie_id
     )
   end
 end
