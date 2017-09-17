@@ -66,23 +66,15 @@
                 %font{:size => "-1"}
                   - if current_user
                     %label
-                      = radio_button_tag :scope, "amazon_all"
-                      Amazonからいっぱい検索
-                    %label
                       = radio_button_tag :scope, "amazon", true
-                      密林もちょっと
+                      Amazonから検索
                   - else
-                    　　　　
                     %label
-                      = radio_button_tag :scope, "amazon", true
+                      = radio_button_tag :scope, "mantropy", true
                       ぎも゛ぢいぃ゛いぃ゛ぃ
                   %label
                     = radio_button_tag :scope, "mantropy"
-                    漫トロピーWebだけ
-                  - if current_user
-                    %label
-                      = radio_button_tag :scope, "mine"
-                      自分のを探す
+                    漫トロWebから検索
             %tr
               %td{:colspan => "2", :height => "10"}
         %table{:cellpadding => "0", :cellspacing => "0", :style => "margin: 0px;", :width => width}
