@@ -124,7 +124,7 @@ class RanksController < ApplicationController
 
   private
   def rank_params
-    params.require(:rank).parmit(
+    params.require(:rank).permit(
       :rank,
       :score
     )

@@ -6,4 +6,5 @@ vendor/bundle
 config/amazonrc
 config/sensitive.rb
 public/assets/*
-
+*_exec_log.txt
+.ruby-version

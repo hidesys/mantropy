@@ -207,7 +207,7 @@ class SeriesController < ApplicationController
     search_strs = str.strip.split(/[\s　]/).map{|s| "%#{s}%"}
     @series = Kaminari.paginate_array((
       Serie.where(
-        Serie.arel_table[:name].matches_any(search_strs).or(
+        Serie.arel_table[:name].matches_any(search_strs).and(
           Serie.arel_table[:id].in_any(
             Author.where(
               Author.arel_table[:name].matches_any(search_strs)
