@@ -197,25 +197,14 @@ class SeriesController < ApplicationController
       end
     end
 
-    #q = ["SELECT DISTINCT s.* FROM series s LEFT JOIN books_series bs ON s.id = bs.serie_id LEFT JOIN books b ON b.id = bs.book_id LEFT JOIN authors_series as0 ON s.id = as0.serie_id LEFT JOIN authors aa ON as0.author_id = aa.id LEFT JOIN authorideas ai0 ON aa.id = ai0.author_id LEFT JOIN authorideas ai1 ON ai0.idea = ai1.idea LEFT JOIN authors a ON ai1.author_id = a.id WHERE 0<>0 OR "]
-    #str.strip.split(/[\s　]/).each do |s|
-    #  q[0] += " (s.name LIKE ? OR b.name LIKE ? OR a.name LIKE ?) AND"
-    #  q += Array.new(3){"%#{s}%"}
-    #end
-    #q[0] = q[0][0..(q[0].length - 4)] + " ORDER BY s.id"
-    #@series = Kaminari.paginate_array(Serie.find_by_sql(q)).page(params[:page])
     search_strs = str.strip.split(/[\s　]/).map{|s| "%#{s}%"}
-    @series = Kaminari.paginate_array((
-      Serie.where(
-        Serie.arel_table[:name].matches_any(search_strs).and(
-          Serie.arel_table[:id].in_any(
-            Author.where(
-              Author.arel_table[:name].matches_any(search_strs)
-            ).map{|a| a.authors_series.map{|as| as.serie_id}}.flatten
-          )
-        )
-      )
-    ).uniq).page(params[:page])
+    serie_arel = Serie.arel_table[:name].matches_all(search_strs)
+    authors = Author.where(Author.arel_table[:name].matches_all(search_strs))
+    unless authors.empty?
+      authors.map{|a| a.authors_series.map{|as| as.serie_id}}.flatten
+      serie_arel = serie_arel.or(Serie.arel_table[:id].in_any(author_serie_ids))
+    end
+    @series = Kaminari.paginate_array(Serie.where(serie_arel).uniq).page(params[:page])
 
     if @series.length == 1
       redirect_to serie_path(@series[0])
