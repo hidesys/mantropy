@@ -40,7 +40,7 @@ class BrowsenodeidsController < ApplicationController
   # POST /browsenodeids
   # POST /browsenodeids.xml
   def create
-    @browsenodeid = Browsenodeid.new(params[:browsenodeid])
+    @browsenodeid = Browsenodeid.new(browsenodeid_params)
 
     respond_to do |format|
       if @browsenodeid.save
@@ -59,7 +59,7 @@ class BrowsenodeidsController < ApplicationController
     @browsenodeid = Browsenodeid.find(params[:id])
 
     respond_to do |format|
-      if @browsenodeid.update_attributes(params[:browsenodeid])
+      if @browsenodeid.update_attributes(browsenodeid_params)
         format.html { redirect_to(@browsenodeid, :notice => 'Browsenodeid was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -79,5 +79,14 @@ class BrowsenodeidsController < ApplicationController
       format.html { redirect_to(browsenodeids_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def browsenodeid_params
+    params.require(:browsenodeid).permit(
+      :node,
+      :name,
+      :ancestor
+    )
   end
 end

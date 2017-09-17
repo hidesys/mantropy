@@ -48,7 +48,7 @@ class TopicsController < ApplicationController
     post = Post.new
     begin
       Topic.transaction do
-        @topic = Topic.new(params[:topic])
+        @topic = Topic.new(topic_params)
         @topic.appear = 1
         raise if @topic.title == "" || @topic.title == nil
         @topic.save!
@@ -74,7 +74,7 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
 
     respond_to do |format|
-      if @topic.update_attributes(params[:topic])
+      if @topic.update_attributes(topic_params)
         format.html { redirect_to(@topic, :notice => 'Topic was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -94,5 +94,12 @@ class TopicsController < ApplicationController
       format.html { redirect_to(topics_url) }
       format.xml  { head :ok }
     end
+  end
+  private
+  def topic_params
+    params.require(:topic).permit(
+    :appear,
+    :title
+    )
   end
 end

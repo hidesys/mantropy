@@ -42,7 +42,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.xml
   def create
-    @post = Post.new(params[:post])
+    @post = Post.new(post_params)
     topic = @post.topic
     redirect_path = (topic.title ? topic : serie_path(Serie.find_by_topic_id(topic.id)))
     begin
@@ -68,7 +68,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     respond_to do |format|
-      if @post.update_attributes(params[:post])
+      if @post.update_attributes(post_params)
         format.html { redirect_to(@post, :notice => 'Post was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -88,5 +88,16 @@ class PostsController < ApplicationController
       format.html { redirect_to(posts_url) }
       format.xml  { head :ok }
     end
+  end
+  private
+  def post_params
+    params.require(:post).permit(
+      :name,
+      :email,
+      :order,
+      :content,
+      :topic,
+      :user
+    )
   end
 end

@@ -44,7 +44,7 @@ class RanksController < ApplicationController
   # POST /ranks.xml
   def create
     params[:rank][:rank].tr!("０-９", "0-9")
-    @rank = Rank.new(params[:rank])
+    @rank = Rank.new(rank_params)
     @rank.user_id = current_user.id
     s = Serie.find(@rank.serie_id)
 
@@ -97,7 +97,7 @@ class RanksController < ApplicationController
     @rank = Rank.find(params[:id])
 
     respond_to do |format|
-      if @rank.update_attributes(params[:rank])
+      if @rank.update_attributes(rank_params)
         format.html { redirect_to(@rank, :notice => 'Rank was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -120,5 +120,13 @@ class RanksController < ApplicationController
     else
       redirect_to user_path(@rank.user.name), alert: "あなたはこのランキングデータのユーザーでないか、またはこのランキングデータは修正できないものです"
     end
+  end
+
+  private
+  def rank_params
+    params.require(:rank).parmit(
+      :rank,
+      :score
+    )
   end
 end

@@ -279,7 +279,7 @@ class SeriesController < ApplicationController
   # POST /series
   # POST /series.xml
   def create
-    @serie = Serie.new(params[:serie])
+    @serie = Serie.new(serie_params)
 
     unless a = Author.find_by_id(params[:author_id]) || Author.find_by_name(params[:author_name].strip)
       a = Author.new
@@ -319,7 +319,7 @@ class SeriesController < ApplicationController
     @serie = Serie.find(params[:id])
 
     respond_to do |format|
-      if @serie.update_attributes(params[:serie])
+      if @serie.update_attributes(serie_params)
         format.html { redirect_to(@serie, :notice => 'Serie was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -402,5 +402,11 @@ class SeriesController < ApplicationController
   def remove_duplications
     order_by = (params[:order_by] ? params[:order_by].gsub(/\_/, ".") : nil) || "authors.name"
     @series = Serie.select("DISTINCT series.*").includes(:ranks, :authors).where(ranks: {ranking_id: params[:ranking_id]}).order(order_by).page(params[:page]).per(1000)
+  end
+
+  private
+  def serie_params
+    params.require(:serie).permit(
+    )
   end
 end
