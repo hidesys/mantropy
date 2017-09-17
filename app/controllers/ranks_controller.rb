@@ -67,8 +67,7 @@ class RanksController < ApplicationController
       end
     end
 
-    #complete_ranking(1)
-    if !Ranking.find(params[:rank][:ranking_id]).is_registerable
+    if !Ranking.find(rank_params[:ranking_id]).is_registerable
       redirect_to(user_path(current_user.name), :notice => "ランキングの変更はできません")
       return
     end
@@ -77,8 +76,9 @@ class RanksController < ApplicationController
     if !((r = Rank.where(:user_id => current_user.id, :rank => rank_params[:rank], :ranking_id => rank_params[:ranking_id])).empty?)
       msg = "上書きしました。"
       @rank = r[0]
-      @rank.serie_id = params[:serie_id]
+      @rank.serie_id = rank_params[:serie_id]
     end
+    p @rank
 
     respond_to do |format|
       if @rank.save
