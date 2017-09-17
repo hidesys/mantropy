@@ -407,6 +407,9 @@ class SeriesController < ApplicationController
   private
   def serie_params
     params.require(:serie).permit(
+      :author_name,
+      :magazine_name,
+      :name
     )
   end
 end
