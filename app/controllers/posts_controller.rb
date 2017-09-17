@@ -43,6 +43,14 @@ class PostsController < ApplicationController
   # POST /posts.xml
   def create
     @post = Post.new(post_params)
+    puts @post.topic_id
+    puts "hogehoge" 
+    puts @post.topic_id
+    puts "hogehoge" 
+    puts @post.topic_id
+    puts "hogehoge" 
+    puts @post.topic_id
+    puts "hogehoge" 
     topic = @post.topic
     redirect_path = (topic.title ? topic : serie_path(Serie.find_by_topic_id(topic.id)))
     begin

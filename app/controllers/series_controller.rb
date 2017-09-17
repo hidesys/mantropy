@@ -384,7 +384,7 @@ class SeriesController < ApplicationController
   def update_post
     Post.transaction do
       @serie = Serie.find(params[:id])
-      post = Post.new(params[:post])
+      post = Post.new(post_params)
       post.user = current_user
       post.order = Post.where(:topic_id => post.topic_id).count + 1
       post.save!
