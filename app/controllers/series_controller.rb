@@ -113,9 +113,7 @@ class SeriesController < ApplicationController
     @str = str
 
     begin
-     if params[:scope] == "amazon_all" && current_user
-        aaawss = Aaaws.search(str, 4)
-      elsif params[:scope] == "amazon" && current_user
+      if params[:scope] =~ /^amazon/ && current_user
         aaawss = Aaaws.search(str)
       elsif params[:scope] == "mantropy" && current_user
         aaawss = AaawsResponseArray.new
