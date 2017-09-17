@@ -14,6 +14,9 @@ Mantropy::Application.configure do
   #config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
+  # StrongParametersに失敗したらRaise
+  config.action_controller.action_on_unpermitted_parameters = :raise
+
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
