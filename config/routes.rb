@@ -24,7 +24,7 @@ Mantropy::Application.routes.draw do
 
   get '/series/new(/:id)' => 'series#new', :as => 'new_serie'
   get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
-  post '/:name/series/:id' => 'series#update'
+  patch '/:name/series/:id' => 'series#update'
   get '/series/:id' => 'series#show'#, :as => 'serie'
   post '/series/:id/update_author' => 'series#update_author'
   post '/series/:id/update_magazine' => 'series#update_magazines_series'

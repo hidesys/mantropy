@@ -1,5 +1,5 @@
 class RankingsController < ApplicationController
-  before_filter :admin_basic_authentication
+  before_action :admin_basic_authentication
 
   def index
     @rankings = Ranking.all

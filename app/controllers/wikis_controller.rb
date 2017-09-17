@@ -1,6 +1,6 @@
 # coding: UTF-8
 class WikisController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show]
+  before_action :authenticate_user!, :except => [:show]
 
   # GET /wikis
   # GET /wikis.xml

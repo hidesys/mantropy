@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class RanksController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   # GET /ranks
   # GET /ranks.xml

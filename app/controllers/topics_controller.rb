@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TopicsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   # GET /topics
   # GET /topics.xml
   def index
