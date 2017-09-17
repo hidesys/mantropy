@@ -46,6 +46,8 @@ class RanksController < ApplicationController
     params[:rank][:rank].tr!("０-９", "0-9")
     @rank = Rank.new(rank_params)
     @rank.user_id = current_user.id
+    @rank.serie_id = params[:serie_id]
+    @rank.ranking_id = params[:ranking_id]
     s = Serie.find(@rank.serie_id)
 
     magazine_name = params[:magazine_name].strip
@@ -74,10 +76,10 @@ class RanksController < ApplicationController
     end
 
     msg = nil
-    if !((r = Rank.where(:user_id => current_user.id, :rank => params[:rank][:rank], :ranking_id => params[:rank][:ranking_id])).empty?)
+    if !((r = Rank.where(:user_id => current_user.id, :rank => rank_params[:rank], :ranking_id => rank_params[:ranking_id])).empty?)
       msg = "上書きしました。"
       @rank = r[0]
-      @rank.serie_id = params[:rank][:serie_id]
+      @rank.serie_id = params[:serie_id]
     end
 
     respond_to do |format|
