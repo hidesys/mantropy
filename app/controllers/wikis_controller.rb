@@ -68,6 +68,7 @@ class WikisController < ApplicationController
     @wiki = Wiki.new(wiki_params)
     @wiki.user = current_user
     @wiki.is_private = @wiki.is_private && @wiki.is_private != 0 ? 1 : nil
+    @notation = @@notation
 
     respond_to do |format|
       if @wiki.save
@@ -114,7 +115,7 @@ class WikisController < ApplicationController
       :name,
       :readonly,
       :title,
-      :constant,
+      :content,
       :is_private
     )
   end
