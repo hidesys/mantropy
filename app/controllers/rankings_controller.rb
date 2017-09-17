@@ -11,7 +11,7 @@ class RankingsController < ApplicationController
   end
 
   def create
-    @ranking = Ranking.new(params[:ranking])
+    @ranking = Ranking.new(ranking_params)
     if @ranking.save
       redirect_to rankings_path
     else
@@ -21,10 +21,21 @@ class RankingsController < ApplicationController
 
   def update
     @ranking = Ranking.find(params[:id])
-    if @ranking.update_attributes(params[:ranking])
+    if @ranking.update_attributes(ranking_params)
       redirect_to rankings_path
     else
       redirect_to rankings_path
     end
+  end
+
+  private
+  def ranking_params
+    params.require(:ranking).permit(
+      :name,
+      :is_registerable,
+      :scope_min,
+      :scope_max,
+      :kind
+    )
   end
 end

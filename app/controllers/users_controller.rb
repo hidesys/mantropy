@@ -63,7 +63,7 @@ class UsersController < ApplicationController
       return
     end
 
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     current_userauth.user = @user
 
     respond_to do |format|
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
     #params[:user].each{|k,v| params[:user][k].gsub!(/\/\./, "") if k == :name}
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         format.html { redirect_to(user_path(@user.name), :notice => 'User was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -111,5 +111,21 @@ class UsersController < ApplicationController
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(
+      :name,
+      :realname,
+      :pcmail,
+      :mbmail,
+      :twitter,
+      :url,
+      :publicabout,
+      :privateabout,
+      :joined,
+      :entered
+    )
   end
 end

@@ -1,6 +1,6 @@
-= form_for post = Post.new(:topic_id => topic.id) do |f|
+= form_for post = Post.new do |f|
   %dt
-    = f.hidden_field :topic_id
+    = hidden_field_tag :topic_id, topic.id
     = f.submit "書き込み"
     E-mail： #{f.text_field :email}
   %dd

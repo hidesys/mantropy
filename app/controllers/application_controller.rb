@@ -88,4 +88,12 @@ class ApplicationController < ActionController::Base
   def registering_rankings
     registerable_rankings.empty? ? [] : Ranking.where(["name LIKE ?", "#{registerable_rankings.last.name[0...4]}%"]).order(:id)
   end
+  
+  private
+  def post_params
+    params.require(:post).permit(
+      :email,
+      :content
+    )
+  end
 end

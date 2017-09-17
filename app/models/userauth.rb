@@ -6,5 +6,5 @@ class Userauth < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
 
-  belongs_to :user
+  belongs_to :user, optional: true
 end

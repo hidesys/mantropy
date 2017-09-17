@@ -26,7 +26,7 @@ class WikisController < ApplicationController
     if @wiki == nil then
       redirect_to root_path, :alreat => "該当するページがありません"
     elsif ! current_user && Wiki.where(name: @wiki.name, created_at: Wiki.where(name: @wiki.name).maximum(:created_at))[0].is_private
-      redirect_to root_path, :alreat => "おちんちん舐めいたよぅ"
+      redirect_to root_path, :alreat => "おちんちん舐めたいよぅ"
     else
       @wikis = Wiki.where(name: @wiki.name).order("created_at DESC")
       @title = @wiki.title
@@ -65,9 +65,10 @@ class WikisController < ApplicationController
   # POST /wikis
   # POST /wikis.xml
   def create
-    @wiki = Wiki.new(params[:wiki])
+    @wiki = Wiki.new(wiki_params)
     @wiki.user = current_user
     @wiki.is_private = @wiki.is_private && @wiki.is_private != 0 ? 1 : nil
+    @notation = @@notation
 
     respond_to do |format|
       if @wiki.save
@@ -86,7 +87,7 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
 
     respond_to do |format|
-      if @wiki.update_attributes(params[:wiki])
+      if @wiki.update_attributes(wiki_params)
         format.html { redirect_to(@wiki, :notice => 'Wiki was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -106,6 +107,17 @@ class WikisController < ApplicationController
       format.html { redirect_to(wikis_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def wiki_params
+    params.require(:wiki).permit(
+      :name,
+      :readonly,
+      :title,
+      :content,
+      :is_private
+    )
   end
 
   @@notation = <<EoN

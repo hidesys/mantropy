@@ -41,7 +41,7 @@ class BooksController < ApplicationController
   # POST /books
   # POST /books.xml
   def create
-    @book = Book.new(params[:book])
+    @book = Book.new(book_params)
 
     respond_to do |format|
       if @book.save
@@ -60,7 +60,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
 
     respond_to do |format|
-      if @book.update_attributes(params[:book])
+      if @book.update_attributes(book_params)
         format.html { redirect_to(@book, :notice => 'Book was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -80,5 +80,20 @@ class BooksController < ApplicationController
       format.html { redirect_to(books_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  def book_params
+    params.require(:book).permit(
+      :isbn,
+      :name,
+      :publisher,
+      :publificationdate,
+      :kind,
+      :detailurl,
+      :smallimgurl,
+      :mediumimgurl,
+      :largeimgurl
+    )
   end
 end

@@ -40,7 +40,7 @@ class MagazinesSeriesController < ApplicationController
   # POST /magazines_series
   # POST /magazines_series.json
   def create
-    @magazines_serie = MagazinesSerie.new(params[:magazines_serie])
+    @magazines_serie = MagazinesSerie.new(magazines_serie_params)
 
     respond_to do |format|
       if @magazines_serie.save
@@ -59,7 +59,7 @@ class MagazinesSeriesController < ApplicationController
     @magazines_serie = MagazinesSerie.find(params[:id])
 
     respond_to do |format|
-      if @magazines_serie.update_attributes(params[:magazines_serie])
+      if @magazines_serie.update_attributes(magazines_serie_params)
         format.html { redirect_to @magazines_serie, notice: 'Magazines serie was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,4 +80,14 @@ class MagazinesSeriesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+  def magazines_serie_params
+    params.require(:magazines_serie_params).permit(
+      :magazines,
+      :series,
+      :placed
+    )
+  end
+      
 end
