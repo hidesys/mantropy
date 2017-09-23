@@ -1,11 +1,6 @@
-- @users.each do |user|
-  .member
-    = link_to (image_tag "/images/nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
-    %br/
-    = link_to (user.name), user_path(user.name)
-    %br/
-    = user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..7]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ"
+<h2>現在の漫トロを構成する者の一覧</h2>
 - if current_user
+  <h4>のうち今年度ランキング提出を行う者を抽出した一覧</h4>
   - @users.each do |user|
     = link_to (user.name), user_path(user.name)
     - @registering_rankings.each do |ranking|
@@ -14,4 +9,21 @@
         提出数
         %b= user.ranks.where(:ranking_id => ranking.id).count
     %br/
+  %br{:style => "clear: both;"}/
+- @users.each do |user|
+  .member
+    = link_to (image_tag "/images/nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
+    %br/
+    = link_to (user.name), user_path(user.name)
+    %br/
+    = user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..7]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ"
+%br{:style => "clear: both;"}/
+<h2>かつて漫トロを創りし者の一覧</h2>
+- @old_users.each do |user|
+  .member
+    = link_to (image_tag "/images/nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 32), user_path(user.name)
+    %br/
+    = link_to (user.name), user_path(user.name)
+    %br/
+    = user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..7]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ"
 %br{:style => "clear: both;"}/
