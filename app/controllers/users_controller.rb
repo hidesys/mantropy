@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       User.where("created_at > ?", Time.now - 6.month)
     ).uniq
     @old_users = (
-      User.where("created_at > ?", Time.now - 600000.month) -
+      User.all -
       User.includes(:ranks).where("ranks.created_at > ?", Time.now - 1.year).references(:ranks) -
       User.where("created_at > ?", Time.now - 6.month)
     ).uniq
