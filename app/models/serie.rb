@@ -10,4 +10,6 @@ class Serie < ActiveRecord::Base
   has_many :posts, :through => :topic
   belongs_to :post, optional: true
   belongs_to :topic, optional: true
+
+  attr_accessor :rank_info
 end

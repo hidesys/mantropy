@@ -18,17 +18,6 @@ class SeriesController < ApplicationController
 
   def ranking_now
     @title = "全体ランキング"
-    #if !(current_user && complete_ranking(Ranking.find(7), current_user))
-    #  redirect_to root_path
-    #  return
-    #end
-
-    #sql = "SELECT s.id, s.name, \"コメント数:\"||(COALESCE((SELECT COUNT(*) FROM topics t INNER JOIN posts p ON t.id = p.topic_id WHERE t.id = s.topic_id),0))||\"　純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by rs.mark DESC, rs.count DESC"
-    #ranking_id = (Ranking.find_by_name(params[:str]) ? Ranking.find_by_name(params[:str]).id : 1)
-    #sql = "SELECT s.id, s.name, \"純得点: \"||(rs.mark - (rs.count -1) * 3)||\"　補正後得点: \"||rs.mark||\"　重複数: \"||rs.count AS url FROM series s INNER JOIN (SELECT (SUM(31 - rank) + ((COUNT(*) - 1) * 3)) AS mark, serie_id, count(id) AS count from ranks where ranking_id=#{ranking_id} and rank between 1 and 30 group by serie_id) rs ON s.id=rs.serie_id order by s.name"
-    #@series = Kaminari.paginate_array(Serie.find_by_sql(sql)).page(params[:page])
-    #render "ranking_name"
-    #return
 
     ranking = Ranking.find_by_name(params[:str]) || Ranking.find_by_id(params[:str]) || Ranking.where('kind = "kojin" AND is_registerable IS NULL').last
     ranking_plus = ranking_minus = nil
@@ -63,7 +52,7 @@ class SeriesController < ApplicationController
       @series = Serie.find_by_sql(sql)
       @series.map! do |serie|
         if /^合計得点\:\s(\d+)　糞補正後得点\:\s(\-?\d+)　重複数\:\s(\d+)　糞重複数\:\s(\d+)　コメント数\:\s(\d+)　最高順位\:\s(\d+)$/ =~ serie.url
-          serie.url = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4, count_post: $5, min_rank: $6}
+          serie.rank_info = {sum_of_mark: $1, sum_of_mark_with_kuso: $2, count_rank: $3, count_kuso: $4, count_post: $5, min_rank: $6}
         end
         serie
       end
@@ -71,34 +60,36 @@ class SeriesController < ApplicationController
         rank = rank_ = sum_of_mark = count_rank = min_rank = 0
         @series.map! do |serie|
           rank_ += 1
-          if !(serie.url[:sum_of_mark] == sum_of_mark && serie.url[:count_rank] == count_rank && serie.url[:min_rank] == min_rank)
+          if !(serie.rank_info[:sum_of_mark] == sum_of_mark && serie.rank_info[:count_rank] == count_rank && serie.rank_info[:min_rank] == min_rank)
             rank = rank_
           end
-          sum_of_mark = serie.url[:sum_of_mark]
-          count_rank = serie.url[:count_rank]
-          min_rank = serie.url[:min_rank]
-          serie.url[:rank] = rank
+          sum_of_mark = serie.rank_info[:sum_of_mark]
+          count_rank = serie.rank_info[:count_rank]
+          min_rank = serie.rank_info[:min_rank]
+          serie.rank_info[:rank] = rank
           serie
         end
       else ranking == ranking_minus
         rank = rank_ = sum_of_mark_with_kuso = count_kuso = min_rank = 0
         @series.map! do |serie|
           rank_ += 1
-          if !(serie.url[:sum_of_mark_with_kuso] == sum_of_mark_with_kuso && serie.url[:count_kuso] == count_kuso && serie.url[:min_rank] == min_rank)
+          if !(serie.rank_info[:sum_of_mark_with_kuso] == sum_of_mark_with_kuso && serie.rank_info[:count_kuso] == count_kuso && serie.rank_info[:min_rank] == min_rank)
             rank = rank_
           end
-          sum_of_mark_with_kuso = serie.url[:sum_of_mark_with_kuso]
-          count_kuso = serie.url[:count_kuso]
-          min_rank = serie.url[:min_rank]
-          serie.url[:rank] = rank
+          sum_of_mark_with_kuso = serie.rank_info[:sum_of_mark_with_kuso]
+          count_kuso = serie.rank_info[:count_kuso]
+          min_rank = serie.rank_info[:min_rank]
+          serie.rank_info[:rank] = rank
           serie
         end
       end
       @is_should_comment_term = ranking_plus.is_registerable != 1 && ranking_minus.is_registerable != 1
 
+      @series = Kaminari.paginate_array(@series).page(params[:page]).per(64)
+
       respond_to do |format|
-        format.html { render :html => @series = Kaminari.paginate_array(@series).page(params[:page]).per(64) }
-        format.csv  { render :csv => @series }
+        format.html# { render html: (@series = Kaminari.paginate_array(@series).page(params[:page]).per(64)) }
+        format.csv#  { render :content_type => 'text/csv' }
         format.xml  { @series = @series[0..55] }
         format.json { @series = @series[0..55] }
       end
