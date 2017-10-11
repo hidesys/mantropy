@@ -1,9 +1,9 @@
 - @series.each do |serie|
   %serie
-    %rank= "#{serie.url[:rank]}位"
+    %rank= "#{serie.rank_info[:rank]}位"
     %name= serie.name
     %authors= serie.authors.map{|a| a.name}.join("・")
-    %ranking= "（#{serie.url[:sum_of_mark]}点： 得票数#{serie.url[:count_rank]}, クソ修正後得点#{serie.url[:sum_of_mark_with_kuso]}点, クソ得票数#{serie.url[:count_kuso]}）"
+    %ranking= "（#{serie.rank_info[:sum_of_mark]}点： 得票数#{serie.rank_info[:count_rank]}, クソ修正後得点#{serie.rank_info[:sum_of_mark_with_kuso]}点, クソ得票数#{serie.rank_info[:count_kuso]}）"
     %magazine= serie.magazines_series.map{|ms| ms.magazine ? (ms.magazine.name + (ms.placed ? (ms.placed != "" ? "（#{ms.placed}）" : "") : "")) : nil}.compact.uniq.join("　")
     %detail
       %content= raw serie.post.content.gsub(/[\r\n]/, "") if serie.post
