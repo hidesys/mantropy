@@ -1,3 +1,4 @@
+= link_to "会誌編集用にランキングとコメント一覧をXMLでダウンロードする", "#{request.url}.xml", download: true
 = paginate @series
 - @series.each do |serie|
   - if current_user && serie.ranks.where(:ranking_id => @ranking_ids).map{|r| r.user_id}.include?(current_user.id)
