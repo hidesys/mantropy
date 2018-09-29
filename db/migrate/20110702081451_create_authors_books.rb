@@ -1,4 +1,4 @@
-class CreateAuthorsBooks < ActiveRecord::Migration
+class CreateAuthorsBooks < ActiveRecord::Migration[4.2]
   def self.up
     create_table :authors_books do |t|
       t.string :role

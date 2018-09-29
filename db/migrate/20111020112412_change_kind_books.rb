@@ -1,4 +1,4 @@
-class ChangeKindBooks < ActiveRecord::Migration
+class ChangeKindBooks < ActiveRecord::Migration[4.2]
   def self.up
     remove_column :books, :kind
     add_column :books, :kind, :string

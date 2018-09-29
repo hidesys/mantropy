@@ -1,4 +1,4 @@
-class CreateBooksBrowsenodeids < ActiveRecord::Migration
+class CreateBooksBrowsenodeids < ActiveRecord::Migration[4.2]
   def self.up
     create_table :books_browsenodeids, :id => false  do |t|
       t.references :book

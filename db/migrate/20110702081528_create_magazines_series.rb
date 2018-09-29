@@ -1,4 +1,4 @@
-class CreateMagazinesSeries < ActiveRecord::Migration
+class CreateMagazinesSeries < ActiveRecord::Migration[4.2]
   def self.up
     create_table :magazines_series, :id => false do |t|
       t.references :magazine

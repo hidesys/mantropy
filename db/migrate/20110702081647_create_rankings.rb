@@ -1,4 +1,4 @@
-class CreateRankings < ActiveRecord::Migration
+class CreateRankings < ActiveRecord::Migration[4.2]
   def self.up
     create_table :rankings do |t|
       t.string :name

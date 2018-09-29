@@ -39,5 +39,5 @@ Mantropy::Application.configure do
   }
 
   config.assets.digest = false
+  config.eager_load = false
 end
-

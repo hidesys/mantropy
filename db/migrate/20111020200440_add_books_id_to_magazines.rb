@@ -1,4 +1,4 @@
-class AddBooksIdToMagazines < ActiveRecord::Migration
+class AddBooksIdToMagazines < ActiveRecord::Migration[4.2]
   def self.up
     add_column :magazines, :book_id, :integer
   end

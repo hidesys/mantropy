@@ -1,4 +1,4 @@
-class AddTopicIdToSeries < ActiveRecord::Migration
+class AddTopicIdToSeries < ActiveRecord::Migration[4.2]
   def self.up
     add_column :series, :topic_id, :integer
   end

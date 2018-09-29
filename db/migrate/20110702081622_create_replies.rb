@@ -1,4 +1,4 @@
-class CreateReplies < ActiveRecord::Migration
+class CreateReplies < ActiveRecord::Migration[4.2]
   def self.up
     create_table :replies do |t|
       t.references :user

@@ -1,4 +1,4 @@
-class AddAsinsToBooks < ActiveRecord::Migration
+class AddAsinsToBooks < ActiveRecord::Migration[4.2]
   def self.up
     add_column :books, :asin, :string
     add_column :books, :label, :string

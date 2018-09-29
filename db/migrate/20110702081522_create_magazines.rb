@@ -1,4 +1,4 @@
-class CreateMagazines < ActiveRecord::Migration
+class CreateMagazines < ActiveRecord::Migration[4.2]
   def self.up
     create_table :magazines do |t|
       t.string :name

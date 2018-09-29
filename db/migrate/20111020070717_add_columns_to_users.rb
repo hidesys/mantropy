@@ -1,4 +1,4 @@
-class AddColumnsToUsers < ActiveRecord::Migration
+class AddColumnsToUsers < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :publicabout, :string
     add_column :users, :privateabout, :string

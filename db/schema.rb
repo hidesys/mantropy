@@ -10,9 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170917111022) do
+ActiveRecord::Schema.define(version: 2017_09_17_111022) do
 
-  create_table "authorideas", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "authorideas", id: :serial, force: :cascade do |t|
     t.integer "identify"
     t.integer "author_id"
     t.datetime "created_at"
@@ -20,36 +23,36 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.integer "idea"
   end
 
-  create_table "authors", force: :cascade do |t|
-    t.string "name", limit: 255
+  create_table "authors", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "authors_books", force: :cascade do |t|
-    t.string "role", limit: 255
+  create_table "authors_books", id: :serial, force: :cascade do |t|
+    t.string "role"
     t.integer "author_id"
     t.integer "book_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "authors_series", force: :cascade do |t|
-    t.string "role", limit: 255
+  create_table "authors_series", id: :serial, force: :cascade do |t|
+    t.string "role"
     t.integer "author_id"
     t.integer "serie_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "bookaffairs", force: :cascade do |t|
+  create_table "bookaffairs", id: :serial, force: :cascade do |t|
     t.integer "event"
     t.integer "book_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "bookreals", force: :cascade do |t|
+  create_table "bookreals", id: :serial, force: :cascade do |t|
     t.integer "book_id"
     t.text "memo"
     t.integer "user_id"
@@ -57,21 +60,21 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.datetime "updated_at"
   end
 
-  create_table "books", force: :cascade do |t|
-    t.string "isbn", limit: 255
-    t.string "name", limit: 255
-    t.string "publisher", limit: 255
+  create_table "books", id: :serial, force: :cascade do |t|
+    t.string "isbn"
+    t.string "name"
+    t.string "publisher"
     t.date "publicationdate"
-    t.string "detailurl", limit: 255
-    t.string "smallimgurl", limit: 255
-    t.string "mediumimgurl", limit: 255
-    t.string "largeimgurl", limit: 255
+    t.string "detailurl"
+    t.string "smallimgurl"
+    t.string "mediumimgurl"
+    t.string "largeimgurl"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "asin", limit: 255
-    t.string "label", limit: 255
+    t.string "asin"
+    t.string "label"
     t.boolean "iscomic"
-    t.string "kind", limit: 255
+    t.string "kind"
   end
 
   create_table "books_browsenodeids", id: false, force: :cascade do |t|
@@ -84,31 +87,31 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.integer "serie_id"
   end
 
-  create_table "browsenodeids", force: :cascade do |t|
-    t.integer "node", limit: 8
-    t.string "name", limit: 255
-    t.integer "ancestor", limit: 8
+  create_table "browsenodeids", id: :serial, force: :cascade do |t|
+    t.bigint "node"
+    t.string "name"
+    t.bigint "ancestor"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "magazines", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "publisher", limit: 255
-    t.string "url", limit: 255
+  create_table "magazines", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "publisher"
+    t.string "url"
     t.integer "appear"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "book_id"
   end
 
-  create_table "magazines_series", force: :cascade do |t|
-    t.string "placed", limit: 255
+  create_table "magazines_series", id: :serial, force: :cascade do |t|
+    t.string "placed"
     t.integer "magazine_id"
     t.integer "serie_id"
   end
 
-  create_table "postfavs", force: :cascade do |t|
+  create_table "postfavs", id: :serial, force: :cascade do |t|
     t.integer "score"
     t.integer "post_id"
     t.integer "user_id"
@@ -116,9 +119,9 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.datetime "updated_at"
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "email", limit: 255
+  create_table "posts", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "email"
     t.integer "order"
     t.text "content"
     t.integer "topic_id"
@@ -127,10 +130,17 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "rankings" because of following StandardError
-#   Unknown type 'bool' for column 'is_registerable'
+  create_table "rankings", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean "is_registerable"
+    t.integer "scope_min"
+    t.integer "scope_max"
+    t.string "kind"
+  end
 
-  create_table "ranks", force: :cascade do |t|
+  create_table "ranks", id: :serial, force: :cascade do |t|
     t.integer "rank"
     t.integer "score"
     t.integer "ranking_id"
@@ -140,19 +150,19 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.datetime "updated_at"
   end
 
-  create_table "replies", force: :cascade do |t|
+  create_table "replies", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "series", force: :cascade do |t|
-    t.string "name", limit: 255
+  create_table "series", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.integer "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "url", limit: 255
+    t.string "url"
     t.integer "topic_id"
   end
 
@@ -161,20 +171,20 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.integer "tag_id"
   end
 
-  create_table "tags", force: :cascade do |t|
-    t.string "name", limit: 255
+  create_table "tags", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "topics", force: :cascade do |t|
-    t.string "title", limit: 255
+  create_table "topics", id: :serial, force: :cascade do |t|
+    t.string "title"
     t.integer "appear"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "transfers", force: :cascade do |t|
+  create_table "transfers", id: :serial, force: :cascade do |t|
     t.integer "bookreal_id"
     t.integer "from"
     t.integer "to"
@@ -184,18 +194,18 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.datetime "updated_at"
   end
 
-  create_table "userauths", force: :cascade do |t|
-    t.string "email", limit: 255, default: "", null: false
-    t.string "encrypted_password", limit: 128, default: "", null: false
-    t.string "reset_password_token", limit: 255
+  create_table "userauths", id: :serial, force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "password_salt"
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip", limit: 255
-    t.string "last_sign_in_ip", limit: 255
-    t.string "password_salt", limit: 255
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -203,25 +213,25 @@ ActiveRecord::Schema.define(version: 20170917111022) do
     t.index ["reset_password_token"], name: "index_userauths_on_reset_password_token", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "realname", limit: 255
-    t.string "pcmail", limit: 255
-    t.string "mbmail", limit: 255
-    t.string "twitter", limit: 255
-    t.string "url", limit: 255
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "realname"
+    t.string "pcmail"
+    t.string "mbmail"
+    t.string "twitter"
+    t.string "url"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "publicabout", limit: 255
-    t.string "privateabout", limit: 255
-    t.string "joined", limit: 255
-    t.string "entered", limit: 255
+    t.string "publicabout"
+    t.string "privateabout"
+    t.string "joined"
+    t.string "entered"
   end
 
-  create_table "wikis", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "title", limit: 255
-    t.string "content", limit: 255
+  create_table "wikis", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "title"
+    t.string "content"
     t.integer "is_private"
     t.integer "user_id"
     t.datetime "created_at"

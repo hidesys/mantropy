@@ -111,7 +111,7 @@ class RanksController < ApplicationController
   # DELETE /ranks/1.xml
   def destroy
     @rank = Rank.find(params[:id])
-    if @rank.user_id == current_user.id && @rank.ranking.is_registerable == 1
+    if @rank.user_id == current_user.id && @rank.ranking.is_registerable
       @rank.destroy
       respond_to do |format|
         format.html { redirect_to(user_path(current_user.name)) }

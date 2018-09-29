@@ -1,4 +1,4 @@
-class CreateBrowsenodeids < ActiveRecord::Migration
+class CreateBrowsenodeids < ActiveRecord::Migration[4.2]
   def self.up
     create_table :browsenodeids do |t|
       t.integer :node
