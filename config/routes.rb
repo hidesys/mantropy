@@ -21,6 +21,9 @@ Mantropy::Application.routes.draw do
   resources :rankings, :only => [:index, :show, :update, :create]
 
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
+  devise_scope :userauths do
+    get '/userauths/sign_out' => 'devise/sessions#destroy'
+  end
 
   get '/series/new(/:id)' => 'series#new', :as => 'new_serie'
   get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
