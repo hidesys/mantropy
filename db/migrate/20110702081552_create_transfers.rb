@@ -1,4 +1,4 @@
-class CreateTransfers < ActiveRecord::Migration
+class CreateTransfers < ActiveRecord::Migration[4.2]
   def self.up
     create_table :transfers do |t|
       t.references :bookreal

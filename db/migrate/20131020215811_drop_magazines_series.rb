@@ -1,4 +1,4 @@
-class DropMagazinesSeries < ActiveRecord::Migration
+class DropMagazinesSeries < ActiveRecord::Migration[4.2]
 
   def down
     create_table :magazines_series, :id => false do |t|

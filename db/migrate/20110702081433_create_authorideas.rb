@@ -1,4 +1,4 @@
-class CreateAuthorideas < ActiveRecord::Migration
+class CreateAuthorideas < ActiveRecord::Migration[4.2]
   def self.up
     create_table :authorideas do |t|
       t.integer :identify

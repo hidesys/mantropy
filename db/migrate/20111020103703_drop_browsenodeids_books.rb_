@@ -1,4 +1,4 @@
-class DropBrowsenodeidsBooks < ActiveRecord::Migration
+class DropBrowsenodeidsBooks < ActiveRecord::Migration[4.2]
   def self.up
     drop_table :browsenodeids_books
   end

@@ -1,4 +1,4 @@
-class CreateBooksSeries < ActiveRecord::Migration
+class CreateBooksSeries < ActiveRecord::Migration[4.2]
   def self.up
   end
 
