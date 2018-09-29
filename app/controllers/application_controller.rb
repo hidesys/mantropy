@@ -82,13 +82,13 @@ class ApplicationController < ActionController::Base
   #alias_method_chain :render, :encoding
 
   def registerable_rankings
-    Ranking.where(is_registerable: 1)
+    Ranking.where(is_registerable: true)
   end
 
   def registering_rankings
     registerable_rankings.empty? ? [] : Ranking.where(["name LIKE ?", "#{registerable_rankings.last.name[0...4]}%"]).order(:id)
   end
-  
+
   private
   def post_params
     params.require(:post).permit(

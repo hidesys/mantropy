@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 2017_09_17_111022) do
   create_table "userauths", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "password_salt"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

@@ -19,7 +19,7 @@ class SeriesController < ApplicationController
   def ranking_now
     @title = "全体ランキング"
 
-    ranking = Ranking.find_by_name(params[:str]) || Ranking.find_by_id(params[:str]) || Ranking.where('kind = "kojin" AND is_registerable IS NULL').last
+    ranking = Ranking.find_by_name(params[:str]) || Ranking.find_by_id(params[:str]) || Ranking.where('kind = "kojin" AND (is_registerable IS NULL OR is_registerable = TRUE)').last
     ranking_plus = ranking_minus = nil
     if ranking.kind == "kojin"
       ranking_plus = ranking
@@ -30,7 +30,7 @@ class SeriesController < ApplicationController
     end
     if !(Time.now.month == 10 || (Time.now.month == 11 && Time.now.day < 25)) || current_user
       sql = "SELECT s.id, s.name, s.topic_id, s.post_id, " +
-        "\"合計得点: \"||rs.mark||\"　糞補正後得点: \"||(rs.mark + COALESCE(rk.mark,0))||\"　重複数: \"||(COALESCE(rs.count,0))||\"　糞重複数: \"||(COALESCE(rk.count, 0))||\"　コメント数: \"||COALESCE(pc.countp, 0)||\"　最高順位: \"||rs.min_rank AS url, " +
+        "'合計得点: '||rs.mark||'　糞補正後得点: '||(rs.mark + COALESCE(rk.mark,0))||'　重複数: '||(COALESCE(rs.count,0))||'　糞重複数: '||(COALESCE(rk.count, 0))||'　コメント数: '||COALESCE(pc.countp, 0)||'　最高順位: '||rs.min_rank AS url, " +
         "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
         "FROM series s " +
         "INNER JOIN (" +
@@ -83,7 +83,7 @@ class SeriesController < ApplicationController
           serie
         end
       end
-      @is_should_comment_term = ranking_plus.is_registerable != 1 && ranking_minus.is_registerable != 1
+      @is_should_comment_term = !ranking_plus.is_registerable && !ranking_minus.is_registerable
 
       @series = Kaminari.paginate_array(@series).page(params[:page]).per(64)
 
@@ -225,7 +225,7 @@ class SeriesController < ApplicationController
     @title = "#{@serie.name} のシリーズ情報"
     #@similar_series = Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN (SELECT r1.serie_id, COUNT(*) AS similarity FROM ranks r1 INNER JOIN ranks r2 ON r1.user_id=r2.user_id WHERE r2.serie_id=#{@serie.id} GROUP BY r1.serie_id ORDER BY similarity DESC, SUM(r1.score) DESC) r ON r.serie_id=s.id WHERE s.id!=#{@serie.id} LIMIT 4")
     #@ranks = @serie.ranks.where(:ranking_id => [1, 2, 3, 4]).order("ranking_id DESC, rank")
-    @ranks = @serie.ranks.where(:ranking_id => Ranking.where("is_registerable IS NULL OR is_registerable = 0")).order("ranking_id DESC, rank")
+    @ranks = @serie.ranks.where(:ranking_id => Ranking.where("is_registerable IS NULL OR is_registerable = FALSE")).order("ranking_id DESC, rank")
 
     unless @serie.topic then
       topic = Topic.new
@@ -255,7 +255,7 @@ class SeriesController < ApplicationController
   # GET /series/1/edit
   def edit
     @serie = Serie.find(params[:id])
-    @rankings = Ranking.where(:is_registerable => 1)
+    @rankings = Ranking.where(:is_registerable => true)
   end
 
   # POST /series
