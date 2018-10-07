@@ -1,4 +1,6 @@
-require File.expand_path('./load_environmental_variable.rb', __dir__)
+require File.expand_path(
+  Rails.env.production? ? './load_environmental_variable.rb' : './sensitive.rb',
+  __dir__)
 require_relative 'boot'
 
 require 'rails/all'
