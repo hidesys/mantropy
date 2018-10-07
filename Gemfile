@@ -1,15 +1,19 @@
 source 'http://rubygems.org'
 
-gem "haml"
-gem "erb2haml"
+gem 'haml'
+gem 'erb2haml'
 gem 'rails'
 gem 'devise'
 gem 'ruby-aaws', :require => 'amazon/aws/search'
-gem "iconv", "~> 1.0.3"
+gem 'iconv', '~> 1.0.3'
 gem "devise-encryptable"
 gem 'jquery-rails'
 gem 'rails_autolink'
 gem "jbuilder"
+
+gem 'turbolinks', '~> 5'
+gem 'coffee-rails', '~> 4.2'
+gem 'uglifier', '>= 1.3.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
