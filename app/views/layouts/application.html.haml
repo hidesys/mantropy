@@ -5,12 +5,9 @@
       = title
       \-漫トロピーWeb
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %meta{:content => "text/css", "http-equiv" => "Content-Style-Type"}/
-    %link{:rel=> "stylesheet", :type => "text/css", :href => "/stylesheets/style.css"}
-    - Dir.foreach("#{Rails.public_path.to_s}/javascripts/").each do |js|
-      - next if js =~ /^\.+$/
-      %script{:type => "text/javascript", :src => "/javascripts/#{js}"}
     = csrf_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body{:style => "background-color:#{(Rails.env == "development" ? "black" : "#EFEFEF;")}"}
     #body{:align => "center"}
       #wrapper{:style => "width: #{width}px;"}
@@ -54,7 +51,7 @@
             %tr{:width => "100%"}
               %td{:align => "left", :rowspan => "2", :width => "170"}
                 %a{:href => "/"}
-                  %img{:alt => "漫トロピーWebロゴ", :border => "0", :src => "/images/logo.png", :width => "164"}/
+                  = image_tag "logo.png", width: 164, alt: "漫トロピーWebロゴ", border: 0
               %td{:align => "left", :nowrap => "", :valign => "bottom"}
                 = text_field_tag :str, @str, {:size => 55, :title => "漫トロピーWeb検索", :style => "font-size: 12pt"}
                 = submit_tag "検索"

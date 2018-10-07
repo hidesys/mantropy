@@ -11,7 +11,7 @@
 %h2 現在の漫トロを構成する者たち
 - @users.each do |user|
   .member
-    = link_to (image_tag "/images/nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
+    = link_to (image_tag "nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
     %br/
     = link_to (user.name), user_path(user.name)
     %br/
@@ -22,7 +22,7 @@
   %div ログイン情報は生きてます。
   - @old_users.each do |user|
     .member
-      = link_to (image_tag "/images/nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
+      = link_to (image_tag "nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
       %br/
       = link_to (user.name), user_path(user.name)
       %br/
