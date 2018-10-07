@@ -1,9 +1,8 @@
+require_relative 'boot'
+require 'rails/all'
 require File.expand_path(
   Rails.env.production? ? './load_environmental_variable.rb' : './sensitive.rb',
   __dir__)
-require_relative 'boot'
-
-require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
