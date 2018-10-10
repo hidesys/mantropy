@@ -18,4 +18,3 @@ amazonrc = <<"EOS"
   cache_dir     = "#{temp_path}"
 EOS
 File.open(amazonrc_path, "w").write(amazonrc)
-Dir.mkdir(temp_path)
