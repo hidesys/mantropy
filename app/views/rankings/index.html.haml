@@ -42,7 +42,9 @@
         %td= config.name
         %td= f.text_field :value
         %td= f.submit '変更'
-        %td= link_to '削除', config, :confirm => '削除してよいですか？', :method => :delete
+        %td
+          　
+          = link_to '削除', config, :confirm => '削除してよいですか？', :method => :delete
   %tr
     = form_for(SiteConfig.new) do |f|
       %td= f.text_field :path
