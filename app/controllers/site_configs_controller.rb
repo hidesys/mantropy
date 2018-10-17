@@ -1,4 +1,4 @@
-class SiteConfigController < ApplicationController
+class SiteConfigsController < ApplicationController
   def create
     @site_config = SiteConfig.new(site_config_params)
     @site_config.save!
