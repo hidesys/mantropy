@@ -28,7 +28,10 @@ class SeriesController < ApplicationController
       ranking_plus = Ranking.where(["name LIKE ? AND kind = ?", "#{ranking.name[0...4]}%", "kojin"]).last
       ranking_minus = ranking
     end
-    if !SiteConfig.config('ranking_now_unvisible') && (!SiteConfig.config('ranking_now_only_members') || current_user)
+    share_with = SiteConfig.config('ranking_now_share_with')
+    share_with_members = share_with == 'members'
+    share_with_no_one = share_with == 'no_one'
+    if !share_with_no_one && (!share_with_members || current_user)
       sql = "SELECT s.id, s.name, s.topic_id, s.post_id, " +
         "'合計得点: '||rs.mark||'　糞補正後得点: '||(rs.mark + COALESCE(rk.mark,0))||'　重複数: '||(COALESCE(rs.count,0))||'　糞重複数: '||(COALESCE(rk.count, 0))||'　コメント数: '||COALESCE(pc.countp, 0)||'　最高順位: '||rs.min_rank AS url, " +
         "(rs.mark + COALESCE(rk.mark,0)) AS amark " +
@@ -94,7 +97,7 @@ class SeriesController < ApplicationController
         format.json { @series = @series[0..55] }
       end
     else
-      if SiteConfig.config('ranking_now_unvisible')
+      if share_with_no_one
         redirect_to root_path, :notice => "ランキングは集計中なので誰も見れないよ"
       else
         redirect_to root_path, :notice => "ランキングは集計中なのでメンバーだけが見れるよ"
