@@ -4,6 +4,7 @@ class RankingsController < ApplicationController
   def index
     @rankings = Ranking.all
     @new_ranking = Ranking.new
+    @site_configs = SiteConfig.all
   end
 
   def show

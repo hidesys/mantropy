@@ -1,4 +1,4 @@
-%h1 ランキング一覧
+%h1 ランキング設定一覧
 %table
   %tr
     %th Name
@@ -27,3 +27,26 @@
       %td= f.text_field :scope_max, size: 2
       %td= f.text_field :kind
       %td= f.submit "新規登録"
+%h2 ランキング公開設定
+%table
+  %tr
+    %th 設定
+    %th タイトル
+    %th 値
+    %th
+    %th
+  - @site_configs.each do |config|
+    %tr
+      = form_for(config) do |f|
+        %td= config.path
+        %td= config.value
+        %td= f.text_field :value
+        %td= f.submit '変更'
+        %td= link_to '削除', site_config_destroy_path
+  %tr
+    = form_for(SiteConfig.new) do |f|
+      %td= config.path
+      %td= config.value
+      %td= f.text_field :value
+      %td= f.submit '作成'
+      %td

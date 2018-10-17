@@ -19,6 +19,7 @@ Mantropy::Application.routes.draw do
   resources :magazines, :only => [:index, :update]
   resources :wikis, :only => [:index, :create, :new]
   resources :rankings, :only => [:index, :show, :update, :create]
+  resources :site_configs, only: [:create, :update, :destroy]
 
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
   devise_scope :userauths do
