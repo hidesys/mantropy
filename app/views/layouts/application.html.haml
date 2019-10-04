@@ -18,7 +18,7 @@
                 = link_to "トップ", root_path, :class => :head
                 = link_to "漫トロピーについて", "/about", :class => :head
                 = link_to "メンバー", users_path, :class => :head
-                = link_to "ランキング", serie_ranking_path(Ranking.where(kind: "kojin").last.name), :class => :head
+                = link_to "ランキング", serie_ranking_path(Ranking.where(kind: "kojin").last&.name), :class => :head
                 = link_to "活動ブログ", "http://mantropy.hatenablog.com/", :class => :head
                 - if current_user
                   \- #{link_to "掲示板", topics_path, :class => :head}
