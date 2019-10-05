@@ -47,3 +47,6 @@ gem 'unicorn'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+gem 'httpclient'
+gem 'dotenv-rails', require: 'dotenv/rails-now'

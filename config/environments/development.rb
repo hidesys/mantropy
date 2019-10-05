@@ -31,9 +31,9 @@ Mantropy::Application.configure do
   config.action_mailer.smtp_settings = {
     :address => "smtp.gmail.com",
     :port => 587,
-    :domain => MAILER_DOMAIN,
-    :user_name => MAILER_USER,
-    :password => MAILER_PASS,
+    :domain => ENV['MAILER_DOMAIN'],
+    :user_name => ENV['MAILER_USER'],
+    :password => ENV['MAILER_PASS'],
     :authentication => 'plain',
     :enable_starttls_auto => true,
   }

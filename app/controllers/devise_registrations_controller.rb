@@ -9,7 +9,7 @@ class DeviseRegistrationsController < Devise::RegistrationsController
 
   def basic_authentication
    authenticate_or_request_with_http_basic("登録ページ表示用認証") do |user, password|
-    user == DIGEST_USER && password == DIGEST_PASS
+    user == ENV['DIGEST_USER'] && password == ENV['DIGEST_PASS']
    end
   end
 end

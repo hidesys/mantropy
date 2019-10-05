@@ -10,14 +10,14 @@ class ApplicationController < ActionController::Base
 
   def admin_basic_authentication
     authenticate_or_request_with_http_basic("Development Authentication") do |user, password|
-      user == DIGEST_USER && password == DIGEST_PASS
+      user == ENV['DIGEST_USER'] && password == ENV['DIGEST_PASS']
     end
   end
 
   def development_basic_authentication
     if Rails.env == "development" then
       authenticate_or_request_with_http_basic("Development Authentication") do |user, password|
-        user == DIGEST_USER && password == DIGEST_PASS
+        user == ENV['DIGEST_USER'] && password == ENV['DIGEST_PASS']
       end
     else
       return true
