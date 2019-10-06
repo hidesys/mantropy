@@ -63,8 +63,8 @@
                 %font{:size => "-1"}
                   - if current_user
                     %label
-                      = radio_button_tag :scope, "amazon", true
-                      Amazonから検索
+                      = radio_button_tag :scope, "rakuten", true
+                      Rakutenから検索
                   - else
                     %label
                       = radio_button_tag :scope, "mantropy", true

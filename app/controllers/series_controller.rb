@@ -114,86 +114,12 @@ class SeriesController < ApplicationController
       return
     end
 
-    begin
-      if params[:scope] =~ /^amazon/ && current_user
-        aaawss = Aaaws.search(str)
-      elsif params[:scope] == "mantropy" && current_user
-        aaawss = AaawsResponseArray.new
-      else
-        aaawss = AaawsResponseArray.new
-      end
-    rescue => evar
-        if Rails.env == "development"
-          raise evar
-        end
-        aaawss = AaawsResponseArray.new
-    end
-
-    aaawss.node_lists.each do |n|
-      unless Browsenodeid.where(:node => n[0], :name => n[1], :ancestor => n[2]).exists?
-        bn = Browsenodeid.new
-        bn.node = n[0]
-        bn.name = n[1]
-        bn.ancestor = n[2]
-        bn.save!
-      end
-    end
-
-    aaawss.each do |a|
-      Book.transaction() do
-        unless b = Book.find_by_name(a.title)
-          b = Book.new
-          b.isbn = a.isbn
-          b.name = a.title
-          b.publisher = a.publisher
-          b.publicationdate = a.publication_date
-          b.kind = a.binding
-          b.label = a.label
-          b.asin = a.asin
-          b.detailurl = a.detail_page_url
-          b.smallimgurl = a.small_image
-          b.mediumimgurl = a.medium_image
-          b.largeimgurl = a.large_image
-          b.iscomic = a.is_comic
-          if a.is_comic
-            nmlznm = Aaaws::normalize_title(a.title)
-            a.browse_node_ids.each do |aa|
-              bn = Browsenodeid.find_by_node(aa)
-              if bn.id == 86142051 || a.binding == "雑誌"
-                unless Magazine.find_by_name(nmlznm)
-                  m = Magazine.new
-                  m.name = nmlznm
-                  m.publisher = a.publisher
-                  m.save!
-                end
-              end
-            end
-            a.authors.each do |aa|
-              nmlzau =  Aaaws::normalize_author(aa)
-              unless au = Author.find_by_name(nmlzau)
-                au = Author.new
-                au.name = nmlzau
-                au.save!
-                aui = Authoridea.new
-                aui.author = au
-                aui.idea = au.id
-                aui.save!
-              end
-              b.authors << au
-            end
-            unless s = Serie.find_by_name(nmlznm)
-              t = Topic.new
-              t.save!
-              s = Serie.new
-              s.name = nmlznm
-              s.topic = t
-              s.authors << b.authors
-              s.save!
-            end
-            b.series << s
-          end
-          b.save!
-        end
+    if params[:scope] =~ /^rakuten/ && current_user
+      begin
+        RakutenSearchService.search_and_store(str)
+      rescue => error
+        flash.now[:alert] = error
+        raise error if Rails.env.development?
       end
     end
 
