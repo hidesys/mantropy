@@ -28,7 +28,6 @@
                 - if current_user
                   \- #{link_to "掲示板", member_topics_path, :class => :head}
                   \#{link_to "(糞)", serie_ranking_path(Ranking.where(kind: 'kuso').last&.name), :class => :head}
-                  \#{link_to "漫画一覧", series_path, :class => :head}
                   | #{link_to "Wiki", member_wikis_path, :class => :head}
                   %a.head{:href => "http://wiki.livedoor.jp/mantropy/", :target => "_blank"} (旧Wiki)
                   %a.head{:href => "http://skydrive.live.com/", :target => "_blank"} SkyDrive
@@ -51,7 +50,7 @@
           %tr
             %td{:colspan => "2", :height => "5"}
         %table{:bgcolor => "white", :cellpadding => "0", :cellspacing => "0", :width => width}
-          = form_tag(serie_search_path, {:method => :get}) do
+          = form_tag(series_path, {:method => :get}) do
             %tr{:width => "100%"}
               %td{:align => "left", :rowspan => "2", :width => "170"}
                 %a{:href => "/"}

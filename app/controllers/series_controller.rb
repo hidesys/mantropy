@@ -1,6 +1,5 @@
 # encoding: UTF-8
 class SeriesController < ApplicationController
-  before_action :authenticate_user!, :except => [:show, :search, :ranking, :ranking_now]
   @title = "シリーズ"
 
   def ranking
@@ -105,12 +104,12 @@ class SeriesController < ApplicationController
     end
   end
 
-  def search
+  def index
     str = params[:str]
     @title = "#{str} の検索結果"
     @str = str
     if str.blank?
-      redirect_to root_path
+      redirect_to root_path, notice: '検索ワードを指定してください'
       return
     end
 
@@ -139,20 +138,6 @@ class SeriesController < ApplicationController
     end
   end
 
-  # GET /series
-  # GET /series.xml
-  def index
-    @title = "シリーズ一覧"
-    @series = Serie.order("id DESC").page(params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @series }
-    end
-  end
-
-  # GET /series/1
-  # GET /series/1.xml
   def show
     @serie = Serie.find(params[:id])
     @title = "#{@serie.name} のシリーズ情報"
@@ -171,161 +156,5 @@ class SeriesController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @serie }
     end
-  end
-
-  # GET /series/new
-  # GET /series/new.xml
-  def new
-    @serie = (params[:id] ? Serie.find(params[:id]) : Serie.new)
-    @serie_new = params[:id] || true
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @serie }
-    end
-  end
-
-  # GET /series/1/edit
-  def edit
-    @serie = Serie.find(params[:id])
-    @rankings = Ranking.where(:is_registerable => true)
-  end
-
-  # POST /series
-  # POST /series.xml
-  def create
-    @serie = Serie.new(serie_params)
-
-    unless a = Author.find_by_id(params[:author_id]) || Author.find_by_name(params[:author_name].strip)
-      a = Author.new
-      a.name = params[:author_name].strip
-      a.save!
-    end
-    @serie.authors << a
-
-    unless  m = Magazine.find_by_id(params[:magazine_id]) || Magazine.find_by_name(params[:magazine_name].strip)
-      m = Magazine.new
-      m.name = params[:magazine_name].strip
-      m.publisher = params[:magazine_publisher].strip
-      m.save!
-    end
-    @serie.magazines << m if m
-
-    if params[:book_ids]
-      params[:book_ids].each do |bid|
-        @serie.books << Book.find(bid)
-      end
-    end
-
-    respond_to do |format|
-      if @serie.save
-        format.html { redirect_to(root_path, :notice => 'Serie was successfully created.') }
-        format.xml  { render :xml => @serie, :status => :created, :location => @serie }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @serie.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /series/1
-  # PUT /series/1.xml
-  def update
-    @serie = Serie.find(params[:id])
-
-    respond_to do |format|
-      if @serie.update_attributes(serie_params)
-        format.html { redirect_to(@serie, :notice => 'Serie was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @serie.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /series/1
-  # DELETE /series/1.xml
-  def destroy
-    @serie = Serie.find(params[:id])
-    @serie.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(series_url) }
-      format.xml  { head :ok }
-    end
-  end
-
-  def update_author
-    @serie = Serie.find(params[:id])
-    if params[:mode] == "remove" then
-      @serie.authors_series.where(:author_id => params[:author_id]).destroy_all
-    elsif params[:mode] == "add"
-      unless a = Author.find_by_name(aa = Aaaws::normalize_author(params[:author_name]))
-        a = Author.new
-        a.name = aa
-        a.save!
-      end
-      @serie.authors << a
-    end
-    redirect_to @serie
-  end
-
-  def update_magazines_series
-    @serie = Serie.find(params[:id])
-    if params[:mode] == "remove" then
-      @serie.magazines_series.delete(MagazinesSerie.find(params[:magazines_serie_id]))
-    elsif params[:mode] == "add"
-      magazine_name = params[:magazine_name].strip
-      if !magazine_name.empty? && Magazine.find_by_name(magazine_name) == nil
-        magazine = Magazine.new
-        magazine.name = magazine_name
-        magazine.publisher = @serie.books.first && @serie.books.first.publisher
-      else
-        magazine = Magazine.find_by_name(magazine_name) || Magazine.find_by_id(params[:magazine_id])
-      end
-      placed = params[:magazine_placed].strip
-      if @serie.magazines_series.where(:magazine_id => magazine.id, :placed => placed).empty?
-        ms = MagazinesSerie.new
-        ms.magazine = magazine
-        ms.placed = placed
-        ms.serie = @serie
-        ms.save!
-      end
-    end
-    redirect_to edit_serie_path(@serie)
-  end
-
-  def update_post
-    Post.transaction do
-      @serie = Serie.find(params[:id])
-      post = Post.new(post_params)
-      post.topic_id = params[:topic_id]
-      post.user = current_user
-      post.order = Post.where(:topic_id => post.topic_id).count + 1
-      post.save!
-      unless /sage/ =~ params[:post][:email] then
-        @serie.topic.updated_at = Time.now
-        @serie.topic.save!
-      end
-      @serie.post = post
-      @serie.save!
-    end
-
-    redirect_to @serie
-  end
-
-  def remove_duplications
-    order_by = (params[:order_by] ? params[:order_by].gsub(/\_/, ".") : nil) || "authors.name"
-    @series = Serie.select("DISTINCT series.*").includes(:ranks, :authors).where(ranks: {ranking_id: params[:ranking_id]}).order(order_by).page(params[:page]).per(1000)
-  end
-
-  private
-  def serie_params
-    params.require(:serie).permit(
-      :author_name,
-      :magazine_name,
-      :name
-    )
   end
 end
