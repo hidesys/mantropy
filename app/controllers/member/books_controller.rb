@@ -1,4 +1,4 @@
-class BooksController < Member::Base
+class Member::BooksController < Member::Base
   def index
     @books = Book.all
   end

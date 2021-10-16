@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class PostsController < Member::Base
+class Member::PostsController < Member::Base
   def index
     @posts = Post.all
   end

@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class TopicsController < Member::Base
+class Member::TopicsController < Member::Base
   def index
     @topics = Topic.where(:appear => 1).order("updated_at DESC, id DESC")
   end

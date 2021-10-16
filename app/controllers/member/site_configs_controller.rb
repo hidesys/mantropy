@@ -1,4 +1,4 @@
-class SiteConfigsController < Member::Base
+class Member::SiteConfigsController < Member::Base
   def create
     @site_config = SiteConfig.new(site_config_params)
     @site_config.save!

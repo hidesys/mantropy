@@ -1,5 +1,5 @@
 # coding: UTF-8
-class WikisController < Member::Base
+class Member::WikisController < Member::Base
   def index
     @wikis = Kaminari.paginate_array(Wiki.find_by_sql("SELECT w.* FROM wikis w INNER JOIN (SELECT MAX(created_at) created_at, name FROM wikis GROUP BY name) w1 ON w.created_at=w1.created_at AND w.name=w1.name ORDER BY created_at DESC")).page(params[:page])
   end

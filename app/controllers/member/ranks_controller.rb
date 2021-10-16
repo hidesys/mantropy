@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class RanksController < Member::Base
+class Member::RanksController < Member::Base
   def index
     @ranks = Rank.all
   end

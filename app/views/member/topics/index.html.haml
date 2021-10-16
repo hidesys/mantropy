@@ -32,7 +32,7 @@
         - i = 0
         - @topics.each do |topic|
           - if (i += 1) <= 10 then
-            = link_to "#{i}:", topic
+            = link_to "#{i}:", member_topic_path(topic)
             = link_to topic.title, "##{i}"
             　
           - else
@@ -45,13 +45,13 @@
   %table{:align => "center", :bgcolor => "#EFEFEF", :border => "1", :cellpadding => "3", :cellspacing => "7", :width => "100%"}
     %tr
       %td
-        = render :file => "topics/_topic", :locals => {:topic => topic, :i => i}
+        = render :partial => "member/topics/topic", :locals => {:topic => topic, :i => i}
 %table{:align => "center", :bgcolor => "#CCFFCC", :border => "1", :cellpadding => "3", :cellspacing => "7", :width => "100%"}
   %tr
     %td{:nowrap => ""}
       %dl
         %dt
-          = form_for topic = Topic.new do |f|
+          = form_for([:member, (topic = Topic.new)]) do |f|
             タイトル：#{f.text_field :title}
             \#{f.submit "新規スレッド作成"}
             %br/

@@ -12,10 +12,9 @@ Mantropy::Application.routes.draw do
   root :to => 'home#index'
   resources :series, :except => [:new, :show, :update, :destroy]
   resources :users, :only => [:index]
-  get '/users/:name' => 'users#show'
+  get '/users/:name' => 'users#show', :as => "user"
   resources :magazines, :only => [:index, :update]
   resources :rankings, :only => [:index, :show, :update, :create]
-  resources :wikis, :only => [:show]
   get '/:name' => 'wikis#show', :as => "wiki"
 
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}

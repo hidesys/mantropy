@@ -11,7 +11,7 @@
   - j = 0
   - topic.posts.each do |post|
   - #break if (j += 1) > 10
-    = render :file => "topics/_post", :locals => {:post => post}
+    = render :partial => "member/topics/post", :locals => {:post => post}
   %dl
     - if current_user
-      = render :file => "topics/_new_post", :locals => {:topic => topic}
+      = render :partial => "member/topics/new_post", :locals => {:topic => topic}

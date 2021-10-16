@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class UsersController < Member::Base
+class Member::UsersController < Member::Base
   def new
     @user = User.new
   end
