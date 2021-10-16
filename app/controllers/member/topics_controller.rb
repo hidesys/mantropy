@@ -37,7 +37,6 @@ class Member::TopicsController < Member::Base
         post.topic = @topic
         post.save!
       end
-      irc_write("[#{@topic.title ? @topic.title : Serie.find_by_topic_id(@topic.id).name}] #{post.content}")
       redirect_to(member_topics_path, :notice => 'スレッド作成と書き込みに成功しました。')
     rescue
       redirect_to(member_topics_path, :alert => '何かおかしいで。')

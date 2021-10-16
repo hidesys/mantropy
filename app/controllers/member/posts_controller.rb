@@ -35,7 +35,6 @@ class Member::PostsController < Member::Base
     rescue
       redirect_to(redirect_path, :notice => "何かがおかしい。")
     end
-    irc_write("[#{(tt = topic.title) ? topic.title : (s = Serie.find_by_topic_id(topic.id)).name}] #{@post.content}", tt ? topic_path(topic) : serie_path(s))
   end
 
   def update

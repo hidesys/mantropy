@@ -58,16 +58,6 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def irc_write(str, url = nil)
-    Thread.new do
-      telnet = Net::Telnet.new("Host" => "localhost", "Port" => 6660)
-      telnet.puts("NICK mantropy")
-      telnet.puts("USER mantropy 0 * :mantropy")
-      telnet.write("NOTICE #mantropy@kyoto_u:*.jp :<#{current_user.name}> #{(s = str.gsub(/[\r\n]/, "")).size <= 42 ? s : s[0..40] + "..."} #{url ? bitly(url) : nil}\n")
-      telnet.puts("QUIT")
-    end
-  end
-
   def render_with_encoding(*options)
     if options[-1].is_a?(Hash) && (encoding = options[-1][:encoding])
       headers["Content-Disposition"] = "Content-Disposition: attachment;"

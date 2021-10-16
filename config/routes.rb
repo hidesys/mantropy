@@ -4,7 +4,6 @@ Mantropy::Application.routes.draw do
 
 
   get "home/robots"
-  get "irc/index"
   get "home/index"
 
   resources :browsenodeids
@@ -32,7 +31,6 @@ Mantropy::Application.routes.draw do
   get '/search' => 'series#search', :as => 'serie_search'
   get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
   #match '/ranking/:str/name' => 'series#ranking_name'
-  get '/irc' => 'irc#index', :as => 'irc'
   get '/robots' => 'home#robots'
   get '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show'
   post '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge'
