@@ -21,7 +21,7 @@ class BooksControllerTest < ActionController::TestCase
       post :create, :book => @book.attributes
     end
 
-    assert_redirected_to book_path(assigns(:book))
+    assert_redirected_to member_book_path(assigns(:book))
   end
 
   test "should show book" do
@@ -36,7 +36,7 @@ class BooksControllerTest < ActionController::TestCase
 
   test "should update book" do
     put :update, :id => @book.to_param, :book => @book.attributes
-    assert_redirected_to book_path(assigns(:book))
+    assert_redirected_to member_book_path(assigns(:book))
   end
 
   test "should destroy book" do
@@ -44,6 +44,6 @@ class BooksControllerTest < ActionController::TestCase
       delete :destroy, :id => @book.to_param
     end
 
-    assert_redirected_to books_path
+    assert_redirected_to member_books_path
   end
 end
