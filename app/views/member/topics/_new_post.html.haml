@@ -1,4 +1,4 @@
-= form_for post = Post.new do |f|
+= form_for([:member, (post = Post.new)]) do |f|
   %dt
     = hidden_field_tag :topic_id, topic.id
     = f.submit "書き込み"
