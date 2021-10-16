@@ -45,7 +45,7 @@ Mantropy::Application.routes.draw do
     resources :ranks
     resources :topics, :except => [:destroy, :show]
     resources :wikis, :only => [:index, :create, :new]
-    resources :users, :only => [:index, :create, :update, :edit, :new]
+    resources :users, :only => [:create, :update, :edit, :new]
     resources :site_configs, only: [:create, :update, :destroy]
   end
 end

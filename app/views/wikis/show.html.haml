@@ -8,7 +8,7 @@
   %p
     %b 編集者:
     = @wiki.user.name
-  = link_to '編集する', new_wiki_path(id: @wiki.id)
+  = link_to '編集する', new_member_wiki_path(id: @wiki.id)
   %p
   %h2 全ての版
   - @wikis.each do |wiki|
@@ -17,4 +17,4 @@
       = link_to wiki.title, wiki_path(:id => wiki.id)
       = link_to (user_name = wiki.user.name), user_path(user_name)
       = @wiki == wiki ? "<= 閲覧中" : nil
-  = link_to "Wikiページ一覧に戻る", wikis_path
+  = link_to "Wikiページ一覧に戻る", member_wikis_path

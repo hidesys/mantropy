@@ -30,7 +30,7 @@
                   \#{link_to "IRC", irc_path, :class => :head}
                   \#{link_to "(糞)", serie_ranking_path(Ranking.where(kind: 'kuso').last&.name), :class => :head}
                   \#{link_to "漫画一覧", series_path, :class => :head}
-                  | #{link_to "Wiki", wikis_path, :class => :head}
+                  | #{link_to "Wiki", member_wikis_path, :class => :head}
                   %a.head{:href => "http://wiki.livedoor.jp/mantropy/", :target => "_blank"} (旧Wiki)
                   %a.head{:href => "http://skydrive.live.com/", :target => "_blank"} SkyDrive
                   \-
@@ -42,7 +42,7 @@
                 - if current_user
                   = link_to 'ログアウト', destroy_userauth_session_path, {:method => :delete, :class => :head}
                 - elsif current_userauth
-                  = link_to "ユーザー細部登録", new_user_path, :class => :head
+                  = link_to "ユーザー細部登録", new_member_user_path, :class => :head
                 - else
                   = link_to 'ログイン', [:new, :userauth_session], :class => :head
           %tr

@@ -58,6 +58,6 @@
       %br/
   - @registering_rankings.each do |ranking|
     %b{:style => "background-color: yellow;"}= ranking.name + '不十分' if !complete_ranking(ranking, @user)
-= link_to 'ユーザー情報を編集する', edit_user_path(@user) if @user == current_user
+= link_to 'ユーザー情報を編集する', edit_member_user_path(@user) if @user == current_user
 |
 \#{link_to 'Back', users_path}

@@ -1,18 +1,9 @@
 # coding: UTF-8
 class WikisController < Member::Base
-  # GET /wikis
-  # GET /wikis.xml
   def index
     @wikis = Kaminari.paginate_array(Wiki.find_by_sql("SELECT w.* FROM wikis w INNER JOIN (SELECT MAX(created_at) created_at, name FROM wikis GROUP BY name) w1 ON w.created_at=w1.created_at AND w.name=w1.name ORDER BY created_at DESC")).page(params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @wikis }
-    end
   end
 
-  # GET /wikis/new
-  # GET /wikis/new.xml
   def new
     wiki = Wiki.find_by_id(params[:id])
     if wiki then
@@ -21,67 +12,45 @@ class WikisController < Member::Base
       @wiki = Wiki.new
     end
     @notation = @@notation
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @wiki }
-    end
   end
 
-  # GET /wikis/1/edit
   def edit
     @wiki = Wiki.find(params[:id])
     @notation = @@notation
   end
 
-  # POST /wikis
-  # POST /wikis.xml
   def create
     @wiki = Wiki.new(wiki_params)
     @wiki.user = current_user
     @wiki.is_private = @wiki.is_private && @wiki.is_private != 0 ? 1 : nil
     @notation = @@notation
 
-    respond_to do |format|
-      if @wiki.save
-        format.html { redirect_to(wiki_path(:name => @wiki.name, :id => @wiki.id), :notice => 'Wiki was successfully created.') }
-        format.xml  { render :xml => @wiki, :status => :created, :location => @wiki }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @wiki.errors, :status => :unprocessable_entity }
-      end
+    if @wiki.save
+      redirect_to(wiki_path(:name => @wiki.name, :id => @wiki.id), :notice => 'Wiki was successfully created.')
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /wikis/1
-  # PUT /wikis/1.xml
   def update
     @wiki = Wiki.find(params[:id])
 
-    respond_to do |format|
       if @wiki.update_attributes(wiki_params)
-        format.html { redirect_to(@wiki, :notice => 'Wiki was successfully updated.') }
-        format.xml  { head :ok }
+        redirect_to(@wiki, :notice => 'Wiki was successfully updated.')
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @wiki.errors, :status => :unprocessable_entity }
+        render :action => "edit"
       end
-    end
   end
 
-  # DELETE /wikis/1
-  # DELETE /wikis/1.xml
   def destroy
     @wiki = Wiki.find(params[:id])
     @wiki.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(wikis_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(member_wikis_path)
   end
 
   private
+
   def wiki_params
     params.require(:wiki).permit(
       :name,
