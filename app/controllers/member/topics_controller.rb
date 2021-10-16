@@ -1,6 +1,5 @@
 # encoding: UTF-8
-class TopicsController < ApplicationController
-  before_action :authenticate_user!
+class TopicsController < Member::Base
   # GET /topics
   # GET /topics.xml
   def index

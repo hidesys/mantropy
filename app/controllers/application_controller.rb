@@ -4,10 +4,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :complete_ranking, :serie_path
 
-  def authenticate_user!
-    authenticate_userauth!
-  end
-
   def admin_basic_authentication
     authenticate_or_request_with_http_basic("Development Authentication") do |user, password|
       user == ENV['DIGEST_USER'] && password == ENV['DIGEST_PASS']

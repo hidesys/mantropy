@@ -1,6 +1,5 @@
 # encoding: UTF-8
-class PostsController < ApplicationController
-  before_action :authenticate_user!
+class PostsController < Member::Base
   # GET /posts
   # GET /posts.xml
   def index

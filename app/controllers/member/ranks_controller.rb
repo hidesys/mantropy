@@ -1,7 +1,5 @@
 # encoding: UTF-8
-class RanksController < ApplicationController
-  before_action :authenticate_user!
-
+class RanksController < Member::Base
   # GET /ranks
   # GET /ranks.xml
   def index

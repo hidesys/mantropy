@@ -1,5 +1,4 @@
-class BooksController < ApplicationController
-  before_action :authenticate_user!
+class BooksController < Member::Base
   # GET /books
   # GET /books.xml
   def index
@@ -81,7 +80,7 @@ class BooksController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
   def book_params
     params.require(:book).permit(
