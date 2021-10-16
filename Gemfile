@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.2'
+ruby '3.0.2'
 
 gem 'haml'
 gem 'erb2haml'
@@ -50,3 +50,7 @@ gem 'unicorn'
 
 gem 'httpclient'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
+
+# Fix rails upgrade 6.0 error
+gem 'rexml', '~> 3.2', '>= 3.2.4'
+gem 'webrick'
