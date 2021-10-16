@@ -39,7 +39,7 @@
             = link_to "#{i}: #{topic.title}", topic
             　
       %div{:align => "right"}
-        = link_to "スレッド一覧はこちら", topics_path
+        = link_to "スレッド一覧はこちら", member_topics_path
 - @topics.each_with_index do |topic, i|
   - break if (i += 1) > 10
   %table{:align => "center", :bgcolor => "#EFEFEF", :border => "1", :cellpadding => "3", :cellspacing => "7", :width => "100%"}

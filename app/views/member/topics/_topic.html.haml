@@ -2,8 +2,8 @@
   %dl.topic{:style => "margin: 0px;"}
     = tag :a, :name => i
   %div{:align => "right"}
-    = link_to "全部読む", topic
-    = link_to "最新50", "#{topic_path(topic)}/|50"
+    = link_to "全部読む", member_topic_path(topic)
+    = link_to "最新50", "#{member_topic_path(topic)}/|50"
   %div{:style => "padding: 0px 0px 10px 0px;"}
     %b
       %font{:color => "gray"}= i

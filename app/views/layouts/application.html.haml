@@ -26,7 +26,7 @@
                 = link_to "ランキング", serie_ranking_path(Ranking.where(kind: "kojin").last&.name), :class => :head
                 = link_to "活動ブログ", "http://mantropy.hatenablog.com/", :class => :head
                 - if current_user
-                  \- #{link_to "掲示板", topics_path, :class => :head}
+                  \- #{link_to "掲示板", member_topics_path, :class => :head}
                   \#{link_to "IRC", irc_path, :class => :head}
                   \#{link_to "(糞)", serie_ranking_path(Ranking.where(kind: 'kuso').last&.name), :class => :head}
                   \#{link_to "漫画一覧", series_path, :class => :head}
