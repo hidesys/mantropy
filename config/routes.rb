@@ -12,7 +12,6 @@ Mantropy::Application.routes.draw do
   root :to => 'home#index'
   resources :users, :only => [:index]
   get '/users/:name' => 'users#show', :as => "user"
-  get '/:name' => 'wikis#show', :as => "wiki"
 
   get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
   resources :series, only: %i[index]
@@ -51,4 +50,5 @@ Mantropy::Application.routes.draw do
     # どこからも呼ばれていないので不要？
     # get '/remove_duplications/:ranking_id(/:order_by)' => "series#remove_duplications"
   end
+  get '/:name' => 'wikis#show', :as => "wiki"
 end

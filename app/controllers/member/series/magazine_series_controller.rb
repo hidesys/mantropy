@@ -20,6 +20,6 @@ class Member::Series::MagazineSeriesController < Member::Series::Base
         ms.save!
       end
     end
-    redirect_to edit_serie_path(@serie)
+    redirect_to edit_member_serie_path(@serie)
   end
 end

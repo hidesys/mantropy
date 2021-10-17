@@ -21,7 +21,7 @@
     %h3 細部
     = render :partial => "member/topics/post", :locals => {:post => @serie.post} if @serie.post
   - if current_user
-    = link_to 'ランキング登録・シリーズ情報修正', edit_serie_path(@serie), :class => :serie_edit
+    = link_to 'ランキング登録・シリーズ情報修正', edit_member_serie_path(@serie), :class => :serie_edit
 %h3 ランキング情報
 .serie_ranks
   - @ranks.each do |rank|
@@ -44,5 +44,5 @@
   %b 書籍収録情報
   - @serie.books.each do |book|
     %div
-      = link_to image_tag(book.smallimgurl ||  'nil_small.jpg', :alt => book.name), book
-      = link_to book.name, book
+      = link_to image_tag(book.smallimgurl ||  'nil_small.jpg', :alt => book.name), member_book_path(book)
+      = link_to book.name, member_book_path(book)
