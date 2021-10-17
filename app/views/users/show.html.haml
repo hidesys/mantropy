@@ -37,7 +37,7 @@
   最新10件
   %br/
   - @user.posts.order("id DESC").limit(10).each do |post|
-    = link_to post.topic.title || Serie.find_by_topic_id(post.topic.id).name, post.topic
+    = link_to post.topic.title || Serie.find_by_topic_id(post.topic.id).name, member_topics_path(post.topic)
     = post.content[0..24]
     %br/
 %p
@@ -51,13 +51,13 @@
       = link_to rank.serie.name, rank.serie
       - if rank.serie.authors then
         - rank.serie.authors.each do |author|
-          = link_to author.name, serie_search_path(:str => author.name)
-      = link_to rank.serie.magazines_series.map{|ms| ms.magazine ? (ms.magazine.name + (ms.placed ? (ms.placed != "" ? "（#{ms.placed}）" : "") : "")) : nil}.compact.uniq.join("　"), edit_serie_path(rank.serie)
+          = link_to author.name, series_path(:str => author.name)
+      = link_to rank.serie.magazines_series.map{|ms| ms.magazine ? (ms.magazine.name + (ms.placed ? (ms.placed != "" ? "（#{ms.placed}）" : "") : "")) : nil}.compact.uniq.join("　"), edit_member_serie_path(rank.serie)
       - if @user == current_user && @registerable_rankings.map{|r| r.id}.include?(rank.ranking_id)
-        = link_to '削除', rank, :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks
+        = link_to '削除', member_rank_path(rank), :confirm => "#{rank.serie.name} を #{rank.rank} 位から削除していいですか？", :method => :delete, :controller => :ranks
       %br/
   - @registering_rankings.each do |ranking|
     %b{:style => "background-color: yellow;"}= ranking.name + '不十分' if !complete_ranking(ranking, @user)
-= link_to 'ユーザー情報を編集する', edit_user_path(@user) if @user == current_user
+= link_to 'ユーザー情報を編集する', edit_member_user_path(@user) if @user == current_user
 |
 \#{link_to 'Back', users_path}

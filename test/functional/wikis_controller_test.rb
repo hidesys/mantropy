@@ -44,6 +44,6 @@ class WikisControllerTest < ActionController::TestCase
       delete :destroy, :id => @wiki.to_param
     end
 
-    assert_redirected_to wikis_path
+    assert_redirected_to member_wikis_path
   end
 end

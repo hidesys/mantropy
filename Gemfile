@@ -14,7 +14,6 @@ gem 'jquery-rails'
 gem 'rails_autolink'
 gem "jbuilder"
 
-gem 'turbolinks', '~> 5'
 gem 'coffee-rails', '~> 4.2'
 gem 'uglifier', '>= 1.3.0'
 

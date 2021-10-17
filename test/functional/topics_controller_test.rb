@@ -21,7 +21,7 @@ class TopicsControllerTest < ActionController::TestCase
       post :create, :topic => @topic.attributes
     end
 
-    assert_redirected_to topic_path(assigns(:topic))
+    assert_redirected_to member_topic_path(assigns(:topic))
   end
 
   test "should show topic" do
@@ -36,7 +36,7 @@ class TopicsControllerTest < ActionController::TestCase
 
   test "should update topic" do
     put :update, :id => @topic.to_param, :topic => @topic.attributes
-    assert_redirected_to topic_path(assigns(:topic))
+    assert_redirected_to member_topic_path(assigns(:topic))
   end
 
   test "should destroy topic" do
@@ -44,6 +44,6 @@ class TopicsControllerTest < ActionController::TestCase
       delete :destroy, :id => @topic.to_param
     end
 
-    assert_redirected_to topics_path
+    assert_redirected_to member_topics_path
   end
 end

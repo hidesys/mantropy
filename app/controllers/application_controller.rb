@@ -4,9 +4,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :complete_ranking, :serie_path
 
-  def authenticate_user!
-    authenticate_userauth!
-  end
+  private
 
   def admin_basic_authentication
     authenticate_or_request_with_http_basic("Development Authentication") do |user, password|
@@ -33,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    wiki_path(:name => "logged_in")
+    member_path
   end
 
   def serie_path(serie, *args)
@@ -45,31 +43,9 @@ class ApplicationController < ActionController::Base
   end
 
   def clean_serie_name(serie)
-    URI.encode("/#{"#{serie.name.gsub(/[\/\?\.\#\!]/, "-")}-#{serie.authors.map{|a| a.name.gsub(/[\/\?\.\#\!]/, "-")}.join(",") if serie.authors}"[0..31]}/series/#{serie.id}")
-  end
-
-  def bitly(long_url)
-    id = 'o_17fv4v63h'
-    api_key = 'R_4475cd7b5701dd47efb6645ed63355b1'
-    version = '2.0.1'
-
-    long_url = "http://mantropy.net" + long_url unless /http\:\/\// =~ long_url
-
-    query = "version=#{version}&longUrl=#{long_url}&login=#{id}&apiKey=#{api_key}"
-    result = JSON.parse(Net::HTTP.get("api.bit.ly", "/shorten?#{query}"))
-    result['results'].each_pair {|long_url, value|
-      return value['shortUrl']
-    }
-  end
-
-  def irc_write(str, url = nil)
-    Thread.new do
-      telnet = Net::Telnet.new("Host" => "localhost", "Port" => 6660)
-      telnet.puts("NICK mantropy")
-      telnet.puts("USER mantropy 0 * :mantropy")
-      telnet.write("NOTICE #mantropy@kyoto_u:*.jp :<#{current_user.name}> #{(s = str.gsub(/[\r\n]/, "")).size <= 42 ? s : s[0..40] + "..."} #{url ? bitly(url) : nil}\n")
-      telnet.puts("QUIT")
-    end
+    "/" +
+      CGI.escape("#{serie.name}-#{serie.authors.map(&:name).join(',') if serie.authors}"[0..31]) + 
+      "/series/#{serie.id}"
   end
 
   def render_with_encoding(*options)
@@ -87,13 +63,5 @@ class ApplicationController < ActionController::Base
 
   def registering_rankings
     registerable_rankings.empty? ? [] : Ranking.where(["name LIKE ?", "#{registerable_rankings.last.name[0...4]}%"]).order(:id)
-  end
-
-  private
-  def post_params
-    params.require(:post).permit(
-      :email,
-      :content
-    )
   end
 end

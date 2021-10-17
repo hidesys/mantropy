@@ -1,0 +1,11 @@
+= form_for([:member, (post = Post.new)]) do |f|
+  %dt
+    = hidden_field_tag :topic_id, topic.id
+    = f.submit "書き込み"
+    E-mail： #{f.text_field :email}
+  %dd
+    = f.text_area :content, {:rows => 5, :cols => 64}
+    %br/
+    %b
+      = link_to "全部読む", member_topic_path(topic)
+      = link_to "板に戻る", member_topics_path
