@@ -15,8 +15,8 @@ Mantropy::Application.routes.draw do
   get '/:name' => 'wikis#show', :as => "wiki"
 
   get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
-  get '/series/:id' => 'series#show'
   resources :series, only: %i[index]
+  get '/series/:id' => 'series#show'
   get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
 
   get '/robots' => 'home#robots'

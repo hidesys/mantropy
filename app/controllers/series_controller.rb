@@ -105,24 +105,23 @@ class SeriesController < ApplicationController
   end
 
   def index
-    str = params[:str]
-    @title = "#{str} の検索結果"
-    @str = str
-    if str.blank?
+    @str = params[:str]
+    @title = "#{@str} の検索結果"
+    if @str.blank?
       redirect_to root_path, notice: '検索ワードを指定してください'
       return
     end
 
     if params[:scope] =~ /^rakuten/ && current_user
       begin
-        RakutenSearchService.search_and_store(str)
+        RakutenSearchService.search_and_store(@str)
       rescue => error
         flash.now[:alert] = error
         raise error if Rails.env.development?
       end
     end
 
-    search_strs = str.strip.split(/[\s　]/).map{|s| "%#{s}%"}
+    search_strs = @str.strip.split(/[\s　]/).map{|s| "%#{s}%"}
     serie_arel = Serie.arel_table[:name].matches_all(search_strs)
     authors = Author.where(Author.arel_table[:name].matches_all(search_strs))
     unless authors.empty?

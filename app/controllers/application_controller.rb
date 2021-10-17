@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :complete_ranking, :serie_path
 
+  private
+
   def admin_basic_authentication
     authenticate_or_request_with_http_basic("Development Authentication") do |user, password|
       user == ENV['DIGEST_USER'] && password == ENV['DIGEST_PASS']
@@ -44,20 +46,6 @@ class ApplicationController < ActionController::Base
     URI.encode("/#{"#{serie.name.gsub(/[\/\?\.\#\!]/, "-")}-#{serie.authors.map{|a| a.name.gsub(/[\/\?\.\#\!]/, "-")}.join(",") if serie.authors}"[0..31]}/series/#{serie.id}")
   end
 
-  def bitly(long_url)
-    id = 'o_17fv4v63h'
-    api_key = 'R_4475cd7b5701dd47efb6645ed63355b1'
-    version = '2.0.1'
-
-    long_url = "http://mantropy.net" + long_url unless /http\:\/\// =~ long_url
-
-    query = "version=#{version}&longUrl=#{long_url}&login=#{id}&apiKey=#{api_key}"
-    result = JSON.parse(Net::HTTP.get("api.bit.ly", "/shorten?#{query}"))
-    result['results'].each_pair {|long_url, value|
-      return value['shortUrl']
-    }
-  end
-
   def render_with_encoding(*options)
     if options[-1].is_a?(Hash) && (encoding = options[-1][:encoding])
       headers["Content-Disposition"] = "Content-Disposition: attachment;"
@@ -73,13 +61,5 @@ class ApplicationController < ActionController::Base
 
   def registering_rankings
     registerable_rankings.empty? ? [] : Ranking.where(["name LIKE ?", "#{registerable_rankings.last.name[0...4]}%"]).order(:id)
-  end
-
-  private
-  def post_params
-    params.require(:post).permit(
-      :email,
-      :content
-    )
   end
 end

@@ -53,7 +53,7 @@
           = form_tag(series_path, {:method => :get}) do
             %tr{:width => "100%"}
               %td{:align => "left", :rowspan => "2", :width => "170"}
-                %a{:href => "/"}
+                %a{:href => root_path}
                   = image_tag "logo.png", width: 164, alt: "漫トロピーWebロゴ", border: 0
               %td{:align => "left", :nowrap => "", :valign => "bottom"}
                 = text_field_tag :str, @str, {:size => 55, :title => "漫トロピーWeb検索", :style => "font-size: 12pt"}
@@ -97,6 +97,6 @@
           / ここから自動生成フッダ
       %small
         \&copy;
-        %a{:href => "/", :target => "_blank"} 京大漫トロピー
+        %a{:href => root_path, :target => "_blank"} 京大漫トロピー
       %br/
     ページの終わり。。。 #{"Logined as #{current_user.name}" if current_user}

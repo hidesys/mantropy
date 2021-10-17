@@ -16,4 +16,13 @@ class Member::Series::PostsController < Member::Series::Base
 
     redirect_to @serie
   end
+
+  private
+
+  def post_params
+    params.require(:post).permit(
+      :email,
+      :content
+    )
+  end
 end
