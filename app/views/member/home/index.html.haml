@@ -1,6 +1,6 @@
 %h2.text-center.mt-4 メンバーページ
 .list-group.mt-2
-  = link_to users_path(current_user), class: 'list-group-item list-group-item-action' do
+  = link_to user_path(current_user.name), class: 'list-group-item list-group-item-action' do
     %i.bi.bi-person
     = current_user.name
     のユーザーページ
