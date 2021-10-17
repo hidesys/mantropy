@@ -34,7 +34,7 @@ class Member::WikisController < Member::Base
   def update
     @wiki = Wiki.find(params[:id])
 
-    if @wiki.update_attributes(wiki_params)
+    if @wiki.update(wiki_params)
       redirect_to(@wiki, notice: 'Wiki was successfully updated.')
     else
       render action: 'edit'

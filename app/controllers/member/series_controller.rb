@@ -48,7 +48,7 @@ class Member::SeriesController < Member::Base
   def update
     @serie = Serie.find(params[:id])
 
-    if @serie.update_attributes(serie_params)
+    if @serie.update(serie_params)
       redirect_to(@serie, notice: 'Serie was successfully updated.')
     else
       render action: 'edit'

@@ -34,7 +34,7 @@ class Member::UsersController < Member::Base
     @user.name.gsub!(%r{[./]}, '')
     # params[:user].each{|k,v| params[:user][k].gsub!(/\/\./, "") if k == :name}
 
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       redirect_to(user_path(@user.name), notice: 'User was successfully updated.')
     else
       render action: 'edit'

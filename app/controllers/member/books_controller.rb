@@ -28,7 +28,7 @@ class Member::BooksController < Member::Base
   def update
     @book = Book.find(params[:id])
 
-    if @book.update_attributes(book_params)
+    if @book.update(book_params)
       redirect_to(member_book_path(@book), notice: 'Book was successfully updated.')
     else
       render action: 'edit'

@@ -39,7 +39,7 @@ class Member::PostsController < Member::Base
   def update
     @post = Post.find(params[:id])
 
-    if @post.update_attributes(post_params)
+    if @post.update(post_params)
       redirect_to(member_post_path(@post), notice: 'Post was successfully updated.')
     else
       render action: 'edit'

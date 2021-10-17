@@ -1,52 +1,38 @@
-%h1 ランキング設定一覧
-%table
-  %tr
-    %th Name
-    %th Name
-    %th IsRegisterable
-    %th ScopeMin
-    %th ScopeMax
-    %th Kind
-    %th
+%h1.mt-4.mb-2 ランキングカテゴリ一覧
+%table.table
+  %thead.table-light
+    %tr
+      %th リンク
+      %th 名前
+      %th 登録可
+      %th 位最小値
+      %th 位最大値
+      %th 種別
+      %th
   - @rankings.each do |ranking|
     %tr
-      %td= link_to ranking.name, member_ranking_path(ranking)
+      %td
+        = link_to serie_ranking_path(ranking.name), class: 'btn btn-outline-info' do
+          %i.bi.bi-link-45deg
       = form_for([:member, ranking]) do |f|
-        %td= f.text_field :name
-        %td= f.check_box :is_registerable
-        %td= f.text_field :scope_min, size: 2
-        %td= f.text_field :scope_max, size: 2
-        %td= f.text_field :kind
-        %td= f.submit "変更"
+        %td= f.text_field :name, class: 'form-control'
+        %td
+          %label
+            = f.check_box :is_registerable, class: 'form-check-input'
+            登録可
+        %td= f.text_field :scope_min, size: 2, class: 'form-control'
+        %td= f.text_field :scope_max, size: 2, class: 'form-control'
+        %td= f.text_field :kind, size: 5, class: 'form-control'
+        %td= f.submit "変更", class: 'btn btn-info'
   %tr
     %td
     = form_for([:member, @new_ranking]) do |f|
-      %td= f.text_field :name
-      %td= f.check_box :is_registerable
-      %td= f.text_field :scope_min, size: 2
-      %td= f.text_field :scope_max, size: 2
-      %td= f.text_field :kind
-      %td= f.submit "新規登録"
-%h2 ランキング公開設定
-%table
-  %tr
-    %th 設定
-    %th タイトル
-    %th 値
-    %th
-    %th
-  - @site_configs.each do |config|
-    %tr
-      = form_for([:member, config]) do |f|
-        %td= config.path
-        %td= config.name
-        %td= f.text_field :value
-        %td= f.submit '変更', style: "margin: 20px;"
-        %td= link_to '削除', member_site_config_path(config), :confirm => '削除してよいですか？', :method => :delete
-  %tr
-    = form_for([:member, SiteConfig.new]) do |f|
-      %td= f.text_field :path
-      %td= f.text_field :name
-      %td= f.text_field :value
-      %td= f.submit '作成', style: "margin: 20px;"
+      %td= f.text_field :name, class: 'form-control'
       %td
+        %label
+          = f.check_box :is_registerable, class: 'form-check-input'
+          登録可
+      %td= f.text_field :scope_min, size: 2, class: 'form-control'
+      %td= f.text_field :scope_max, size: 2, class: 'form-control'
+      %td= f.text_field :kind, size: 5, class: 'form-control'
+      %td= f.submit "追加", class: 'btn btn-primary'
