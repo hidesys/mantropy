@@ -26,7 +26,7 @@ Mantropy::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
-  config.action_mailer.default_url_options = { :host => "192.168.74.19", :port => 3000 }
+  # config.action_mailer.default_url_options = { :host => "192.168.74.19", :port => 3000 }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address => "smtp.gmail.com",
@@ -40,4 +40,5 @@ Mantropy::Application.configure do
 
   config.assets.digest = false
   config.eager_load = false
+  config.hosts.clear
 end

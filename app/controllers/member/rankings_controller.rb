@@ -2,7 +2,7 @@ class Member::RankingsController < Member::Base
   before_action :admin_basic_authentication
 
   def index
-    @rankings = Ranking.all
+    @rankings = Ranking.order(:name)
     @new_ranking = Ranking.new
     @site_configs = SiteConfig.all
   end
