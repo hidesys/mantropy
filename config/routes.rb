@@ -1,23 +1,4 @@
 Mantropy::Application.routes.draw do
-  # 分離済み
-  get '/robots' => 'home#robots'
-
-  root to: 'home#index'
-  resources :users, only: [:index]
-  get '/users/:name' => 'users#show', :as => 'user'
-
-  get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
-  resources :series, only: %i[index]
-  get '/series/:id' => 'series#show'
-  get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
-
-  get '/wikis/:name' => 'wikis#show', :as => 'wiki'
-
-  devise_for :userauths, controllers: { registrations: 'devise_registrations' }
-  devise_scope :userauths do
-    get '/userauths/sign_out' => 'devise/sessions#destroy'
-  end
-
   namespace :member do
     resource to: 'home#index'
 
@@ -43,5 +24,24 @@ Mantropy::Application.routes.draw do
     post '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge'
     # どこからも呼ばれていないので不要？
     # get '/remove_duplications/:ranking_id(/:order_by)' => "series#remove_duplications"
+  end
+
+  # 分離済み
+  get '/robots' => 'home#robots'
+
+  root to: 'home#index'
+  resources :users, only: [:index]
+  get '/users/:name' => 'users#show', :as => 'user'
+
+  get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
+  resources :series, only: %i[index]
+  get '/series/:id' => 'series#show'
+  get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
+
+  get '/wikis/:name' => 'wikis#show', :as => 'wiki'
+
+  devise_for :userauths, controllers: { registrations: 'devise_registrations' }
+  devise_scope :userauths do
+    get '/userauths/sign_out' => 'devise/sessions#destroy'
   end
 end

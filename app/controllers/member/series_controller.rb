@@ -4,21 +4,11 @@ class Member::SeriesController < Member::Base
   def index
     @title = 'シリーズ一覧'
     @series = Serie.order('id DESC').page(params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render xml: @series }
-    end
   end
 
   def new
     @serie = (params[:id] ? Serie.find(params[:id]) : Serie.new)
     @serie_new = params[:id] || true
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render xml: @serie }
-    end
   end
 
   def edit
@@ -48,28 +38,20 @@ class Member::SeriesController < Member::Base
       @serie.books << Book.find(bid)
     end
 
-    respond_to do |format|
-      if @serie.save
-        format.html { redirect_to(root_path, notice: 'Serie was successfully created.') }
-        format.xml  { render xml: @serie, status: :created, location: @serie }
-      else
-        format.html { render action: 'new' }
-        format.xml  { render xml: @serie.errors, status: :unprocessable_entity }
-      end
+    if @serie.save
+      redirect_to(serie_path(@serie), notice: 'Serie was successfully created.')
+    else
+      render action: 'new'
     end
   end
 
   def update
     @serie = Serie.find(params[:id])
 
-    respond_to do |format|
-      if @serie.update_attributes(serie_params)
-        format.html { redirect_to(@serie, notice: 'Serie was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render action: 'edit' }
-        format.xml  { render xml: @serie.errors, status: :unprocessable_entity }
-      end
+    if @serie.update_attributes(serie_params)
+      redirect_to(@serie, notice: 'Serie was successfully updated.')
+    else
+      render action: 'edit'
     end
   end
 
@@ -77,17 +59,23 @@ class Member::SeriesController < Member::Base
     @serie = Serie.find(params[:id])
     @serie.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(series_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(series_url)
   end
 
   # 不要疑惑
   def remove_duplications
     order_by = (params[:order_by] ? params[:order_by].gsub(/_/, '.') : nil) || 'authors.name'
-    @series = Serie.select('DISTINCT series.*').includes(:ranks,
-                                                         :authors).where(ranks: { ranking_id: params[:ranking_id] }).order(order_by).page(params[:page]).per(1000)
+    @series = Serie.select(
+      'DISTINCT series.*'
+    ).includes(
+      :ranks, :authors
+    ).where(
+      ranks: { ranking_id: params[:ranking_id] }
+    ).order(
+      order_by
+    ).page(
+      params[:page]
+    ).per(1000)
   end
 
   private
