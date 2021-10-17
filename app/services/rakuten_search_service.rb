@@ -1,3 +1,5 @@
+require 'nkf'
+
 class RakutenSearchService
   API_POINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404'.freeze
 
@@ -60,6 +62,7 @@ class RakutenSearchService
 
   def self.parse_date(date)
     base_date = date.gsub(/[年月]/, '-').gsub(/日/, '')
+    base_date = base_date.gsub('上旬', '01').gsub('中旬', '15').gsub('下旬', '25')
     base_date = "#{base_date}01" if base_date =~ /-$/
     Date.parse(base_date)
   end
