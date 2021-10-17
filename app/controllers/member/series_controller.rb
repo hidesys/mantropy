@@ -1,14 +1,13 @@
-# encoding: UTF-8
 class Member::SeriesController < Member::Base
-  @title = "シリーズ"
+  @title = 'シリーズ'
 
   def index
-    @title = "シリーズ一覧"
-    @series = Serie.order("id DESC").page(params[:page])
+    @title = 'シリーズ一覧'
+    @series = Serie.order('id DESC').page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @series }
+      format.xml  { render xml: @series }
     end
   end
 
@@ -18,13 +17,13 @@ class Member::SeriesController < Member::Base
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @serie }
+      format.xml  { render xml: @serie }
     end
   end
 
   def edit
     @serie = Serie.find(params[:id])
-    @rankings = Ranking.where(:is_registerable => true)
+    @rankings = Ranking.where(is_registerable: true)
   end
 
   def create
@@ -37,7 +36,7 @@ class Member::SeriesController < Member::Base
     end
     @serie.authors << a
 
-    unless  m = Magazine.find_by_id(params[:magazine_id]) || Magazine.find_by_name(params[:magazine_name].strip)
+    unless m = Magazine.find_by_id(params[:magazine_id]) || Magazine.find_by_name(params[:magazine_name].strip)
       m = Magazine.new
       m.name = params[:magazine_name].strip
       m.publisher = params[:magazine_publisher].strip
@@ -45,19 +44,17 @@ class Member::SeriesController < Member::Base
     end
     @serie.magazines << m if m
 
-    if params[:book_ids]
-      params[:book_ids].each do |bid|
-        @serie.books << Book.find(bid)
-      end
+    params[:book_ids]&.each do |bid|
+      @serie.books << Book.find(bid)
     end
 
     respond_to do |format|
       if @serie.save
-        format.html { redirect_to(root_path, :notice => 'Serie was successfully created.') }
-        format.xml  { render :xml => @serie, :status => :created, :location => @serie }
+        format.html { redirect_to(root_path, notice: 'Serie was successfully created.') }
+        format.xml  { render xml: @serie, status: :created, location: @serie }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @serie.errors, :status => :unprocessable_entity }
+        format.html { render action: 'new' }
+        format.xml  { render xml: @serie.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,11 +64,11 @@ class Member::SeriesController < Member::Base
 
     respond_to do |format|
       if @serie.update_attributes(serie_params)
-        format.html { redirect_to(@serie, :notice => 'Serie was successfully updated.') }
+        format.html { redirect_to(@serie, notice: 'Serie was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @serie.errors, :status => :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.xml  { render xml: @serie.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -88,8 +85,9 @@ class Member::SeriesController < Member::Base
 
   # 不要疑惑
   def remove_duplications
-    order_by = (params[:order_by] ? params[:order_by].gsub(/\_/, ".") : nil) || "authors.name"
-    @series = Serie.select("DISTINCT series.*").includes(:ranks, :authors).where(ranks: {ranking_id: params[:ranking_id]}).order(order_by).page(params[:page]).per(1000)
+    order_by = (params[:order_by] ? params[:order_by].gsub(/_/, '.') : nil) || 'authors.name'
+    @series = Serie.select('DISTINCT series.*').includes(:ranks,
+                                                         :authors).where(ranks: { ranking_id: params[:ranking_id] }).order(order_by).page(params[:page]).per(1000)
   end
 
   private

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 class Member::PostsController < Member::Base
   def index
     @posts = Post.all
@@ -24,16 +23,16 @@ class Member::PostsController < Member::Base
     begin
       Post.transaction do
         @post.user = current_user
-        @post.order = Post.where(:topic_id => @post.topic_id).count + 1
+        @post.order = Post.where(topic_id: @post.topic_id).count + 1
         @post.save!
-        unless /sage/ =~ params[:post][:email] then
+        unless /sage/ =~ params[:post][:email]
           topic.updated_at = Time.now
           topic.save!
         end
       end
-      redirect_to(redirect_path, :notice => '書き込みに成功しました')
-    rescue
-      redirect_to(redirect_path, :notice => "何かがおかしい。")
+      redirect_to(redirect_path, notice: '書き込みに成功しました')
+    rescue StandardError
+      redirect_to(redirect_path, notice: '何かがおかしい。')
     end
   end
 
@@ -41,9 +40,9 @@ class Member::PostsController < Member::Base
     @post = Post.find(params[:id])
 
     if @post.update_attributes(post_params)
-      redirect_to(member_post_path(@post), :notice => 'Post was successfully updated.')
+      redirect_to(member_post_path(@post), notice: 'Post was successfully updated.')
     else
-      render :action => "edit"
+      render action: 'edit'
     end
   end
 

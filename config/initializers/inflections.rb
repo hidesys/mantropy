@@ -9,6 +9,6 @@
 #   inflect.uncountable %w( fish sheep )
 # end
 ActiveSupport::Inflector.inflections do |inflect|
-    inflect.irregular "serie","series"
-    inflect.irregular "rank","ranks"
+  inflect.irregular 'serie', 'series'
+  inflect.irregular 'rank', 'ranks'
 end

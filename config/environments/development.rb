@@ -11,7 +11,7 @@ Mantropy::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  #config.action_view.debug_rjs             = true
+  # config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
   # StrongParametersに失敗したらRaise
@@ -29,13 +29,13 @@ Mantropy::Application.configure do
   # config.action_mailer.default_url_options = { :host => "192.168.74.19", :port => 3000 }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => "smtp.gmail.com",
-    :port => 587,
-    :domain => ENV['MAILER_DOMAIN'],
-    :user_name => ENV['MAILER_USER'],
-    :password => ENV['MAILER_PASS'],
-    :authentication => 'plain',
-    :enable_starttls_auto => true,
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: ENV['MAILER_DOMAIN'],
+    user_name: ENV['MAILER_USER'],
+    password: ENV['MAILER_PASS'],
+    authentication: 'plain',
+    enable_starttls_auto: true
   }
 
   config.assets.digest = false

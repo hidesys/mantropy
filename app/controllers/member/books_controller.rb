@@ -19,9 +19,9 @@ class Member::BooksController < Member::Base
     @book = Book.new(book_params)
 
     if @book.save
-      redirect_to(member_book_path(@book), :notice => 'Book was successfully created.')
+      redirect_to(member_book_path(@book), notice: 'Book was successfully created.')
     else
-      render :action => "new"
+      render action: 'new'
     end
   end
 
@@ -29,9 +29,9 @@ class Member::BooksController < Member::Base
     @book = Book.find(params[:id])
 
     if @book.update_attributes(book_params)
-      redirect_to(member_book_path(@book), :notice => 'Book was successfully updated.')
+      redirect_to(member_book_path(@book), notice: 'Book was successfully updated.')
     else
-      render :action => "edit"
+      render action: 'edit'
     end
   end
 

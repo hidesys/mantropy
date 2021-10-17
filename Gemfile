@@ -7,12 +7,12 @@ gem 'haml'
 gem 'erb2haml'
 gem 'rails'
 gem 'devise'
-gem 'ruby-aaws', :require => 'amazon/aws/search'
+gem 'ruby-aaws', require: 'amazon/aws/search'
 gem 'iconv', '~> 1.0.3'
-gem "devise-encryptable"
+gem 'devise-encryptable'
 gem 'jquery-rails'
 gem 'rails_autolink'
-gem "jbuilder"
+gem 'jbuilder'
 
 gem 'coffee-rails', '~> 4.2'
 gem 'uglifier', '>= 1.3.0'
@@ -27,28 +27,13 @@ gem 'hikidoc'
 # Use unicorn as the web server
 gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
+group :development do
+  # コードをキレイに
+  gem 'rubocop-rails'
+  gem 'dotenv-rails', require: 'dotenv/rails-now'
+end
 
 gem 'httpclient'
-gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 # Fix rails upgrade 6.0 error
 gem 'rexml', '~> 3.2', '>= 3.2.4'

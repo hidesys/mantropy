@@ -14,22 +14,19 @@ class Member::RankingsController < Member::Base
   def create
     @ranking = Ranking.new(ranking_params)
     if @ranking.save
-      redirect_to rankings_path
-    else
-      redirect_to rankings_path
     end
+    redirect_to rankings_path
   end
 
   def update
     @ranking = Ranking.find(params[:id])
     if @ranking.update_attributes(ranking_params)
-      redirect_to rankings_path
-    else
-      redirect_to rankings_path
     end
+    redirect_to rankings_path
   end
 
   private
+
   def ranking_params
     params.require(:ranking).permit(
       :name,
