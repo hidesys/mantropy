@@ -65,7 +65,7 @@ class Member::RanksController < Member::Base
   def update
     @rank = Rank.find(params[:id])
 
-    if @rank.update_attributes(rank_params)
+    if @rank.update(rank_params)
       redirect_to(member_rank_path(@rank), notice: 'Rank was successfully updated.')
     else
       render action: 'edit'

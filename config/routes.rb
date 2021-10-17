@@ -9,7 +9,7 @@ Mantropy::Application.routes.draw do
     resources :topics, except: %i[destroy show]
     resources :wikis, only: %i[index create new]
     resources :users, only: %i[create update edit new]
-    resources :site_configs, only: %i[create update destroy]
+    resources :site_configs, only: %i[index create update destroy]
 
     resources :series, only: %i[index new create edit update] do
       scope module: :series do

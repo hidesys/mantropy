@@ -4,7 +4,6 @@ class Member::RankingsController < Member::Base
   def index
     @rankings = Ranking.order(:name)
     @new_ranking = Ranking.new
-    @site_configs = SiteConfig.all
   end
 
   def show
@@ -15,14 +14,14 @@ class Member::RankingsController < Member::Base
     @ranking = Ranking.new(ranking_params)
     if @ranking.save
     end
-    redirect_to rankings_path
+    redirect_to member_rankings_path
   end
 
   def update
     @ranking = Ranking.find(params[:id])
-    if @ranking.update_attributes(ranking_params)
+    if @ranking.update(ranking_params)
     end
-    redirect_to rankings_path
+    redirect_to member_rankings_path
   end
 
   private

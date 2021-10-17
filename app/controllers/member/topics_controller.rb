@@ -44,7 +44,7 @@ class Member::TopicsController < Member::Base
   def update
     @topic = Topic.find(params[:id])
 
-    if @topic.update_attributes(topic_params)
+    if @topic.update(topic_params)
       redirect_to(member_topic_path(@topic), notice: 'Topic was successfully updated.')
     else
       render action: 'edit'
