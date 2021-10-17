@@ -86,7 +86,7 @@ class Member::SeriesController < Member::Base
     end
   end
 
-
+  # 不要疑惑
   def remove_duplications
     order_by = (params[:order_by] ? params[:order_by].gsub(/\_/, ".") : nil) || "authors.name"
     @series = Serie.select("DISTINCT series.*").includes(:ranks, :authors).where(ranks: {ranking_id: params[:ranking_id]}).order(order_by).page(params[:page]).per(1000)

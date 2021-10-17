@@ -1,4 +1,4 @@
-class RankingsController < ApplicationController
+class Member::RankingsController < Member::Base
   before_action :admin_basic_authentication
 
   def index

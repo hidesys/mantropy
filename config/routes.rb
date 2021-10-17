@@ -1,14 +1,7 @@
 Mantropy::Application.routes.draw do
-
-  resources :magazines_series
-
-
-  get "home/robots"
-  get "home/index"
-
-  resources :browsenodeids
-
   # 分離済み
+  get '/robots' => 'home#robots'
+
   root :to => 'home#index'
   resources :users, :only => [:index]
   get '/users/:name' => 'users#show', :as => "user"
@@ -18,13 +11,8 @@ Mantropy::Application.routes.draw do
   get '/series/:id' => 'series#show'
   get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
 
-  get '/robots' => 'home#robots'
+  get '/wikis/:name' => 'wikis#show', :as => "wiki"
 
-  # 未整理
-  resources :magazines, :only => [:index, :update]
-  post '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge'
-
-  resources :rankings, :only => [:index, :show, :update, :create]
   devise_for :userauths, :controllers =>{:registrations => "devise_registrations"}
   devise_scope :userauths do
     get '/userauths/sign_out' => 'devise/sessions#destroy'
@@ -47,8 +35,11 @@ Mantropy::Application.routes.draw do
         resource :post, only: :update
       end
     end
+
+    resources :rankings, :only => [:index, :show, :update, :create]
+    resources :magazines, :only => [:index, :update]
+    post '/magazines/merge' => 'magazines#merge', :as => 'magarines_merge'
     # どこからも呼ばれていないので不要？
     # get '/remove_duplications/:ranking_id(/:order_by)' => "series#remove_duplications"
   end
-  get '/:name' => 'wikis#show', :as => "wiki"
 end
