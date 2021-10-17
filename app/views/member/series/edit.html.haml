@@ -12,13 +12,13 @@
   %p.serie_authors
     %h3 著者:
     - @serie.authors.each do |a|
-      = form_tag :action => :update_author, :method => :post do
+      = form_tag member_serie_author_path(@serie), :method => :patch do
         = a.name
         = hidden_field_tag :mode, :remove
         = hidden_field_tag :author_id, a.id
         = submit_tag "取り除く", :confirm => "#{a.name} を #{@serie.name} から取り除いてよろしいですか？"
     - end if @serie.authors
-    = form_tag :action => :update_author, :method => :post do
+    = form_tag member_serie_author_path(@serie), :method => :patch do
       = hidden_field_tag :mode, "add"
       = text_field_tag :author_name
       = submit_tag "追加する"
@@ -35,7 +35,7 @@
             %th 操作
           - @serie.magazines_series.each do |ms|
             %tr
-              = form_tag :action => :update_magazines_series, :method => :post do
+              = form_tag member_serie_magazine_path(@serie), :method => :patch do
                 %td= ms.magazine && ms.magazine.name
                 %td= ms.placed
                 %td= ms.magazine && ms.magazine.publisher
@@ -45,7 +45,7 @@
       %dt 掲載誌情報の追加
       %dd
         %dl
-          = form_tag :action => :update_magazines_series, :method => :post do
+          = form_tag member_serie_magazine_path(@serie), :method => :patch do
             = hidden_field_tag :mode, :add
             %dt 雑誌名
             %dd
@@ -58,7 +58,7 @@
             %dd= submit_tag "追加する"
   %p.serie_post
     %h3 細部:
-    = form_tag :action => :update_post, :method => :post do
+    = form_tag member_serie_post_path(@serie), :method => :patch do
       %dt
         = hidden_field_tag "topic_id", @serie.topic_id
         = submit_tag "書き込み"
@@ -71,7 +71,7 @@
 \#{link_to 'Back', series_path}
 %p.serie_ranks
   %h2 ランキング登録
-  = form_for(Rank.new) do |f|
+  = form_for([:member, Rank.new]) do |f|
     %dl
       %dt 掲載誌
       %dd
