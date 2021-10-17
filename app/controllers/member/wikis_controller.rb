@@ -83,11 +83,11 @@ class Member::WikisController < Member::Base
 
 * 記述例
 
- [[活動内容|/about]]はこちら
+ [[活動内容|/wikis/about]]はこちら
 
 * 出力例
 
-[[活動内容|/about]]はこちら
+[[活動内容|/wikis/about]]はこちら
 
 この時、URLの末尾がjpg,jpeg,png,gifの場合にはIMGタグに展開されます。
 

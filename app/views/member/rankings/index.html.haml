@@ -10,8 +10,8 @@
     %th
   - @rankings.each do |ranking|
     %tr
-      %td= link_to ranking.name, ranking
-      = form_for(ranking) do |f|
+      %td= link_to ranking.name, member_ranking_path(ranking)
+      = form_for([:member, ranking]) do |f|
         %td= f.text_field :name
         %td= f.check_box :is_registerable
         %td= f.text_field :scope_min, size: 2
@@ -20,7 +20,7 @@
         %td= f.submit "変更"
   %tr
     %td
-    = form_for(@new_ranking) do |f|
+    = form_for([:member, @new_ranking]) do |f|
       %td= f.text_field :name
       %td= f.check_box :is_registerable
       %td= f.text_field :scope_min, size: 2
@@ -42,7 +42,7 @@
         %td= config.name
         %td= f.text_field :value
         %td= f.submit '変更', style: "margin: 20px;"
-        %td= link_to '削除', config, :confirm => '削除してよいですか？', :method => :delete
+        %td= link_to '削除', member_site_config_path(config), :confirm => '削除してよいですか？', :method => :delete
   %tr
     = form_for([:member, SiteConfig.new]) do |f|
       %td= f.text_field :path
