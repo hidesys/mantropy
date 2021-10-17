@@ -5,9 +5,9 @@ def ms(s0, s1)
 
     p a
     p b
-    puts "Are you sure to merge them? [Y/n]"
-    if gets.chomp != "Y"
-      puts "Canceled."
+    puts 'Are you sure to merge them? [Y/n]'
+    if gets.chomp != 'Y'
+      puts 'Canceled.'
       exit 1
     end
 
@@ -18,7 +18,6 @@ def ms(s0, s1)
 
     a.save!
     b.destroy
-    puts "Merged."
+    puts 'Merged.'
   end
 end
-

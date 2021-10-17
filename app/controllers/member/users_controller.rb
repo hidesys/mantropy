@@ -1,4 +1,3 @@
-# encoding: UTF-8
 class Member::UsersController < Member::Base
   def new
     @user = User.new
@@ -10,7 +9,7 @@ class Member::UsersController < Member::Base
 
   def create
     if current_user
-      redirect_to(user_path(current_user.name), :notice => '一つのログイン情報に一つを超えるユーザー情報は登録できません')
+      redirect_to(user_path(current_user.name), notice: '一つのログイン情報に一つを超えるユーザー情報は登録できません')
       return
     end
 
@@ -19,26 +18,26 @@ class Member::UsersController < Member::Base
 
     if @user.save
       current_userauth.save!
-      redirect_to(user_path(@user.name), :notice => 'User was successfully created.')
+      redirect_to(user_path(@user.name), notice: 'User was successfully created.')
     else
-      render :action => "new"
+      render action: 'new'
     end
   end
 
   def update
     @user = User.find(params[:id])
     unless @user.id == current_user.id
-      redirect_to(user_path(current_user.name), :notice => '他のユーザーは編集できません')
+      redirect_to(user_path(current_user.name), notice: '他のユーザーは編集できません')
       return
     end
 
-    @user.name.gsub!(/[\.\/]/, "")
-    #params[:user].each{|k,v| params[:user][k].gsub!(/\/\./, "") if k == :name}
+    @user.name.gsub!(%r{[./]}, '')
+    # params[:user].each{|k,v| params[:user][k].gsub!(/\/\./, "") if k == :name}
 
     if @user.update_attributes(user_params)
-      redirect_to(user_path(@user.name), :notice => 'User was successfully updated.')
+      redirect_to(user_path(@user.name), notice: 'User was successfully updated.')
     else
-      render :action => "edit"
+      render action: 'edit'
     end
   end
 

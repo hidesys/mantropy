@@ -4,9 +4,9 @@ class Member::Series::PostsController < Member::Series::Base
       post = Post.new(post_params)
       post.topic_id = params[:topic_id]
       post.user = current_user
-      post.order = Post.where(:topic_id => post.topic_id).count + 1
+      post.order = Post.where(topic_id: post.topic_id).count + 1
       post.save!
-      unless /sage/ =~ params[:post][:email] then
+      unless /sage/ =~ params[:post][:email]
         @serie.topic.updated_at = Time.now
         @serie.topic.save!
       end
