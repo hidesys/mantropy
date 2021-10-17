@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def show
     if !(@user = User.find_by_name(params[:name]))
-      redirect_to(:action => 'index', :notice => '存在しないユーザーです')
+      redirect_to users_path, :notice => '存在しないユーザーです'
       return
     end
     @title = "#{@user.name}"

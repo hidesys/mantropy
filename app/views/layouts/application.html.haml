@@ -22,13 +22,15 @@
           %tr{:width => "100%"}
             %td{:align => "left"}
               %font{:size => "-1"}
-                = link_to "トップ", root_path, :class => :head
+                - if current_user
+                  = link_to "メンバートップ", member_path, :class => :head
+                - else
+                  = link_to "トップ", root_path, :class => :head
                 = link_to "漫トロピーについて", wiki_path('about'), :class => :head
                 = link_to "メンバー", users_path, :class => :head
                 = link_to "ランキング", serie_ranking_path(Ranking.where(kind: "kojin").last&.name), :class => :head
                 = link_to "活動ブログ", "http://mantropy.hatenablog.com/", :class => :head
                 - if current_user
-                  = link_to "メンバートップ", member_path, :class => :head
                   = link_to "糞ラン", serie_ranking_path(Ranking.where(kind: 'kuso').last&.name), :class => :head
             %td{:align => "right"}
               %font{:size => "-1"}
