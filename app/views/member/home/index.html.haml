@@ -1,0 +1,23 @@
+%h2.text-center.mt-4 メンバーページ
+.list-group.mt-2
+  = link_to member_topics_path, class: 'list-group-item list-group-item-action' do
+    %i.bi.bi-pencil-square
+    内部掲示板
+  = link_to member_wikis_path, class: 'list-group-item list-group-item-action' do
+    %i.bi.bi-file-earmark-text
+    Wikiページ一覧
+  = link_to member_rankings_path, class: 'list-group-item list-group-item-action' do
+    %i.bi.bi-gear-fill
+    ランキング集計モード変更
+
+%h3.mt-4.text-center 外部リソース
+.list-group.mt-2
+  = link_to 'http://wiki.livedoor.jp/mantropy/', target: '_blank', class: 'list-group-item list-group-item-action' do
+    %i.bi.bi-file-earmark-text
+    旧Wiki
+  = link_to 'http://skydrive.live.com/', target: '_blank', class: 'list-group-item list-group-item-action' do
+    %i.bi.bi-cloud-arrow-down
+    SkyDrive
+
+%h3.mt-4.text-center お知らせWiki
+= render 'wikis/show'

@@ -10,6 +10,6 @@ class Member::Series::AuthorsController < Member::Series::Base
       end
       @serie.authors << a
     end
-    redirect_to @serie
+    redirect_to serie_path(@serie)
   end
 end

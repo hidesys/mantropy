@@ -35,7 +35,7 @@
             %th 操作
           - @serie.magazines_series.each do |ms|
             %tr
-              = form_tag member_serie_magazine_path(@serie), :method => :patch do
+              = form_tag member_serie_magazine_serie_path(@serie), :method => :patch do
                 %td= ms.magazine && ms.magazine.name
                 %td= ms.placed
                 %td= ms.magazine && ms.magazine.publisher
@@ -45,7 +45,7 @@
       %dt 掲載誌情報の追加
       %dd
         %dl
-          = form_tag member_serie_magazine_path(@serie), :method => :patch do
+          = form_tag member_serie_magazine_serie_path(@serie), :method => :patch do
             = hidden_field_tag :mode, :add
             %dt 雑誌名
             %dd

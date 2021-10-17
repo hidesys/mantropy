@@ -15,12 +15,6 @@ class WikisController < ApplicationController
     else
       @wikis = Wiki.where(name: @wiki.name).order("created_at DESC")
       @title = @wiki.title
-      @content = HikiDoc.to_html(@wiki.content, :use_wiki_name=>false)
-
-      respond_to do |format|
-        format.html # show.html.erb
-        format.xml  { render :xml => @wiki }
-      end
     end
   end
 end

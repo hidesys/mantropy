@@ -4,6 +4,6 @@ class Member::Series::Base < Member::Base
   private
 
   def set_serie
-    @serie = Serie.find(params[:id])
+    @serie = Serie.find(params[:serie_id])
   end
 end

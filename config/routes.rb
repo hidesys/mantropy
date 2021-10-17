@@ -19,6 +19,8 @@ Mantropy::Application.routes.draw do
   end
 
   namespace :member do
+    resource to: 'home#index'
+
     resources :books, :except => :destroy
     resources :posts, :except => :destroy
     resources :ranks
@@ -31,7 +33,7 @@ Mantropy::Application.routes.draw do
     resources :series, only: %i[index new create edit update] do
       scope module: :series do
         resource :author, only: :update
-        resource :magazine, only: :update
+        resource :magazine_serie, only: :update
         resource :post, only: :update
       end
     end

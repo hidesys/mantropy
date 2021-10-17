@@ -14,7 +14,7 @@ class Member::Series::PostsController < Member::Series::Base
       @serie.save!
     end
 
-    redirect_to @serie
+    redirect_to serie_path(@serie)
   end
 
   private

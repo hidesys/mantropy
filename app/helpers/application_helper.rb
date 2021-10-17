@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def title
-    "#{@title} #{(Rails.env == "development" ? "ん゛開発ゔゔううぅぅぅ！！！！" : nil)}"
+    "#{@title} #{(Rails.env == "development" ? "！！！！開発環境モード！！！！" : nil)}"
   end
 
   def login(param = nil)

@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    wiki_path(:name => "logged_in")
+    member_path
   end
 
   def serie_path(serie, *args)
