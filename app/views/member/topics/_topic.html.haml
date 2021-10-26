@@ -9,7 +9,7 @@
       %font{:color => "gray"}= i
       %font{:color => "#FF0000", :size => "5"}= topic.title
   - j = 0
-  - topic.posts.each do |post|
+  - topic.posts.order(:id).each do |post|
   - #break if (j += 1) > 10
     = render :partial => "member/topics/post", :locals => {:post => post}
   %dl
