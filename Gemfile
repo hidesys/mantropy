@@ -46,3 +46,4 @@ gem 'slack-notifier'
 # Ruby 3.1.2 対応
 gem 'net-smtp'
 gem 'net-pop'
+gem 'net-imap'
