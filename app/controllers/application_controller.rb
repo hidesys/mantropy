@@ -1,20 +1,8 @@
 class ApplicationController < ActionController::Base
-  before_action :development_basic_authentication
   protect_from_forgery
-
   helper_method :current_user, :complete_ranking, :serie_path
 
   private
-
-  def development_basic_authentication
-    if Rails.env == 'development'
-      authenticate_or_request_with_http_basic('Development Authentication') do |user, password|
-        user == ENV['DIGEST_USER'] && password == ENV['DIGEST_PASS']
-      end
-    else
-      true
-    end
-  end
 
   def complete_ranking(ranking, user = current_user)
     user && user.ranks.where(ranking_id: ranking.id).map do |r|
