@@ -38,3 +38,7 @@ gem 'httpclient'
 # Fix rails upgrade 6.0 error
 gem 'rexml', '~> 3.2', '>= 3.2.4'
 gem 'webrick'
+
+# slackエラー通知
+gem 'exception_notification'
+gem 'slack-notifier'
