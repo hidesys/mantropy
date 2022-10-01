@@ -14,7 +14,7 @@ class RakutenSearchService
 
   def self.query(str)
     http = HTTPClient.new
-    response = http.get API_POINT, { applicationId: ENV['RAKUTEN_APP_ID'], title: str }
+    response = http.get API_POINT, { applicationId: ENV.fetch('RAKUTEN_APP_ID', nil), title: str }
     JSON.parse(response.body)
   end
 
@@ -30,13 +30,13 @@ class RakutenSearchService
         normalized_author = normalize_author(raw_author)
         unless author = Author.find_by_name(normalized_author)
           author = Author.create!(name: normalized_author)
-          aui = Authoridea.create!(author: author, idea: author.id)
+          aui = Authoridea.create!(author:, idea: author.id)
         end
         book.authors << author
       end
       unless serie = Serie.find_by_name(normalized_title)
         topic = Topic.create!
-        serie = Serie.create!(name: normalized_title, topic: topic, authors: book.authors)
+        serie = Serie.create!(name: normalized_title, topic:, authors: book.authors)
       end
       book.series << serie
       book.save!

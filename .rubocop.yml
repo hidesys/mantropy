@@ -1,24 +1,16 @@
-Style/FrozenStringLiteralComment:
+AllCops:
+  SuggestExtensions: false
+  Exclude:
+    - "vendor/**/*" # rubocop config/default.yml
+    - "db/**/*"
+    - "bin/**/*"
+    - "node_modules/**/*"
+  NewCops: enable
+Style/AsciiComments:
   Enabled: false
 Documentation:
   Enabled: false
-Bundler/OrderedGems:
+Style/FrozenStringLiteralComment:
   Enabled: false
-ClassAndModuleChildren:
+Style/ClassAndModuleChildren:
   Enabled: false
-AllCops:
-  Exclude:
-    - /**/*.jbuilder
-    - config/unicorn.rb
-    - config/spring.rb
-    - config/puma.rb
-    - config/initializers/devise.rb
-    - config/initializers/wrap_parameters.rb
-    - config/initializers/backtrace_silencers.rb
-    - config/initializers/content_security_policy.rb
-    - db/**/*
-    - bin/**/*
-    - node_modules/**/*
-    - test/**/*
-  Rails:
-    Enabled: true

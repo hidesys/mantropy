@@ -1,18 +1,18 @@
 source 'http://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.2'
+ruby '3.1.2'
 
-gem 'haml'
-gem 'erb2haml'
-gem 'rails'
 gem 'devise'
-gem 'ruby-aaws', require: 'amazon/aws/search'
-gem 'iconv', '~> 1.0.3'
 gem 'devise-encryptable'
-gem 'jquery-rails'
-gem 'rails_autolink'
+gem 'erb2haml'
+gem 'haml'
+gem 'iconv', '~> 1.0.3'
 gem 'jbuilder'
+gem 'jquery-rails'
+gem 'rails'
+gem 'rails_autolink'
+gem 'ruby-aaws', require: 'amazon/aws/search'
 
 gem 'coffee-rails', '~> 4.2'
 gem 'uglifier', '>= 1.3.0'
@@ -20,17 +20,17 @@ gem 'uglifier', '>= 1.3.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
-gem 'kaminari'
 gem 'hikidoc'
+gem 'kaminari'
+gem 'pg'
 
 # Use unicorn as the web server
 gem 'unicorn'
 
 group :development do
   # コードをキレイに
-  gem 'rubocop-rails'
   gem 'dotenv-rails', require: 'dotenv/rails-now'
+  gem 'rubocop-rails'
 end
 
 gem 'httpclient'
