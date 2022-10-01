@@ -14,7 +14,7 @@ http://mantropy.net/ のソースコードです。
 その後、
 * `.env.sample`
 をコピーして
-* `.env`
+* `.env.development`
 を作成し、必要となる環境変数をセットしてください。
 
 ## Author

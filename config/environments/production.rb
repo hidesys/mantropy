@@ -58,4 +58,5 @@ Mantropy::Application.configure do
   config.assets.digest = false
   config.serve_static_files = true
   config.eager_load = true
+  config.force_ssl = true
 end

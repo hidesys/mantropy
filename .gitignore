@@ -5,4 +5,4 @@ tmp/
 vendor/bundle
 public/assets/*
 *_exec_log.txt
-.env
+.env.development
