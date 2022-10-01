@@ -29,11 +29,11 @@ Mantropy::Application.configure do
   # config.action_mailer.default_url_options = { :host => "192.168.74.19", :port => 3000 }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
+    address: 'hidesys-service.sakura.ne.jp',
+    domain: 'mail.mantropy.com',
     port: 587,
-    domain: ENV['MAILER_DOMAIN'],
-    user_name: ENV['MAILER_USER'],
-    password: ENV['MAILER_PASS'],
+    user_name: 'no-replay@mail.mantropy.com',
+    password: ENV.fetch('SMTP_PASSWORD', nil),
     authentication: 'plain',
     enable_starttls_auto: true
   }
