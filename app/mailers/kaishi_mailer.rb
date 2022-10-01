@@ -1,5 +1,5 @@
 class KaishiMailer < ActionMailer::Base
-  default from: 'info@mantropy.net', replay_to: 'mantropy@live.jp'
+  default from: 'no-replay@mail.mantropy.com'
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
