@@ -9,7 +9,7 @@ http://mantropy.net/ のソースコードです。
 バグ、機能改善案等があればIssueを立ててください
 
 ## Install
-`git@github.com:hidesys/mantropy.git`してソースコードをcloneしてください。
+`git clone git@github.com:hidesys/mantropy.git`してソースコードをcloneしてください。
 
 その後、
 * `.env.sample`

@@ -31,7 +31,7 @@ class Member::RanksController < Member::Base
     end
     if magazine
       placed = params[:magazine_placed].strip
-      if s.magazines_series.where(magazine_id: magazine.id, placed: placed).empty?
+      if s.magazines_series.where(magazine_id: magazine.id, placed:).empty?
         ms = MagazinesSerie.new
         ms.magazine = magazine
         ms.placed = placed

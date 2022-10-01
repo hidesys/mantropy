@@ -1,10 +1,10 @@
 class WikisController < ApplicationController
   def show
     @wiki = nil
-    @wiki = if !params[:id]
-              Wiki.where(name: params[:name]).order('created_at DESC').limit(1).first
-            else
+    @wiki = if params[:id]
               Wiki.find(params[:id])
+            else
+              Wiki.where(name: params[:name]).order('created_at DESC').limit(1).first
             end
 
     if @wiki.nil?
