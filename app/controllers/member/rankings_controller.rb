@@ -17,6 +17,7 @@ class Member::RankingsController < Member::Base
 
   def update
     @ranking = Ranking.find(params[:id])
+    @ranking.update(ranking_params)
     redirect_to member_rankings_path
   end
 
