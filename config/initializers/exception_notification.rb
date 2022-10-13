@@ -1,6 +1,6 @@
 require 'exception_notification/rails'
 
-SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'.freeze
+SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'.freeze
 
 if Rails.env.production?
   ExceptionNotification.configure do |config|
