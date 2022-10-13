@@ -12,12 +12,13 @@ class Member::RankingsController < Member::Base
 
   def create
     @ranking = Ranking.new(ranking_params)
+    @ranking.save!
     redirect_to member_rankings_path
   end
 
   def update
     @ranking = Ranking.find(params[:id])
-    @ranking.update(ranking_params)
+    @ranking.update!(ranking_params)
     redirect_to member_rankings_path
   end
 
