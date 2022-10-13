@@ -27,7 +27,8 @@ class ApplicationController < ActionController::Base
   end
 
   def clean_serie_name(serie)
-    "/#{CGI.escape("#{serie.name}-#{serie.authors&.map(&:name)&.join(',')}"[0..31])}/series/#{serie.id}"
+    base_name = "#{serie.name}-#{serie.authors&.map(&:name)&.join(',')}"[0..31].gsub(/[\.\/\\\+\s\"\'\{\}\[\]\*\,\;\:]/, '')
+    "/#{CGI.escape(base_name)}/series/#{serie.id}"
   end
 
   def render_with_encoding(*options)
