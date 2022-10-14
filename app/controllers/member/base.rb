@@ -5,6 +5,7 @@ class Member::Base < ApplicationController
 
   def authenticate_user!
     authenticate_userauth!
+    redirect_to new_member_user_path, notice: 'ユーザー情報を登録してください' if current_user.nil?
   end
 
   def admin_basic_authentication
