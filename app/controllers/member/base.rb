@@ -1,10 +1,10 @@
 class Member::Base < ApplicationController
+  before_action :authenticate_userauth!
   before_action :authenticate_user!
 
   private
 
   def authenticate_user!
-    authenticate_userauth!
     redirect_to new_member_user_path, notice: 'ユーザー情報を登録してください' if current_user.nil?
   end
 
