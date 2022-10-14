@@ -1,5 +1,5 @@
 class Member::UsersController < Member::Base
-  skip_before_action: authenticate_user!, only: %i[new create]
+  skip_before_action :authenticate_user!, only: %i[new create]
 
   def new
     @user = User.new
