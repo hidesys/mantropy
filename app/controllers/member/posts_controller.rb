@@ -19,7 +19,7 @@ class Member::PostsController < Member::Base
     @post = Post.new(post_params)
     @post.topic_id = params[:topic_id]
     topic = @post.topic
-    redirect_path = (topic.title ? member_topic_path(topic) : serie_path(Serie.find_by_topic_id(topic.id)))
+    redirect_path = (topic.title ? member_topic_path(topic) : serie_path(Serie.find_by(topic_id: topic.id)))
     begin
       Post.transaction do
         @post.user = current_user

@@ -10,7 +10,7 @@ class Member::Series::MagazineSeriesController < Member::Series::Base
         magazine.name = magazine_name
         magazine.publisher = @serie.books.first && @serie.books.first.publisher
       else
-        magazine = Magazine.find_by(name: magazine_name) || Magazine.find_by_id(params[:magazine_id])
+        magazine = Magazine.find_by(name: magazine_name) || Magazine.find_by(id: params[:magazine_id])
       end
       placed = params[:magazine_placed].strip
       if @serie.magazines_series.where(magazine_id: magazine.id, placed:).empty?

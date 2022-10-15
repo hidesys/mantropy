@@ -30,7 +30,7 @@ Mantropy::Application.routes.draw do
   get '/robots' => 'home#robots'
 
   root to: 'home#index'
-  resources :users, only: [:index, :show]
+  resources :users, only: %i[index show]
 
   get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
   resources :series, only: %i[index]

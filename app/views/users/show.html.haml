@@ -37,7 +37,7 @@
   最新10件
   %br/
   - @user.posts.order("id DESC").limit(10).each do |post|
-    = link_to post.topic.title || Serie.find_by_topic_id(post.topic.id).name, member_topics_path(post.topic)
+    = link_to post.topic.title || Serie.find_by(topic_id: post.topic.id).name, member_topics_path(post.topic)
     = post.content[0..24]
     %br/
 %p

@@ -6,7 +6,7 @@ class Member::TopicsController < Member::Base
   def show
     @topic = Topic.find(params[:id])
 
-    return redirect_to serie_path(Serie.find_by_topic_id(@topic.id)) if @topic.title.nil?
+    return redirect_to serie_path(Serie.find_by(topic_id: @topic.id)) if @topic.title.nil?
   end
 
   def new

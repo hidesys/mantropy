@@ -27,7 +27,9 @@ class ApplicationController < ActionController::Base
   end
 
   def clean_serie_name(serie)
-    base_name = "#{serie.name}-#{serie.authors&.map(&:name)&.join(',')}"[0..31].gsub(/[\.\/\\\+\s\"\'\{\}\[\]\*\,\;\:]/, '')
+    base_name = "#{serie.name}-#{serie.authors&.map(&:name)&.join(',')}"[0..31].gsub(
+      %r{[./\\+\s"'{}\[\]*,;:]}, ''
+    )
     "/#{CGI.escape(base_name)}/series/#{serie.id}"
   end
 

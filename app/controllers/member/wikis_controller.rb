@@ -4,7 +4,7 @@ class Member::WikisController < Member::Base
   end
 
   def new
-    wiki = Wiki.find_by_id(params[:id])
+    wiki = Wiki.find_by(id: params[:id])
     @wiki = if wiki
               Wiki.new(name: wiki.name, title: wiki.title, content: wiki.content, is_private: wiki.is_private)
             else
