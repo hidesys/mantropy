@@ -22,10 +22,9 @@ class UsersController < ApplicationController
   end
 
   def show
-    unless (@user = User.find_by_name(params[:name]))
-      redirect_to users_path, notice: '存在しないユーザーです'
-      return
-    end
+    @user = User.find_by(name: params[:id])
+    return redirect_to users_path, notice: '存在しないユーザーです' if @user.blank?
+    
     @title = @user.name.to_s
     @registerable_rankings = registerable_rankings
     @registering_rankings = registering_rankings

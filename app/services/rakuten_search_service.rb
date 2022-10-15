@@ -28,13 +28,13 @@ class RakutenSearchService
       normalized_title = normalize_title(book.name)
       item['author'].split('/').each do |raw_author|
         normalized_author = normalize_author(raw_author)
-        unless author = Author.find_by_name(normalized_author)
+        unless author = Author.find_by(name: normalized_author)
           author = Author.create!(name: normalized_author)
           aui = Authoridea.create!(author:, idea: author.id)
         end
         book.authors << author
       end
-      unless serie = Serie.find_by_name(normalized_title)
+      unless serie = Serie.find_by(name: normalized_title)
         topic = Topic.create!
         serie = Serie.create!(name: normalized_title, topic:, authors: book.authors)
       end

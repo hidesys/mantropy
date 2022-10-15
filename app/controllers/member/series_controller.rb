@@ -19,14 +19,14 @@ class Member::SeriesController < Member::Base
   def create
     @serie = Serie.new(serie_params)
 
-    unless a = Author.find_by_id(params[:author_id]) || Author.find_by_name(params[:author_name].strip)
+    unless a = Author.find_by_id(params[:author_id]) || Author.find_by(name: params[:author_name].strip)
       a = Author.new
       a.name = params[:author_name].strip
       a.save!
     end
     @serie.authors << a
 
-    unless m = Magazine.find_by_id(params[:magazine_id]) || Magazine.find_by_name(params[:magazine_name].strip)
+    unless m = Magazine.find_by_id(params[:magazine_id]) || Magazine.find_by(name: params[:magazine_name].strip)
       m = Magazine.new
       m.name = params[:magazine_name].strip
       m.publisher = params[:magazine_publisher].strip
