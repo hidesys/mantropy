@@ -5,43 +5,43 @@ class SeriesControllerTest < ActionController::TestCase
     @series = series(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:series)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new
     assert_response :success
   end
 
-  test "should create series" do
+  test 'should create series' do
     assert_difference('Serie.count') do
-      post :create, :series => @series.attributes
+      post :create, series: @series.attributes
     end
 
     assert_redirected_to series_path(assigns(:series))
   end
 
-  test "should show series" do
-    get :show, :id => @series.to_param
+  test 'should show series' do
+    get :show, id: @series.to_param
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, :id => @series.to_param
+  test 'should get edit' do
+    get :edit, id: @series.to_param
     assert_response :success
   end
 
-  test "should update series" do
-    put :update, :id => @series.to_param, :series => @series.attributes
+  test 'should update series' do
+    put :update, id: @series.to_param, series: @series.attributes
     assert_redirected_to series_path(assigns(:series))
   end
 
-  test "should destroy series" do
+  test 'should destroy series' do
     assert_difference('Serie.count', -1) do
-      delete :destroy, :id => @series.to_param
+      delete :destroy, id: @series.to_param
     end
 
     assert_redirected_to series_path

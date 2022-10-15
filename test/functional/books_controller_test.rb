@@ -5,43 +5,43 @@ class BooksControllerTest < ActionController::TestCase
     @book = books(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:books)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new
     assert_response :success
   end
 
-  test "should create book" do
+  test 'should create book' do
     assert_difference('Book.count') do
-      post :create, :book => @book.attributes
+      post :create, book: @book.attributes
     end
 
     assert_redirected_to member_book_path(assigns(:book))
   end
 
-  test "should show book" do
-    get :show, :id => @book.to_param
+  test 'should show book' do
+    get :show, id: @book.to_param
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, :id => @book.to_param
+  test 'should get edit' do
+    get :edit, id: @book.to_param
     assert_response :success
   end
 
-  test "should update book" do
-    put :update, :id => @book.to_param, :book => @book.attributes
+  test 'should update book' do
+    put :update, id: @book.to_param, book: @book.attributes
     assert_redirected_to member_book_path(assigns(:book))
   end
 
-  test "should destroy book" do
+  test 'should destroy book' do
     assert_difference('Book.count', -1) do
-      delete :destroy, :id => @book.to_param
+      delete :destroy, id: @book.to_param
     end
 
     assert_redirected_to member_books_path

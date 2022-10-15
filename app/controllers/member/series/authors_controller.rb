@@ -5,7 +5,8 @@ class Member::Series::AuthorsController < Member::Series::Base
       @serie.authors_series.where(author_id: params[:author_id]).destroy_all
     when 'add'
       aa = Aaaws.normalize_author(params[:author_name])
-      unless a = Author.find_by(name: aa)
+      a = Author.find_by(name: aa)
+      unless a
         a = Author.new
         a.name = aa
         a.save!

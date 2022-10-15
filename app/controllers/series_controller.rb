@@ -17,13 +17,13 @@ class SeriesController < ApplicationController
   def ranking_now
     @title = '全体ランキング'
 
-    ranking = Ranking.find_by(name: params[:str]) || Ranking.find_by_id(params[:str]) || Ranking.where('kind = "kojin" AND (is_registerable IS NULL OR is_registerable = TRUE)').last
+    ranking = Ranking.find_by(name: params[:str]) || Ranking.find_by(id: params[:str]) || Ranking.where('kind = "kojin" AND (is_registerable IS NULL OR is_registerable = TRUE)').last
     ranking_plus = ranking_minus = nil
-    if ranking.kind == 'kojin'
+    case ranking.kind
+    when 'kojin'
       ranking_plus = ranking
       ranking_minus = Ranking.where(['name LIKE ? AND kind = ?', "#{ranking.name[0...4]}%", 'kuso']).last
-    else
-      ranking.kind == 'kuso'
+    when 'kuso'
       ranking_plus = Ranking.where(['name LIKE ? AND kind = ?', "#{ranking.name[0...4]}%", 'kojin']).last
       ranking_minus = ranking
     end
@@ -46,8 +46,7 @@ class SeriesController < ApplicationController
             ') pc ON s.topic_id=pc.topic_id'
       if ranking == ranking_plus
         sql += ' order by rs.mark DESC, rs.count DESC, rs.min_rank, rk.count'
-      else
-        ranking == ranking_minus
+      elsif ranking == ranking_minus
         sql += ' order by amark DESC, rs.count DESC, rs.min_rank, rk.count'
       end
 
@@ -73,8 +72,7 @@ class SeriesController < ApplicationController
           serie.rank_info[:rank] = rank
           serie
         end
-      else
-        ranking == ranking_minus
+      elsif ranking == ranking_minus
         rank = rank_ = sum_of_mark_with_kuso = count_kuso = min_rank = 0
         @series.map! do |serie|
           rank_ += 1
