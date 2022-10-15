@@ -22,12 +22,12 @@ class Member::RanksController < Member::Base
     s = Serie.find(@rank.serie_id)
 
     magazine_name = params[:magazine_name].strip
-    if !magazine_name.empty? && Magazine.find_by_name(magazine_name).nil?
+    if !magazine_name.empty? && Magazine.find_by(name: magazine_name).nil?
       magazine = Magazine.new
       magazine.name = magazine_name
       magazine.publisher = s.books.first && s.books.first.publisher
     else
-      magazine = Magazine.find_by_name(magazine_name) || Magazine.find_by_id(params[:magazine_id])
+      magazine = Magazine.find_by(name: magazine_name) || Magazine.find_by_id(params[:magazine_id])
     end
     if magazine
       placed = params[:magazine_placed].strip

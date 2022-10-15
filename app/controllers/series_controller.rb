@@ -3,7 +3,7 @@ class SeriesController < ApplicationController
 
   def ranking
     @title = '全体ランキング'
-    ranking = Ranking.find_by_name(params[:str]) || Ranking.find(params[:str])
+    ranking = Ranking.find_by(name: params[:str]) || Ranking.find(params[:str])
     ranking_id = ranking ? ranking.id : 5
 
     @series = Kaminari.paginate_array(Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN ranks r ON s.id=r.serie_id WHERE r.ranking_id=#{ranking_id} ORDER BY r.rank")).page(params[:page])
@@ -17,7 +17,7 @@ class SeriesController < ApplicationController
   def ranking_now
     @title = '全体ランキング'
 
-    ranking = Ranking.find_by_name(params[:str]) || Ranking.find_by_id(params[:str]) || Ranking.where('kind = "kojin" AND (is_registerable IS NULL OR is_registerable = TRUE)').last
+    ranking = Ranking.find_by(name: params[:str]) || Ranking.find_by_id(params[:str]) || Ranking.where('kind = "kojin" AND (is_registerable IS NULL OR is_registerable = TRUE)').last
     ranking_plus = ranking_minus = nil
     if ranking.kind == 'kojin'
       ranking_plus = ranking
