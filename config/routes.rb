@@ -35,7 +35,13 @@ Mantropy::Application.routes.draw do
   get '/:name/series/:id' => 'series#show', :as => 'serie', :via => :get
   resources :series, only: %i[index]
   get '/series/:id' => 'series#show'
-  get '/ranking(/:str)' => 'series#ranking_now', :as => 'serie_ranking'
+  resources :rankings, only: %i[index] do
+    scope module: :rankings do
+      resources :series, only: %i[index] do
+        get 'aggregated', on: :collection
+      end
+    end
+  end
 
   get '/wikis/:name' => 'wikis#show', :as => 'wiki'
 
