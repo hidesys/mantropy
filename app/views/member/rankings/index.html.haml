@@ -12,7 +12,7 @@
   - @rankings.each do |ranking|
     %tr
       %td
-        = link_to serie_ranking_path(ranking.name), class: 'btn btn-outline-info' do
+        = link_to ranking_series_path(ranking.name), class: 'btn btn-outline-info' do
           %i.bi.bi-link-45deg
       = form_for([:member, ranking]) do |f|
         %td= f.text_field :name, class: 'form-control'
