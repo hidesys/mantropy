@@ -11,7 +11,7 @@ class Rankings::SeriesController < Rankings::Base
       ranking_plus = Ranking.where(['name LIKE ? AND kind = ?', "#{@ranking.name[0...4]}%", 'kojin']).last
       ranking_minus = @ranking
     else
-      return redirect_to(aggregated_ranking_series_path(ranking.name))
+      return redirect_to(aggregated_ranking_series_path(@ranking.name))
     end
 
     share_with = SiteConfig.config('ranking_now_share_with')

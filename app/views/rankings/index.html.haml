@@ -1,14 +1,14 @@
-%table.table
-  %thead.table-light
-    %tr
-      %th ランキング名
-      %th 登録作業
-  %tbody
-    - @rankings.each do |ranking|
-      %tr
-        %td
-          - if link_to !ranking.is_registerable? || current_user.present?
-            = link_to ranking.name, ranking_series_path(ranking.name)
-          - else 
-            = ranking.name
-        %td= ranking.is_registerable? ? '登録作業中' : nil
+%h2.text-center.mt-4 漫画ランキング一覧
+
+.list-group.mt-2
+  - @rankings.each do |ranking|
+    - if link_to !ranking.is_registerable? || current_user.present?
+      = link_to ranking_series_path(ranking.name), class: 'list-group-item list-group-item-action' do
+        %i.bi.bi-globe2
+        = ranking.name
+    - else
+      %li.list-group-item
+        %bi.bi-lock
+        = ranking.name
+        （登録作業中）
+          
