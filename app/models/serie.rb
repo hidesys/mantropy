@@ -10,6 +10,7 @@ class Serie < ActiveRecord::Base
   belongs_to :post, optional: true
   belongs_to :topic, optional: true
   has_many :posts, through: :topic
+  validates :name, presence: true
 
   attr_accessor :rank_info
 end
