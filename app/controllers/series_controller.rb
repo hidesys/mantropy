@@ -21,15 +21,17 @@ class SeriesController < ApplicationController
     # サーチワードを空白で分割してor検索
     search_strs = @str.strip.split(/[\s　]/)
 
+    # シリーズで名前検索
     series = Serie.all
     search_strs.each.with_index do |s, i|
       series = if i.zero?
-        series.where("name LIKE ?", "%#{s}%")
+          series.where("name LIKE ?", "%#{s}%")
         else
           series.or(scope.where("name_kana LIKE ?", "%#{s}%"))
         end
     end
 
+    # 著者で名前検索
     authors = Author.all
     search_strs.each.with_index do |s, i|
       authors = if i.zero?
@@ -39,11 +41,13 @@ class SeriesController < ApplicationController
         end
     end
 
-    # 著者名で引っかかるときはその著者のシリーズも含めて表示
+    # 著者名で引っかかるときはその著者の持っているシリーズを含める
     if authors.exists?
       serie_ids = AuthorSerie.where(author_id: authors.pluck(:id)).pluck(:serie_id)
       series = series.or(Serie.where(id: serie_ids))
     end
+
+    # ページネーション
     @series = series.page(params[:page]).order(id: :desc)
 
     if @series.one?
