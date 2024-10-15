@@ -19,7 +19,7 @@ class SeriesController < ApplicationController
     end
 
     # サーチワードを空白で分割してor検索
-    search_strs = @str.strip.split(/[\s　]/)
+    search_strs = @str.strip.split(/[\s　]/).compact_blank
 
     # シリーズで名前検索
     series = Serie.none
