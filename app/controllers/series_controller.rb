@@ -22,20 +22,20 @@ class SeriesController < ApplicationController
     search_strs = @str.strip.split(/[\s　]/)
 
     # シリーズで名前検索
-    series = Serie.all
+    series = Serie.none
     search_strs.each.with_index do |s, i|
       series = if i.zero?
-          series.where("name LIKE ?", "%#{s}%")
+          Serie.where("name LIKE ?", "%#{s}%")
         else
           series.or(scope.where("name_kana LIKE ?", "%#{s}%"))
         end
     end
 
     # 著者で名前検索
-    authors = Author.all
+    authors = Author.none
     search_strs.each.with_index do |s, i|
       authors = if i.zero?
-          authors.where("name LIKE ?", "%#{s}%")
+          Author.where("name LIKE ?", "%#{s}%")
         else
           authors.or(scope.where("name_kana LIKE ?", "%#{s}%"))
         end
