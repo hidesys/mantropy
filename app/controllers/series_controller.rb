@@ -43,7 +43,7 @@ class SeriesController < ApplicationController
 
     # 著者名で引っかかるときはその著者の持っているシリーズを含める
     if authors.exists?
-      serie_ids = AuthorSerie.where(author_id: authors.pluck(:id)).pluck(:serie_id)
+      serie_ids = AuthorsSerie.where(author_id: authors.pluck(:id)).pluck(:serie_id)
       series = series.or(Serie.where(id: serie_ids))
     end
 
