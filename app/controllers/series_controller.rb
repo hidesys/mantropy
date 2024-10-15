@@ -44,7 +44,7 @@ class SeriesController < ApplicationController
       serie_ids = AuthorSerie.where(author_id: authors.pluck(:id)).pluck(:serie_id)
       series = series.or(Serie.where(id: serie_ids))
     end
-    @series = series.page(params[:page])
+    @series = series.page(params[:page]).order(id: :desc)
 
     if @series.one?
       # 結果が1件の場合はそのシリーズの詳細ページにリダイレクト
