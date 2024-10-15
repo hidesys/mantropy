@@ -24,7 +24,7 @@ class SeriesController < ApplicationController
     series = Serie.all
     search_strs.each.with_index do |s, i|
       series = if i.zero?
-        series.where("name LIKE ?", "%#{s}%") :
+        series.where("name LIKE ?", "%#{s}%")
         else
           series.or(scope.where("name_kana LIKE ?", "%#{s}%"))
         end
@@ -33,7 +33,7 @@ class SeriesController < ApplicationController
     authors = Author.all
     search_strs.each.with_index do |s, i|
       authors = if i.zero?
-          authors.where("name LIKE ?", "%#{s}%") :
+          authors.where("name LIKE ?", "%#{s}%")
         else
           authors.or(scope.where("name_kana LIKE ?", "%#{s}%"))
         end
