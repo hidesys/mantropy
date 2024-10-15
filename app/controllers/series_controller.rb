@@ -18,16 +18,36 @@ class SeriesController < ApplicationController
       end
     end
 
-    search_strs = @str.strip.split(/[\s　]/).map { |s| "%#{s}%" }
-    serie_arel = Serie.arel_table[:name].matches_all(search_strs)
-    authors = Author.where(Author.arel_table[:name].matches_all(search_strs))
-    unless authors.empty?
-      author_serie_ids = authors.map { |a| a.authors_series.map(&:serie_id) }.flatten
-      serie_arel = serie_arel.or(Serie.arel_table[:id].in_any(author_serie_ids))
-    end
-    @series = Kaminari.paginate_array(Serie.where(serie_arel).uniq).page(params[:page])
+    # サーチワードを空白で分割してor検索
+    search_strs = @str.strip.split(/[\s　]/)
 
-    if @series.length == 1
+    series = Serie.all
+    search_strs.each.with_index do |s, i|
+      series = if i.zero?
+        series.where("name LIKE ?", "%#{s}%") :
+        else
+          series.or(scope.where("name_kana LIKE ?", "%#{s}%"))
+        end
+    end
+
+    authors = Author.all
+    search_strs.each.with_index do |s, i|
+      authors = if i.zero?
+          authors.where("name LIKE ?", "%#{s}%") :
+        else
+          authors.or(scope.where("name_kana LIKE ?", "%#{s}%"))
+        end
+    end
+
+    # 著者名で引っかかるときはその著者のシリーズも含めて表示
+    if authors.exists?
+      serie_ids = AuthorSerie.where(author_id: authors.pluck(:id)).pluck(:serie_id)
+      series = series.or(Serie.where(id: serie_ids))
+    end
+    @series = series.page(params[:page])
+
+    if @series.one?
+      # 結果が1件の場合はそのシリーズの詳細ページにリダイレクト
       redirect_to serie_path(@series[0])
     else
       render 'index'
