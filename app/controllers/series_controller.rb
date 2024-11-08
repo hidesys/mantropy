@@ -27,7 +27,7 @@ class SeriesController < ApplicationController
       series = if i.zero?
           Serie.where("name LIKE ?", "%#{s}%")
         else
-          series.or(scope.where("name_kana LIKE ?", "%#{s}%"))
+          series.or(series.where("name_kana LIKE ?", "%#{s}%"))
         end
     end
 
@@ -37,7 +37,7 @@ class SeriesController < ApplicationController
       authors = if i.zero?
           Author.where("name LIKE ?", "%#{s}%")
         else
-          authors.or(scope.where("name_kana LIKE ?", "%#{s}%"))
+          authors.or(series.where("name_kana LIKE ?", "%#{s}%"))
         end
     end
 
