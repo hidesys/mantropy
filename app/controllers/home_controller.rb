@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 
   def robots
     respond_to do |format|
-      format.txt
+      format.text { render plain: '' }
     end
   end
 end
