@@ -1,6 +1,6 @@
 class Member::TopicsController < Member::Base
   def index
-    @topics = Topic.where(appear: 1).order('updated_at DESC, id DESC')
+    @topics = Topic.where(appear: 1).order(updated_at: :desc, id: :desc)
   end
 
   def show
@@ -61,9 +61,9 @@ class Member::TopicsController < Member::Base
   private
 
   def topic_params
-    params.require(:topic).permit(
-      :appear,
-      :title
+    params.expect(
+      topic: %i[appear
+                title]
     )
   end
 end

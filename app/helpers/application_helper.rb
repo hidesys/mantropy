@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def serie_to_amazon_url(serie)
-    serie = serie.books.order('publicationdate DESC').first
+    serie = serie.books.order(publicationdate: :desc).first
     if serie&.detailurl
       serie.detailurl.gsub('kumantropy-22', 'mantropy-22').gsub('mantropy-22',
                                                                 'kumantropy-22')

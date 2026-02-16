@@ -3,7 +3,7 @@ class Member::SeriesController < Member::Base
 
   def index
     @title = 'シリーズ一覧'
-    @series = Serie.order('id DESC').page(params[:page])
+    @series = Serie.order(id: :desc).page(params[:page])
   end
 
   def new
@@ -83,10 +83,10 @@ class Member::SeriesController < Member::Base
   private
 
   def serie_params
-    params.require(:serie).permit(
-      :author_name,
-      :magazine_name,
-      :name
+    params.expect(
+      serie: %i[author_name
+                magazine_name
+                name]
     )
   end
 end

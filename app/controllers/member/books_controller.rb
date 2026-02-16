@@ -45,16 +45,16 @@ class Member::BooksController < Member::Base
   private
 
   def book_params
-    params.require(:book).permit(
-      :isbn,
-      :name,
-      :publisher,
-      :publificationdate,
-      :kind,
-      :detailurl,
-      :smallimgurl,
-      :mediumimgurl,
-      :largeimgurl
+    params.expect(
+      book: %i[isbn
+               name
+               publisher
+               publificationdate
+               kind
+               detailurl
+               smallimgurl
+               mediumimgurl
+               largeimgurl]
     )
   end
 end

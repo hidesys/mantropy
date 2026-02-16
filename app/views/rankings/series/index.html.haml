@@ -1,39 +1,39 @@
 = link_to "会誌編集用にランキングとコメント一覧をXMLでダウンロードする", "#{request.url}.xml", download: true
 = paginate @series
-- @series.each do |serie|
-  - if current_user && serie.ranks.where(:ranking_id => @ranking_ids).map{|r| r.user_id}.include?(current_user.id)
-    - if @is_should_comment_term && serie.rank_info[:rank] <= 50 && serie.posts.where(:user_id => current_user.id).count == 0
-      %p.serie{:style => "background-color: red;"}
-        コメントがまだです
-    - else
-      %p.serie{:style => "background-color: cyan;"}
-        ランキングへ入れています
-  %p.serie
-    順位:
-    = serie.rank_info[:rank]
-    合計得点:
-    = serie.rank_info[:sum_of_mark]
-    糞修正後得点:
-    = serie.rank_info[:sum_of_mark_with_kuso]
-    ランキング重複数:
-    = serie.rank_info[:count_rank]
-    糞重複数:
-    = serie.rank_info[:count_kuso]
-    コメント数:
-    = serie.rank_info[:count_post]
-  = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if serie.rank_info[:rank] <= 30
-  %p.serie_detail
-    %h2= link_to serie.name, serie, {:target => "_blank"}
-    = serie.authors.map{|a| a.name}
-    = serie.magazines.select("DISTINCT *").map{|m| m.name}
-    %br/
-    - serie.ranks.where(:ranking_id => @ranking_ids).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.each do |r|
-      - user = r.user
-      - if @is_should_comment_term && current_user && serie.rank_info[:rank] <= 50 && serie.posts.where(:user_id => user.id).count == 0
-        %span{:style => "background-color: red;"}>< 未コメ
-      = link_to "#{user.name} (#{r.ranking_id == @ranking_ids.last ? "糞" : nil}#{r.rank}位)", user_path(user.name)
-      = "　"
-  %br{:style => "clear: both;"}/
-  %br/
-- end if @series
+- if @series
+  - @series.each do |serie|
+    - if current_user && serie.ranks.where(:ranking_id => @ranking_ids).map{|r| r.user_id}.include?(current_user.id)
+      - if @is_should_comment_term && serie.rank_info[:rank] <= 50 && serie.posts.where(:user_id => current_user.id).count == 0
+        %p.serie{:style => "background-color: red;"}
+          コメントがまだです
+      - else
+        %p.serie{:style => "background-color: cyan;"}
+          ランキングへ入れています
+    %p.serie
+      順位:
+      = serie.rank_info[:rank]
+      合計得点:
+      = serie.rank_info[:sum_of_mark]
+      糞修正後得点:
+      = serie.rank_info[:sum_of_mark_with_kuso]
+      ランキング重複数:
+      = serie.rank_info[:count_rank]
+      糞重複数:
+      = serie.rank_info[:count_kuso]
+      コメント数:
+      = serie.rank_info[:count_post]
+    = link_to image_tag(serie_image_path(serie), :alt=> serie.name, :style => "float: left;"), serie, {:target => "_blank"} if serie.rank_info[:rank] <= 30
+    %p.serie_detail
+      %h2= link_to serie.name, serie, {:target => "_blank"}
+      = serie.authors.map{|a| a.name}
+      = serie.magazines.select("DISTINCT *").map{|m| m.name}
+      %br
+      - serie.ranks.where(:ranking_id => @ranking_ids).sort{|a, b| (a.ranking_id <=> b.ranking_id).nonzero? || a.rank <=> b.rank}.each do |r|
+        - user = r.user
+        - if @is_should_comment_term && current_user && serie.rank_info[:rank] <= 50 && serie.posts.where(:user_id => user.id).count == 0
+          %span{:style => "background-color: red;"}>< 未コメ
+        = link_to "#{user.name} (#{r.ranking_id == @ranking_ids.last ? "糞" : nil}#{r.rank}位)", user_path(user.name)
+        = "　"
+    %br{:style => "clear: both;"}
+    %br
 = paginate @series

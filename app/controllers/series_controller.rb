@@ -66,7 +66,7 @@ class SeriesController < ApplicationController
     # rubocop:enable Layout/LineLength
     # @ranks = @serie.ranks.where(:ranking_id => [1, 2, 3, 4]).order("ranking_id DESC, rank")
     ranking_ids = Ranking.where('is_registerable IS NULL OR is_registerable = FALSE')
-    @ranks = @serie.ranks.where(ranking_id: ranking_ids).order('ranking_id DESC, rank')
+    @ranks = @serie.ranks.where(ranking_id: ranking_ids).order(ranking_id: :desc, rank: :asc)
 
     unless @serie.topic
       topic = Topic.new

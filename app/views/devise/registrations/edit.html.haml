@@ -4,7 +4,7 @@
   = devise_error_messages!
   %div
     = f.label :email
-    %br/
+    %br
     = f.email_field :email, autofocus: true
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     %div
@@ -12,16 +12,16 @@
   %div
     = f.label :password
     %i (leave blank if you don't want to change it)
-    %br/
+    %br
     = f.password_field :password, autocomplete: "off"
   %div
     = f.label :password_confirmation
-    %br/
+    %br
     = f.password_field :password_confirmation, autocomplete: "off"
   %div
     = f.label :current_password
     %i (we need your current password to confirm your changes)
-    %br/
+    %br
     = f.password_field :current_password, autocomplete: "off"
   %div= f.submit "Update"
 %h3 Cancel my account

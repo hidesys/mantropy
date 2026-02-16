@@ -85,11 +85,11 @@ class Member::RanksController < Member::Base
   private
 
   def rank_params
-    params.require(:rank).permit(
-      :rank,
-      :score,
-      :ranking_id,
-      :serie_id
+    params.expect(
+      rank: %i[rank
+               score
+               ranking_id
+               serie_id]
     )
   end
 end

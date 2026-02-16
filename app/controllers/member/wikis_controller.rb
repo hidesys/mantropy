@@ -54,12 +54,12 @@ class Member::WikisController < Member::Base # rubocop:disable Metrics/ClassLeng
   private
 
   def wiki_params
-    params.require(:wiki).permit(
-      :name,
-      :readonly,
-      :title,
-      :content,
-      :is_private
+    params.expect(
+      wiki: %i[name
+               readonly
+               title
+               content
+               is_private]
     )
   end
 

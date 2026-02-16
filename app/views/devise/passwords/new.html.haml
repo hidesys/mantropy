@@ -3,7 +3,7 @@
   = devise_error_messages!
   %div
     = f.label "メールアドレス"
-    %br/
+    %br
     = f.email_field :email
   %div= f.submit "私にパスワードをリセットするための手順をメールで送ってよ"
 = render :partial => "devise/shared/links"

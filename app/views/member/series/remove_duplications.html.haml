@@ -10,12 +10,12 @@
         - if serie.authors
           - serie.authors.each do |author|
             = link_to author.name, series_path(:str => author.name)
-            %br/
+            %br
       %td
         - serie.ranks(:ranking_id => 5).each do |rank|
           = link_to rank.user.name, user_path(rank.user.name) if rank.user
           = rank.rank
           位
-          %br/
+          %br
       %td
         ここに統合ボタン

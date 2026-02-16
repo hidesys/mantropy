@@ -3,15 +3,15 @@
   に
   \#{select_tag :with, options_from_collection_for_select(@magazines, :id, :name, nil)}を
   \#{submit_tag "統合する", :confirm => "！危険！　雑誌の統合は元に戻せません！　実行して本当によろしいですか？？ "}
-%hr/
+%hr
 - @magazines.each do |magazine|
   = form_for [:member, magazine] do |f|
     = magazine.id
     = f.text_field :name
     = f.text_field :publisher
     = f.submit "変更"
-    %br/
+    %br
     - magazine.series.select("DISTINCT *").limit(4) .each do |serie|
       = link_to serie.name, serie_path(serie)
-    %br/
-    %br/
+    %br
+    %br

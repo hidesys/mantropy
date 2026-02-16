@@ -9,37 +9,37 @@
           %li= msg
   %div
     Tips シリーズ情報とは？
-    %br/
+    %br
     シリース情報とは、ランキングに入れることの出来る漫画の要素という抽象的な概念です。
-    %br/
+    %br
     「HUNTER×HUNTER」なら単行本を集約したモノ
-    %br/
+    %br
     「金魚王国の崩壊」ならWebサイトに掲載された漫画を集約したモノ
-    %br/
+    %br
     「女装少年アンソロジー」なら、「女装少年アンソロジー」というアンソロジー形式それ自体
-    %br/
+    %br
     「ミックス＊リリィズ」なら、「女装少年アンソロジー」に掲載された漫画
-    %br/
+    %br
     を指します
-    %br/
+    %br
   .field
     = f.label "シリーズ名・タイトル"
-    %br/
+    %br
     = f.text_field :name, required: true
   .field
     = f.label "著者・漫画家"
-    %br/
+    %br
     = select_tag :author_id, options_from_collection_for_select(Author.order("name"), :id, :name, (@serie.authors.empty? ? nil : @serie.authors.last.id)), {:include_blank => "右のボックスから漫画家を追加"}
     = text_field_tag :author_name
   .field
     = f.label "掲載誌"
-    %br/
+    %br
     = select_tag :magazine_id, options_from_collection_for_select(Magazine.order("name"), :id, :name, (@serie.magazines.empty? ? nil : @serie.magazines.last.id)), {:include_blank => "右のボックスから雑誌を追加"}
     = text_field_tag :magazine_name
     雑誌出版社:#{text_field_tag :magazine_publisher}
   .field
     = f.label "次の書籍情報を含める"
-    %br/
+    %br
     = select_tag :book_ids, options_from_collection_for_select(@serie.books, :id, :name),{:multiple => true}
     CtrlかShiftキーを押下しながらで複数選択(Editing Serieの時は関係ないです)
   .actions

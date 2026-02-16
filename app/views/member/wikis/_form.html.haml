@@ -9,19 +9,19 @@
           %li= msg
   .field
     = f.label "ページ名"
-    %br/
+    %br
     = f.text_field :name, :readonly => (@wiki.name.present? ? true : false), class: 'form-control'
   .field
     = f.label "タイトル"
-    %br/
+    %br
     = f.text_field :title, class: 'form-control'
   .field
     = f.label "内容"
-    %br/
+    %br
     = f.text_area :content, class: 'form-control', rows: 15
   .field
     = f.label "公開は内部のみ"
-    %br/
+    %br
     = f.check_box :is_private
   .actions
     = f.submit

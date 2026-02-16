@@ -9,7 +9,7 @@ class RakutenSearchService # rubocop:disable Metrics/ClassLength
   end
 
   def self.search(str)
-    query(str)['Items'].map { |item| item['Item'] }
+    query(str)['Items'].pluck('Item')
   end
 
   def self.query(str)
@@ -23,7 +23,7 @@ class RakutenSearchService # rubocop:disable Metrics/ClassLength
 
     Book.transaction do
       book = new_book_with_item(item)
-      return book.save! unless book.iscomic # rubocop:disable Rails/TransactionExitStatement
+      return book.save! unless book.iscomic
 
       normalized_title = normalize_title(book.name)
       item['author'].split('/').each do |raw_author|

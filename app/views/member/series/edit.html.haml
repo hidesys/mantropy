@@ -11,13 +11,13 @@
       = f.submit "変更"
   %p.serie_authors
     %h3 著者:
-    - @serie.authors.each do |a|
-      = form_tag member_serie_author_path(@serie), :method => :patch, remote: false do
-        = a.name
-        = hidden_field_tag :mode, :remove
-        = hidden_field_tag :author_id, a.id
-        = submit_tag "取り除く", :confirm => "#{a.name} を #{@serie.name} から取り除いてよろしいですか？"
-    - end if @serie.authors
+    - if @serie.authors
+      - @serie.authors.each do |a|
+        = form_tag member_serie_author_path(@serie), :method => :patch, remote: false do
+          = a.name
+          = hidden_field_tag :mode, :remove
+          = hidden_field_tag :author_id, a.id
+          = submit_tag "取り除く", :confirm => "#{a.name} を #{@serie.name} から取り除いてよろしいですか？"
     = form_tag member_serie_author_path(@serie), :method => :patch, remote: false do
       = hidden_field_tag :mode, "add"
       = text_field_tag :author_name
@@ -65,7 +65,7 @@
         E-mail： #{text_field_tag "post[email]"}
       %dd
         = text_area_tag "post[content]", nil, {:rows => 5, :cols => 64}
-%hr/
+%hr
 = link_to 'Show', @serie
 |
 \#{link_to 'Back', series_path}
@@ -94,7 +94,7 @@
   %p
     %em{:style => "color: red;"} 雑誌一覧に掲載誌がない！？
     = succeed "1." do
-      %br/
+      %br
     雑誌名で検索して下さい。検索すると、Amazonに扱いがあれば自動的に追加されます
     %br
     2. Amazonに扱いがない場合、

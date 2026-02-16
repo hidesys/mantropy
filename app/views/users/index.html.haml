@@ -7,23 +7,23 @@
         %b{:style => "background-color: yellow;"}= ranking.name + '不十分'
         提出数
         %b= user.ranks.where(:ranking_id => ranking.id).count
-    %br/
+    %br
 %h2 現在の漫トロを構成する者たち
 - @users.each do |user|
   .member
     = link_to (image_tag "nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
-    %br/
+    %br
     = link_to (user.name), user_path(user.name)
-    %br/
+    %br
     = user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..7]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ"
 - if current_user
-  %br{:style => "clear: both;"}/
+  %br{:style => "clear: both;"}
   %h2 かつて漫トロを創りし者たち
   %div ログイン情報は生きてます。
   - @old_users.each do |user|
     .member
       = link_to (image_tag "nil_medium.jpg", :alt => user.name, :width=> 128, :height=> 128), user_path(user.name)
-      %br/
+      %br
       = link_to (user.name), user_path(user.name)
-      %br/
+      %br
       = user.publicabout && user.publicabout != "" ? "#{user.publicabout[0..7]}#{user.publicabout.length > 9 ? "…" : nil}" : "頭がァッ！　ぶわわ"

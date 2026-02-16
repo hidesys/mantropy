@@ -20,9 +20,9 @@ class Member::Series::PostsController < Member::Series::Base
   private
 
   def post_params
-    params.require(:post).permit(
-      :email,
-      :content
+    params.expect(
+      post: %i[email
+               content]
     )
   end
 end

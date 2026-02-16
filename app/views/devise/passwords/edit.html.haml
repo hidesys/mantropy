@@ -4,11 +4,11 @@
   = f.hidden_field :reset_password_token
   %div
     = f.label :password, "New password"
-    %br/
+    %br
     = f.password_field :password
   %div
     = f.label :password_confirmation, "Confirm new password"
-    %br/
+    %br
     = f.password_field :password_confirmation
   %div= f.submit "Change my password"
 = render :partial => "devise/shared/links"

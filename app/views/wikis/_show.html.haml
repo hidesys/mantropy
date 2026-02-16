@@ -4,7 +4,7 @@
 - if @wiki.present?
   = raw(HikiDoc.to_html(@wiki.content, :use_wiki_name=>false))
   - if current_user
-    %hr/
+    %hr
     %h3 Wikiページ情報
     %p
       %b 内部のみ？:

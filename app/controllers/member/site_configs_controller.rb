@@ -11,21 +11,21 @@ class Member::SiteConfigsController < Member::Base
     redirect_to member_site_configs_path, notice: '当該の設定が追加されました'
   end
 
-  def destroy
-    @site_config = SiteConfig.find(params[:id])
-    @site_config.destroy!
-    redirect_to member_site_configs_path, notice: '当該の設定は削除されました'
-  end
-
   def update
     @site_config = SiteConfig.find(params[:id])
     @site_config.update!(site_config_params)
     redirect_to member_site_configs_path, notice: '当該の設定が変更されました'
   end
 
+  def destroy
+    @site_config = SiteConfig.find(params[:id])
+    @site_config.destroy!
+    redirect_to member_site_configs_path, notice: '当該の設定は削除されました'
+  end
+
   private
 
   def site_config_params
-    params.require(:site_config).permit(:path, :name, :value)
+    params.expect(site_config: %i[path name value])
   end
 end

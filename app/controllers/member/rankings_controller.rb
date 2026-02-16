@@ -25,12 +25,12 @@ class Member::RankingsController < Member::Base
   private
 
   def ranking_params
-    params.require(:ranking).permit(
-      :name,
-      :is_registerable,
-      :scope_min,
-      :scope_max,
-      :kind
+    params.expect(
+      ranking: %i[name
+                  is_registerable
+                  scope_min
+                  scope_max
+                  kind]
     )
   end
 end

@@ -8,7 +8,7 @@
               %b
                 %a{:href => root_path} 京大漫トロピー
                 内部掲示板
-            %br/
+            %br
           %td{:align => "right", :nowrap => "", :valign => "top", :width => "5%"}
         %tr
           %td{:colspan => "3"}
@@ -54,13 +54,13 @@
           = form_for([:member, (topic = Topic.new)]) do |f|
             タイトル：#{f.text_field :title}
             \#{f.submit "新規スレッド作成"}
-            %br/
+            %br
             E-mail： #{text_field_tag :email}
         %dd
           = text_area_tag :content, nil, {:rows => 5, :cols => 64}
-%br/
+%br
 %a{:href => root_path} 漫トロピーWeb
 BBS.RB - 2010/12/01*2011/11/05 +
 %a{:href => root_path} 京大漫トロピー
 + Linux + Apache2 + Passenger + Ruby + Rails
-%br/
+%br

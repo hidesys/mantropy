@@ -9,43 +9,43 @@
           %li= msg
   .field
     = f.label "ペンネーム"
-    %br/
+    %br
     = f.text_field :name
   .field
     = f.label "本名"
-    %br/
+    %br
     = f.text_field :realname
   .field
     = f.label "パソコンメール"
-    %br/
+    %br
     = f.email_field :pcmail
   .field
     = f.label "携帯メール"
-    %br/
+    %br
     = f.email_field :mbmail
   .field
     = f.label "Twitterアカウント"
-    %br/
+    %br
     = f.text_field :twitter
   .field
     = f.label "外部Webサイト"
-    %br/
+    %br
     = f.text_field :url
   .field
     = f.label "外部向けAbout"
-    %br/
+    %br
     = f.text_area :publicabout, :rows => 4
   .field
     = f.label "内部向けAbout"
-    %br/
+    %br
     = f.text_area :privateabout, :rows => 4
   .field
     = f.label "入トロ年度"
-    %br/
+    %br
     = f.text_field :joined
   .field
     = f.label "入学年度"
-    %br/
+    %br
     = f.text_field :entered
   .actions
     = f.submit

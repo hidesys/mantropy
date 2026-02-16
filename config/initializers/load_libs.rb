@@ -1,3 +1,3 @@
-Dir[Rails.root.join('lib/*.rb')].each do |file|
+Rails.root.glob('lib/*.rb').each do |file|
   require file
 end

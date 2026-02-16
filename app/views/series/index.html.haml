@@ -8,7 +8,7 @@
   .serie_books
     - serie.books.each do |book|
       = link_to book.name, member_book_path(book)
-      %br/
-    %br{:style => "clear: both;"}/
+      %br
+    %br{:style => "clear: both;"}
 = paginate @series
 = link_to '検索しても出てこない雑誌に掲載された読み切りや・Web漫画などの新しい漫画シリーズを作成する', new_member_serie_path if current_user

@@ -30,16 +30,16 @@
     位
     \#{rank.score}点
     \#{link_to rank.user.name, user_path(rank.user.name) if rank.user}
-    %br/
+    %br
 = render :partial => "member/topics/topic", :locals => {:topic => @serie.topic, :i => nil}
 .serie_similar
   %b 似ている漫画（デモ）
   停止中
-  %br/
+  %br
   -# - @similar_series.each do |serie|
     = link_to image_tag(serie_image_path(serie, :small), :alt => serie.name), serie
     = link_to serie.name, serie
-    %br/
+    %br
 .serie_books
   %b 書籍収録情報
   - @serie.books.each do |book|

@@ -53,17 +53,17 @@ class Member::UsersController < Member::Base
   private
 
   def user_params
-    params.require(:user).permit(
-      :name,
-      :realname,
-      :pcmail,
-      :mbmail,
-      :twitter,
-      :url,
-      :publicabout,
-      :privateabout,
-      :joined,
-      :entered
+    params.expect(
+      user: %i[name
+               realname
+               pcmail
+               mbmail
+               twitter
+               url
+               publicabout
+               privateabout
+               joined
+               entered]
     )
   end
 end

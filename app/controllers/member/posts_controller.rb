@@ -56,13 +56,13 @@ class Member::PostsController < Member::Base
   private
 
   def post_params
-    params.require(:post).permit(
-      :name,
-      :email,
-      :order,
-      :content,
-      :topic,
-      :user
+    params.expect(
+      post: %i[name
+               email
+               order
+               content
+               topic
+               user]
     )
   end
 end
