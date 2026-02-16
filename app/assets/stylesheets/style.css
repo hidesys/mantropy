@@ -114,6 +114,10 @@ background-color: black;
 color: white;
 }
 
+#home_index_table td {
+color: white;
+}
+
 #home_index_table * a {
 color: cyan;
 }
