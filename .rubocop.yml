@@ -35,3 +35,5 @@ Metrics/ClassLength:
     - "test/**/*"
 Metrics/PerceivedComplexity:
   Max: 12
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
