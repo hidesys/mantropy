@@ -9,6 +9,7 @@ module Mantropy
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+    config.autoloader = :zeitwerk
     config.assets.enabled = false
     config.assets.precompile = []
     config.generators do |g|
