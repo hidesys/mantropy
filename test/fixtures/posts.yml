@@ -5,13 +5,13 @@ one:
   email: MyString
   order: 1
   content: MyText
-  topic: 
-  user: 
+  topic: one
+  user: one
 
 two:
   name: MyString
   email: MyString
   order: 1
   content: MyText
-  topic: 
-  user: 
+  topic: two
+  user: two

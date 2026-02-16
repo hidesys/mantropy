@@ -1,15 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
+  name: top
   title: MyString
   content: MyString
-  is_private: 1
-  user: 
+  is_private:
+  user: one
 
 two:
-  name: MyString
+  name: logged_in
   title: MyString
   content: MyString
-  is_private: 1
-  user: 
+  is_private:
+  user: two

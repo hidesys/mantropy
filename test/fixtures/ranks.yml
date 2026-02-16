@@ -3,13 +3,13 @@
 one:
   rank: 1
   score: 1
-  ranking: 
-  user: 
-  serie: 
+  ranking: one
+  user: one
+  serie: one
 
 two:
-  rank: 1
+  rank: 2
   score: 1
-  ranking: 
-  user: 
-  serie: 
+  ranking: one
+  user: two
+  serie: two
