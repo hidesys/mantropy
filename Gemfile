@@ -49,8 +49,8 @@ gem 'net-pop'
 gem 'net-smtp'
 
 # Ruby 3.4.8 対応
-gem 'thor', '>= 1.2.2'
-gem 'mutex_m'
+gem 'base64'
 gem 'bigdecimal'
 gem 'drb'
-gem 'base64'
+gem 'mutex_m'
+gem 'thor', '>= 1.2.2'

@@ -1,16 +1,37 @@
+require: rubocop-rails
 AllCops:
-  SuggestExtensions: false
+  NewCops: enable
   Exclude:
     - "vendor/**/*" # rubocop config/default.yml
     - "db/**/*"
     - "bin/**/*"
     - "node_modules/**/*"
-  NewCops: enable
+  SuggestExtensions: false
 Style/AsciiComments:
   Enabled: false
-Documentation:
+Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
+Rails/I18nLocaleTexts:
+  Enabled: false
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 25
+Rails/SkipsModelValidations:
+  Exclude:
+    - "test/test_helper.rb"
+Rails/InverseOf:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 38
+Metrics/CyclomaticComplexity:
+  Max: 15
+Metrics/ClassLength:
+  Exclude:
+    - "test/**/*"
+Metrics/PerceivedComplexity:
+  Max: 12
