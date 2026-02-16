@@ -20,7 +20,7 @@ gem 'importmap-rails'
 gem 'propshaft'
 
 # iconv (レガシー対応)
-gem 'iconv', '~> 1.0.3'
+gem 'iconv', '~> 1.1.1'
 
 # Amazon API
 gem 'ruby-aaws', require: 'amazon/aws/search'
