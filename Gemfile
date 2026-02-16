@@ -41,7 +41,7 @@ gem 'webrick'
 
 # slackエラー通知
 gem 'exception_notification'
-gem 'slack-notifier'
+gem 'exception_notification-rake'
 
 # Ruby 3.1.2 対応
 gem 'net-imap'

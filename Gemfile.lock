@@ -91,6 +91,9 @@ GEM
     exception_notification (4.5.0)
       actionmailer (>= 5.2, < 8)
       activesupport (>= 5.2, < 8)
+    exception_notification-rake (0.3.1)
+      exception_notification (~> 4.3)
+      rake (>= 0.9.0)
     execjs (2.8.1)
     globalid (0.5.2)
       activesupport (>= 5.0)
@@ -215,7 +218,6 @@ GEM
     ruby_parser (3.17.0)
       sexp_processor (~> 4.15, >= 4.15.1)
     sexp_processor (4.15.3)
-    slack-notifier (2.4.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -253,6 +255,7 @@ DEPENDENCIES
   dotenv-rails
   erb2haml
   exception_notification
+  exception_notification-rake
   haml
   hikidoc
   httpclient
@@ -269,7 +272,6 @@ DEPENDENCIES
   rexml (~> 3.2, >= 3.2.4)
   rubocop-rails
   ruby-aaws
-  slack-notifier
   uglifier (>= 1.3.0)
   unicorn
   webrick
