@@ -1,0 +1,10 @@
+- if resource.errors.any?
+  #error_explanation
+    %h2
+      = pluralize(resource.errors.count, "error")
+      prohibited this
+      = resource_name.to_s.humanize.downcase
+      from being saved:
+    %ul
+      - resource.errors.full_messages.each do |message|
+        %li= message
