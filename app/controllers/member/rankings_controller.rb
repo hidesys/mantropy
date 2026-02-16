@@ -1,14 +1,13 @@
 class Member::RankingsController < Member::Base
   before_action :admin_basic_authentication
+  before_action :set_ranking, only: %i[show update]
 
   def index
     @rankings = Ranking.order(:name)
     @new_ranking = Ranking.new
   end
 
-  def show
-    @ranking = Ranking.find(params[:id])
-  end
+  def show; end
 
   def create
     @ranking = Ranking.new(ranking_params)
@@ -17,12 +16,15 @@ class Member::RankingsController < Member::Base
   end
 
   def update
-    @ranking = Ranking.find(params[:id])
     @ranking.update!(ranking_params)
     redirect_to member_rankings_path
   end
 
   private
+
+  def set_ranking
+    @ranking = Ranking.find(params[:id])
+  end
 
   def ranking_params
     params.expect(

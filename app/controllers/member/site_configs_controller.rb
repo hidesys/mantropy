@@ -1,5 +1,6 @@
 class Member::SiteConfigsController < Member::Base
   before_action :admin_basic_authentication
+  before_action :set_site_config, only: %i[update destroy]
 
   def index
     @site_configs = SiteConfig.order(:path)
@@ -12,18 +13,20 @@ class Member::SiteConfigsController < Member::Base
   end
 
   def update
-    @site_config = SiteConfig.find(params[:id])
     @site_config.update!(site_config_params)
     redirect_to member_site_configs_path, notice: '当該の設定が変更されました'
   end
 
   def destroy
-    @site_config = SiteConfig.find(params[:id])
     @site_config.destroy!
     redirect_to member_site_configs_path, notice: '当該の設定は削除されました'
   end
 
   private
+
+  def set_site_config
+    @site_config = SiteConfig.find(params[:id])
+  end
 
   def site_config_params
     params.expect(site_config: %i[path name value])

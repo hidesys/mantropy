@@ -1,11 +1,11 @@
 class Member::TopicsController < Member::Base
+  before_action :set_topic, only: %i[show edit update destroy]
+
   def index
     @topics = Topic.where(appear: 1).order(updated_at: :desc, id: :desc)
   end
 
   def show
-    @topic = Topic.find(params[:id])
-
     redirect_to serie_path(Serie.find_by(topic_id: @topic.id)) if @topic.title.nil?
   end
 
@@ -13,9 +13,7 @@ class Member::TopicsController < Member::Base
     @topic = Topic.new
   end
 
-  def edit
-    @topic = Topic.find(params[:id])
-  end
+  def edit; end
 
   def create
     post = Post.new
@@ -42,8 +40,6 @@ class Member::TopicsController < Member::Base
   end
 
   def update
-    @topic = Topic.find(params[:id])
-
     if @topic.update(topic_params)
       redirect_to(member_topic_path(@topic), notice: 'Topic was successfully updated.')
     else
@@ -52,13 +48,16 @@ class Member::TopicsController < Member::Base
   end
 
   def destroy
-    @topic = Topic.find(params[:id])
     @topic.destroy
 
     redirect_to(member_topics_path)
   end
 
   private
+
+  def set_topic
+    @topic = Topic.find(params[:id])
+  end
 
   def topic_params
     params.expect(

@@ -1,13 +1,12 @@
 class Member::UsersController < Member::Base
   skip_before_action :authenticate_user!, only: %i[new create]
+  before_action :set_user, only: %i[edit update destroy]
 
   def new
     @user = User.new
   end
 
-  def edit
-    @user = User.find(params[:id])
-  end
+  def edit; end
 
   def create
     if current_user
@@ -27,7 +26,6 @@ class Member::UsersController < Member::Base
   end
 
   def update
-    @user = User.find(params[:id])
     unless @user.id == current_user.id
       redirect_to(user_path(current_user.name), notice: '他のユーザーは編集できません')
       return
@@ -44,13 +42,16 @@ class Member::UsersController < Member::Base
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
 
     redirect_to(users_path)
   end
 
   private
+
+  def set_user
+    @user = User.find(params[:id])
+  end
 
   def user_params
     params.expect(

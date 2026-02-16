@@ -1,4 +1,6 @@
 class Member::SeriesController < Member::Base
+  before_action :set_serie, only: %i[edit update destroy]
+
   @title = 'シリーズ'
 
   def index
@@ -12,7 +14,6 @@ class Member::SeriesController < Member::Base
   end
 
   def edit
-    @serie = Serie.find(params[:id])
     @rankings = Ranking.where(is_registerable: true)
   end
 
@@ -48,8 +49,6 @@ class Member::SeriesController < Member::Base
   end
 
   def update
-    @serie = Serie.find(params[:id])
-
     if @serie.update(serie_params)
       redirect_to(@serie, notice: 'Serie was successfully updated.')
     else
@@ -58,7 +57,6 @@ class Member::SeriesController < Member::Base
   end
 
   def destroy
-    @serie = Serie.find(params[:id])
     @serie.destroy
 
     redirect_to(series_url)
@@ -81,6 +79,10 @@ class Member::SeriesController < Member::Base
   end
 
   private
+
+  def set_serie
+    @serie = Serie.find(params[:id])
+  end
 
   def serie_params
     params.expect(

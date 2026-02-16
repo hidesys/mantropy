@@ -1,4 +1,6 @@
 class Member::WikisController < Member::Base # rubocop:disable Metrics/ClassLength
+  before_action :set_wiki, only: %i[edit update destroy]
+
   def index
     sql = 'SELECT w.* FROM wikis w INNER JOIN ' \
           '(SELECT MAX(created_at) created_at, name FROM wikis GROUP BY name) w1 ' \
@@ -17,7 +19,6 @@ class Member::WikisController < Member::Base # rubocop:disable Metrics/ClassLeng
   end
 
   def edit
-    @wiki = Wiki.find(params[:id])
     @notation = NOTATION
   end
 
@@ -35,8 +36,6 @@ class Member::WikisController < Member::Base # rubocop:disable Metrics/ClassLeng
   end
 
   def update
-    @wiki = Wiki.find(params[:id])
-
     if @wiki.update(wiki_params)
       redirect_to(@wiki, notice: 'Wiki was successfully updated.')
     else
@@ -45,13 +44,16 @@ class Member::WikisController < Member::Base # rubocop:disable Metrics/ClassLeng
   end
 
   def destroy
-    @wiki = Wiki.find(params[:id])
     @wiki.destroy
 
     redirect_to(member_wikis_path)
   end
 
   private
+
+  def set_wiki
+    @wiki = Wiki.find(params[:id])
+  end
 
   def wiki_params
     params.expect(

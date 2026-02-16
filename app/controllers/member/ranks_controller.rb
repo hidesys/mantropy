@@ -1,19 +1,17 @@
 class Member::RanksController < Member::Base
+  before_action :set_rank, only: %i[show edit update destroy]
+
   def index
     @ranks = Rank.all
   end
 
-  def show
-    @rank = Rank.find(params[:id])
-  end
+  def show; end
 
   def new
     @rank = Rank.new
   end
 
-  def edit
-    @rank = Rank.find(params[:id])
-  end
+  def edit; end
 
   def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity
     params[:rank][:rank].tr!('０-９', '0-9')
@@ -63,8 +61,6 @@ class Member::RanksController < Member::Base
   end
 
   def update
-    @rank = Rank.find(params[:id])
-
     if @rank.update(rank_params)
       redirect_to(member_rank_path(@rank), notice: 'Rank was successfully updated.')
     else
@@ -73,7 +69,6 @@ class Member::RanksController < Member::Base
   end
 
   def destroy
-    @rank = Rank.find(params[:id])
     if @rank.user_id == current_user.id && @rank.ranking.is_registerable
       @rank.destroy
       redirect_to(user_path(current_user.name))
@@ -83,6 +78,10 @@ class Member::RanksController < Member::Base
   end
 
   private
+
+  def set_rank
+    @rank = Rank.find(params[:id])
+  end
 
   def rank_params
     params.expect(
