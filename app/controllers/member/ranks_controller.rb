@@ -15,7 +15,7 @@ class Member::RanksController < Member::Base
     @rank = Rank.find(params[:id])
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity
     params[:rank][:rank].tr!('０-９', '0-9')
     @rank = Rank.new(rank_params)
     @rank.user_id = current_user.id

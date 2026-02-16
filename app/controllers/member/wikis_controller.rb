@@ -1,6 +1,9 @@
-class Member::WikisController < Member::Base
+class Member::WikisController < Member::Base # rubocop:disable Metrics/ClassLength
   def index
-    @wikis = Kaminari.paginate_array(Wiki.find_by_sql('SELECT w.* FROM wikis w INNER JOIN (SELECT MAX(created_at) created_at, name FROM wikis GROUP BY name) w1 ON w.created_at=w1.created_at AND w.name=w1.name ORDER BY created_at DESC')).page(params[:page])
+    sql = 'SELECT w.* FROM wikis w INNER JOIN ' \
+          '(SELECT MAX(created_at) created_at, name FROM wikis GROUP BY name) w1 ' \
+          'ON w.created_at=w1.created_at AND w.name=w1.name ORDER BY created_at DESC'
+    @wikis = Kaminari.paginate_array(Wiki.find_by_sql(sql)).page(params[:page])
   end
 
   def new
@@ -10,19 +13,19 @@ class Member::WikisController < Member::Base
             else
               Wiki.new
             end
-    @notation = @@notation
+    @notation = NOTATION
   end
 
   def edit
     @wiki = Wiki.find(params[:id])
-    @notation = @@notation
+    @notation = NOTATION
   end
 
   def create
     @wiki = Wiki.new(wiki_params)
     @wiki.user = current_user
     @wiki.is_private = @wiki.is_private && @wiki.is_private != 0 ? 1 : nil
-    @notation = @@notation
+    @notation = NOTATION
 
     if @wiki.save
       redirect_to(wiki_path(name: @wiki.name, id: @wiki.id), notice: 'Wiki was successfully created.')
@@ -60,7 +63,7 @@ class Member::WikisController < Member::Base
     )
   end
 
-  @@notation = <<~EON
+  NOTATION = <<~EON.freeze # rubocop:disable Lint/UselessConstantScoping
     !Hiki記法の使い方
     !!パラグラフ
     *連続した複数器用は連結されて1つのパラグラフになります。

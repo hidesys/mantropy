@@ -47,7 +47,7 @@ before_fork do |server, worker|
     begin
       sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU
       Process.kill(sig, File.read(old_pid).to_i)
-    rescue Errno::ENOENT, Errno::ESRCH
+    rescue Errno::ENOENT, Errno::ESRCH # rubocop:disable Lint/SuppressedException
     end
   end
 end

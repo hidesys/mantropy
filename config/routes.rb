@@ -1,4 +1,4 @@
-Mantropy::Application.routes.draw do
+Mantropy::Application.routes.draw do # rubocop:disable Metrics/BlockLength
   namespace :member do
     resource to: 'home#index'
 

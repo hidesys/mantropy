@@ -6,15 +6,15 @@ class User < ApplicationRecord
   validates :entered, presence: true
   validate :name_valid?
 
-  has_many :series
-  has_many :posts
-  has_many :postfavs
-  has_many :replies
-  has_many :ranks
-  has_many :transfers
-  has_many :bookreals
-  has_many :userauths
-  has_many :wikis
+  has_many :series # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :posts # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :postfavs # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :replies # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :ranks # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :transfers # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :bookreals # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :userauths # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :wikis # rubocop:disable Rails/HasManyOrHasOneDependent
 
   private
 

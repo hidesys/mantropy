@@ -4,7 +4,7 @@ require 'nkf'
 class Aaaws
   attr_reader :size
 
-  def self.search(str, page = 1)
+  def self.search(str, page = 1) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
     req = Amazon::AWS::Search::Request.new(AMAZONRC_KEY_ID, AMAZONRC_AFFILIATE, 'jp')
 
     is = if str.instance_of?(String)
@@ -18,8 +18,8 @@ class Aaaws
     rtna = AaawsResponseArray.new
     rtna.result_size = res[0].item_search_response.items.total_results[0].to_i
 
-    res.each do |r0|
-      r0.item_search_response.items.item.each do |r1|
+    res.each do |r0| # rubocop:disable Metrics/BlockLength
+      r0.item_search_response.items.item.each do |r1| # rubocop:disable Metrics/BlockLength
         rtn = AaawsResponse.new
         rtn.asin = r1.asin.to_s
         rtn.detail_page_url = r1.detail_page_url.to_s
@@ -55,39 +55,41 @@ class Aaaws
     rtna
   end
 
-  def self.normalize_title(s)
-    s = NKF.nkf('-WwX -m0', s).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr('\　', ' ').tr(
+  # rubocop:disable Layout/LineLength
+  def self.normalize_title(str)
+    str = NKF.nkf('-WwX -m0', str).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr('\　', ' ').tr(
       '～', '〜'
     ).strip
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    if %r{^(?:(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?|)\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?\s*『?(.+?)』?\s*((第|VOL\.?|/)?\s*(\d+|上|中|下|201[012345]年?\s*\d+.*号)(巻|部)?|I{0,3}V?I{0,3}X?|)(?:(?:オリジナル)?(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?)?\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?(\s+[^\d\s]{1,3}組)?$}i =~ s.strip
-      s = Regexp.last_match(1)
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    if %r{^(?:(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?|)\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?\s*『?(.+?)』?\s*((第|VOL\.?|/)?\s*(\d+|上|中|下|201[012345]年?\s*\d+.*号)(巻|部)?|I{0,3}V?I{0,3}X?|)(?:(?:オリジナル)?(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?)?\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?(\s+[^\d\s]{1,3}組)?$}i =~ str.strip
+      str = Regexp.last_match(1)
     end
-    s&.strip
+    str&.strip
   end
 
-  def self.normalize_author(s)
-    s = NKF.nkf('-WwX -m0', s).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr(
+  def self.normalize_author(str)
+    str = NKF.nkf('-WwX -m0', str).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr(
       '\　', ' '
     ).strip
-    s.gsub(/[\s　]/, '')
+    str.gsub(/[\s　]/, '')
   end
+  # rubocop:enable Layout/LineLength
 
-  def self.listup_nodes(r3)
-    if r3.ancestors
+  def self.listup_nodes(node)
+    if node.ancestors
       rtn = nil
-      r3.ancestors.each do |r4|
-        r4.browse_node.each do |r5|
-          rtn = listup_nodes(r5) << [r3.browse_node_id[0].to_i, r3.name[0].to_s, r5.browse_node_id[0].to_i]
+      node.ancestors.each do |ancestor|
+        ancestor.browse_node.each do |child|
+          rtn = listup_nodes(child) << [node.browse_node_id[0].to_i, node.name[0].to_s, child.browse_node_id[0].to_i]
         end
       end
       rtn
     else
-      [[r3.browse_node_id[0].to_i,
-        (r3.name ? r3.name[0] : '無名ジャンル').to_s,
+      [[node.browse_node_id[0].to_i,
+        (node.name ? node.name[0] : '無名ジャンル').to_s,
         nil]]
     end
   end

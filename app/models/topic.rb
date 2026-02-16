@@ -1,4 +1,4 @@
 class Topic < ApplicationRecord
-  has_one :book
-  has_many :posts
+  has_one :book # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :posts # rubocop:disable Rails/HasManyOrHasOneDependent
 end

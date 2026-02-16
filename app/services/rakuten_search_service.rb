@@ -1,6 +1,6 @@
 require 'nkf'
 
-class RakutenSearchService
+class RakutenSearchService # rubocop:disable Metrics/ClassLength
   API_POINT = 'https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404'.freeze
 
   def self.search_and_store(str)
@@ -23,7 +23,7 @@ class RakutenSearchService
 
     Book.transaction do
       book = new_book_with_item(item)
-      return book.save! unless book.iscomic
+      return book.save! unless book.iscomic # rubocop:disable Rails/TransactionExitStatement
 
       normalized_title = normalize_title(book.name)
       item['author'].split('/').each do |raw_author|
@@ -69,7 +69,7 @@ class RakutenSearchService
     Date.parse(base_date)
   end
 
-  def self.is_comic?(item)
+  def self.is_comic?(item) # rubocop:disable Naming/PredicatePrefix
     return true if item['booksGenreId'].split('/').find { |genre| genre =~ /^001001/ }
 
     [item['title'], item['size'], item['seriesName']].find do |name|
@@ -88,26 +88,28 @@ class RakutenSearchService
     Book.where(where_query.join(' OR ')).any?
   end
 
-  def self.normalize_title(s)
-    s = NKF.nkf('-WwX -m0', s).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr('\　', ' ').tr(
+  # rubocop:disable Layout/LineLength
+  def self.normalize_title(str)
+    str = NKF.nkf('-WwX -m0', str).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr('\　', ' ').tr(
       '～', '〜'
     ).strip
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    s = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ s
-    if %r{^(?:(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?|)\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?\s*『?(.+?)』?\s*((第|VOL\.?|/)?\s*(\d+|上|中|下|201[012345]年?\s*\d+.*号)(巻|部)?|I{0,3}V?I{0,3}X?|)(?:(?:オリジナル)?(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?)?\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?(\s+[^\d\s]{1,3}組)?$}i =~ s.strip
-      s = Regexp.last_match(1)
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    str = Regexp.last_match(1) if /^(.+)((\(|\[|【).+).$/ =~ str
+    if %r{^(?:(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?|)\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?\s*『?(.+?)』?\s*((第|VOL\.?|/)?\s*(\d+|上|中|下|201[012345]年?\s*\d+.*号)(巻|部)?|I{0,3}V?I{0,3}X?|)(?:(?:オリジナル)?(?:(?:ドラマ)?CD|(?:アニメ)?DVD)付き?)?\s*(?:(?:完全)?(?:初回)?(?:予約)?(?:Amazon(?:\.co\.jp)?)?(?:限定)?(?:特装)?(?:新装)?版)?(\s+[^\d\s]{1,3}組)?$}i =~ str.strip
+      str = Regexp.last_match(1)
     end
-    s.strip
+    str.strip
   end
 
-  def self.normalize_author(s)
-    s = NKF.nkf('-WwX -m0', s).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr(
+  def self.normalize_author(str)
+    str = NKF.nkf('-WwX -m0', str).tr('０-９', '0-9').tr('－', '-').tr('．', '.').tr('\／', '\/').tr('\＊', '\*').tr('\＋', '\+').tr('ａ-ｚ', 'a-z').tr('Ａ-Ｚ', 'A-Z').tr('\（', '\(').tr('\）', '\)').tr('［', '[').tr('\］', '\]').tr(
       '\　', ' '
     ).strip
-    s.gsub(/[\s　]/, '')
+    str.gsub(/[\s　]/, '')
   end
+  # rubocop:enable Layout/LineLength
 
   def self.another_isbn(isbn)
     if isbn.length == 13

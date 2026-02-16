@@ -1,5 +1,5 @@
 class Member::Series::MagazineSeriesController < Member::Series::Base
-  def update
+  def update # rubocop:disable Metrics/AbcSize
     case params[:mode]
     when 'remove'
       @serie.magazines_series.delete(MagazinesSerie.find(params[:magazines_serie_id]))

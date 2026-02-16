@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength,Layout/LineLength,Rails/OutputSafety
 @series.each do |serie|
   json.serie do |json|
     json.rank "#{serie.url[:rank]}位"
@@ -32,3 +33,4 @@
     end
   end
 end
+# rubocop:enable Metrics/BlockLength,Layout/LineLength,Rails/OutputSafety

@@ -1,7 +1,7 @@
 class SeriesController < ApplicationController
   @title = 'シリーズ'
 
-  def index
+  def index # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity
     @str = params[:str]
     @title = "#{@str} の検索結果"
     if @str.blank?
@@ -61,9 +61,12 @@ class SeriesController < ApplicationController
   def show
     @serie = Serie.find(params[:id])
     @title = "#{@serie.name} のシリーズ情報"
+    # rubocop:disable Layout/LineLength
     # @similar_series = Serie.find_by_sql("SELECT s.* FROM series s INNER JOIN (SELECT r1.serie_id, COUNT(*) AS similarity FROM ranks r1 INNER JOIN ranks r2 ON r1.user_id=r2.user_id WHERE r2.serie_id=#{@serie.id} GROUP BY r1.serie_id ORDER BY similarity DESC, SUM(r1.score) DESC) r ON r.serie_id=s.id WHERE s.id!=#{@serie.id} LIMIT 4")
+    # rubocop:enable Layout/LineLength
     # @ranks = @serie.ranks.where(:ranking_id => [1, 2, 3, 4]).order("ranking_id DESC, rank")
-    @ranks = @serie.ranks.where(ranking_id: Ranking.where('is_registerable IS NULL OR is_registerable = FALSE')).order('ranking_id DESC, rank')
+    ranking_ids = Ranking.where('is_registerable IS NULL OR is_registerable = FALSE')
+    @ranks = @serie.ranks.where(ranking_id: ranking_ids).order('ranking_id DESC, rank')
 
     unless @serie.topic
       topic = Topic.new

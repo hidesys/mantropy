@@ -16,7 +16,7 @@ class Member::SeriesController < Member::Base
     @rankings = Ranking.where(is_registerable: true)
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     @serie = Serie.new(serie_params)
 
     a = Author.find_by(id: params[:author_id]) || Author.find_by(name: params[:author_name].strip)

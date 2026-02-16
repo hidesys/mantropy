@@ -1,11 +1,11 @@
 module SeriesHelper
-  def serie_image_path(s, size = :medium)
+  def serie_image_path(serie, size = :medium)
     rtn = nil
 
-    s.books.each do |b|
-      rtn = b.smallimgurl if size == :small
-      rtn = b.mediumimgurl if size == :medium
-      rtn = b.largeimgurl if size == :large
+    serie.books.each do |book|
+      rtn = book.smallimgurl if size == :small
+      rtn = book.mediumimgurl if size == :medium
+      rtn = book.largeimgurl if size == :large
       break if rtn
     end
     unless rtn

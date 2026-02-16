@@ -7,7 +7,7 @@ class Post < ApplicationRecord
             unless: :name?
   belongs_to :topic
   belongs_to :user
-  has_many :postfavs
-  has_many :replies
-  has_one :serie
+  has_many :postfavs # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :replies # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :serie # rubocop:disable Rails/HasManyOrHasOneDependent
 end
