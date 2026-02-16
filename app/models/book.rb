@@ -1,4 +1,4 @@
-class Book < ActiveRecord::Base
+class Book < ApplicationRecord
   validates :name, presence: true
   has_many :bookaffairs
   has_many :topics

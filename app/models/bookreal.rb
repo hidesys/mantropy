@@ -1,7 +1,4 @@
-class Bookreal < ActiveRecord::Base
-  validates :book_id, presence: true
-  validates :user_id, presence: true
-
+class Bookreal < ApplicationRecord
   belongs_to :book
   belongs_to :user
   has_many :transfers

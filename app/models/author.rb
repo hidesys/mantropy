@@ -1,4 +1,4 @@
-class Author < ActiveRecord::Base
+class Author < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_many :authorideas
   has_many :books, through: :authors_books

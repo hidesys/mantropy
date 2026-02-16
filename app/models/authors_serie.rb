@@ -1,4 +1,4 @@
-class AuthorsSerie < ActiveRecord::Base
+class AuthorsSerie < ApplicationRecord
   belongs_to :author
   belongs_to :serie
 end

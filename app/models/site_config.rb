@@ -1,4 +1,4 @@
-class SiteConfig < ActiveRecord::Base
+class SiteConfig < ApplicationRecord
   def self.config(path)
     site_config = find_by(path:)
     value = site_config&.value

@@ -3,11 +3,11 @@ def ms(s0, s1)
     a = Serie.find(s0)
     b = Serie.find(s1)
 
-    p a
-    p b
-    puts 'Are you sure to merge them? [Y/n]'
+    Rails.logger.debug a
+    Rails.logger.debug b
+    Rails.logger.debug 'Are you sure to merge them? [Y/n]'
     if gets.chomp != 'Y'
-      puts 'Canceled.'
+      Rails.logger.debug 'Canceled.'
       exit 1
     end
 
@@ -18,6 +18,6 @@ def ms(s0, s1)
 
     a.save!
     b.destroy
-    puts 'Merged.'
+    Rails.logger.debug 'Merged.'
   end
 end

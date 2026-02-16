@@ -2,14 +2,14 @@ class UsersController < ApplicationController
   def index
     @title = 'メンバー一覧'
     @users = (
-      User.includes(:ranks).where('ranks.created_at > ?', Time.now - 1.year).references(:ranks) +
-      User.where('created_at > ?', Time.now - 6.month)
+      User.includes(:ranks).where('ranks.created_at > ?', 1.year.ago).references(:ranks) +
+      User.where('created_at > ?', 6.months.ago)
     ).uniq
     @old_users = User.all - @users
     @registering_rankings = registering_rankings
     @display_rankings = if @registering_rankings.empty?
                           Ranking.where('name LIKE ? AND (kind = ? OR kind = ?)',
-                                        "#{Time.now.year}%", 'kojin', 'kuso')
+                                        "#{Time.zone.now.year}%", 'kojin', 'kuso')
                         else
                           @registering_rankings
                         end

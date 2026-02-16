@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def title
-    "#{@title} #{Rails.env == 'development' ? '！！！！開発環境モード！！！！' : nil}"
+    "#{@title} #{'！！！！開発環境モード！！！！' if Rails.env.development?}"
   end
 
   def login(param = nil)
@@ -18,7 +18,7 @@ module ApplicationHelper
   def serie_to_amazon_url(serie)
     serie = serie.books.order('publicationdate DESC').first
     if serie&.detailurl
-      serie.detailurl.gsub(/kumantropy-22/, 'mantropy-22').gsub(/mantropy-22/,
+      serie.detailurl.gsub('kumantropy-22', 'mantropy-22').gsub('mantropy-22',
                                                                 'kumantropy-22')
     else
       '/'

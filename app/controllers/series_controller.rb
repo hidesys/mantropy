@@ -25,20 +25,20 @@ class SeriesController < ApplicationController
     series = Serie.none
     search_strs.each.with_index do |s, i|
       series = if i.zero?
-          Serie.where("name LIKE ?", "%#{s}%")
-        else
-          series.or(series.where("name_kana LIKE ?", "%#{s}%"))
-        end
+                 Serie.where('name LIKE ?', "%#{s}%")
+               else
+                 series.or(series.where('name_kana LIKE ?', "%#{s}%"))
+               end
     end
 
     # 著者で名前検索
     authors = Author.none
     search_strs.each.with_index do |s, i|
       authors = if i.zero?
-          Author.where("name LIKE ?", "%#{s}%")
-        else
-          authors.or(series.where("name_kana LIKE ?", "%#{s}%"))
-        end
+                  Author.where('name LIKE ?', "%#{s}%")
+                else
+                  authors.or(series.where('name_kana LIKE ?', "%#{s}%"))
+                end
     end
 
     # 著者名で引っかかるときはその著者の持っているシリーズを含める

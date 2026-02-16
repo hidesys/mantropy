@@ -85,7 +85,7 @@ class RakutenSearchService
       where_query << "isbn LIKE '#{isbn0}%' OR isbn LIKE '#{isbn1}%'"
     end
     where_query << "name = '#{item['title']}'"
-    Book.where(where_query.join(' OR ')).count.positive?
+    Book.where(where_query.join(' OR ')).any?
   end
 
   def self.normalize_title(s)

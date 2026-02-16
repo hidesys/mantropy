@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    current_userauth ? current_userauth.user : nil
+    current_userauth&.user
   end
 
   def after_sign_in_path_for(_resource)
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def serie_path(serie, *args)
-    if serie.instance_of?(Serie) && args.length.zero?
+    if serie.instance_of?(Serie) && args.empty?
       clean_serie_name(serie)
     else
       serie_url(serie, *args)

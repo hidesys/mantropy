@@ -1,11 +1,9 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   validates :content, presence: true
-  validates :topic_id, presence: true
   validates :name,
             presence: true,
             unless: :user_id?
   validates :user_id,
-            presence: true,
             unless: :name?
   belongs_to :topic
   belongs_to :user

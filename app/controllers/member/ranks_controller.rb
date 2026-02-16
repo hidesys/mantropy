@@ -52,7 +52,7 @@ class Member::RanksController < Member::Base
       @rank = r[0]
       @rank.serie_id = rank_params[:serie_id]
     end
-    p @rank
+    Rails.logger.debug @rank
 
     if @rank.save
       redirect_to(user_path(current_user.name),

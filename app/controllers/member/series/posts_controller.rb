@@ -7,7 +7,7 @@ class Member::Series::PostsController < Member::Series::Base
       post.order = Post.where(topic_id: post.topic_id).count + 1
       post.save!
       unless /sage/ =~ params[:post][:email]
-        @serie.topic.updated_at = Time.now
+        @serie.topic.updated_at = Time.zone.now
         @serie.topic.save!
       end
       @serie.post = post

@@ -2,8 +2,7 @@ require Rails.root.join('app/models/concerns/slack_notice.rb')
 
 module ExceptionNotifier
   class SlackAuthNotifier
-    def initialize(options) # rubocop:disable Style/EmptyMethod
-    end
+    def initialize(options); end
 
     def call(exception, _options = {})
       channel = '#2_mantropy'

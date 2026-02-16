@@ -1,6 +1,4 @@
-class Postfav < ActiveRecord::Base
-  validates :post_id, presence: true
-  validates :user_id, presence: true
+class Postfav < ApplicationRecord
   validates :score, presence: true
   belongs_to :post
   belongs_to :user

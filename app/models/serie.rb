@@ -1,4 +1,4 @@
-class Serie < ActiveRecord::Base
+class Serie < ApplicationRecord
   validates :name, presence: true
   has_many :ranks
   has_many :authors_series

@@ -1,4 +1,3 @@
-class Bookaffair < ActiveRecord::Base
-  validates :book_id, presence: true
+class Bookaffair < ApplicationRecord
   belongs_to :book
 end

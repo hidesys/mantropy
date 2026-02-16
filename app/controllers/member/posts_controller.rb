@@ -26,7 +26,7 @@ class Member::PostsController < Member::Base
         @post.order = Post.where(topic_id: @post.topic_id).count + 1
         @post.save!
         unless /sage/ =~ params[:post][:email]
-          topic.updated_at = Time.now
+          topic.updated_at = Time.zone.now
           topic.save!
         end
       end

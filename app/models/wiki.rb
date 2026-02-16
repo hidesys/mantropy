@@ -1,6 +1,5 @@
-class Wiki < ActiveRecord::Base
+class Wiki < ApplicationRecord
   belongs_to :user
-  validates :user_id, presence: true
   validates :name, presence: true
   validates :title, presence: true
   validates :content, presence: true

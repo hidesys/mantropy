@@ -24,7 +24,7 @@
         name = post.user.name
         rank = serie.ranks.where(ranking_id: @ranking_ids, user_id: post.user.id).first
         rank_str = if rank
-                     ":#{rank.ranking_id == @ranking_ids[0] ? nil : '糞'}#{rank.rank}位"
+                     ":#{'糞' unless rank.ranking_id == @ranking_ids[0]}#{rank.rank}位"
                    end
         "#{content}（#{name}#{rank_str}）"
       end.join("\n")
