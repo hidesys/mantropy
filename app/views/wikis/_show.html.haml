@@ -1,5 +1,5 @@
 - content_for :header do
-  = javascript_include_tag 'wikis_show'
+  = javascript_import_module_tag 'wikis_show'
 
 - if @wiki.present?
   = raw(HikiDoc.to_html(@wiki.content, :use_wiki_name=>false))

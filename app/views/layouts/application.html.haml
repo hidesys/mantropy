@@ -13,7 +13,7 @@
 
     = csrf_meta_tag
     = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application'
+    = javascript_importmap_tags
     = yield :header
   %body{:style => "background-color:#{(Rails.env == "development" ? "black" : "#EFEFEF;")}"}
     #body{:align => "center"}
