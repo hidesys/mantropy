@@ -7,14 +7,14 @@ gem 'devise'
 gem 'devise-encryptable'
 gem 'erb2haml'
 gem 'haml'
-gem 'iconv', '~> 1.0.3'
+gem 'iconv', '~> 1.1.1'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'rails'
 gem 'rails_autolink'
 gem 'ruby-aaws', require: 'amazon/aws/search'
 
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # Bundle edge Rails instead:
