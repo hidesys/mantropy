@@ -8,23 +8,23 @@ class Member::SeriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'index画面を取得できる' do
-    get member_series_index_path
+    get member_series_path
     assert_response :success
   end
 
   test 'new画面を取得できる' do
-    get new_member_series_path
+    get new_member_serie_path
     assert_response :success
   end
 
   test 'edit画面を取得できる' do
-    get edit_member_series_path(@serie)
+    get edit_member_serie_path(@serie)
     assert_response :success
   end
 
   test 'ログインしていない場合はログイン画面にリダイレクトされる' do
     sign_out @userauth
-    get member_series_index_path
+    get member_series_path
     assert_redirected_to new_userauth_session_path
   end
 end

@@ -9,7 +9,7 @@ class Member::Series::PostsControllerTest < ActionDispatch::IntegrationTest
 
   test 'ログインしていない場合はログイン画面にリダイレクトされる' do
     sign_out @userauth
-    patch member_series_post_path(@serie)
+    patch member_serie_post_path(@serie)
     assert_redirected_to new_userauth_session_path
   end
 end

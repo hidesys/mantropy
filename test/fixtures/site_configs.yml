@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  path: /path/one
   name: MyString
   value: MyString
 
 two:
+  path: /path/two
   name: MyString
   value: MyString

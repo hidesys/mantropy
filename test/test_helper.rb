@@ -1,4 +1,6 @@
 ENV['RAILS_ENV'] = 'test'
+ENV['DIGEST_USER'] ||= 'test'
+ENV['DIGEST_PASS'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'rake'

@@ -5,8 +5,8 @@ Mantropy::Application.routes.draw do
     resources :books, except: :destroy
     resources :posts, except: :destroy
     resources :ranks
-    get '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show'
     resources :topics, except: %i[destroy show]
+    get '/topics/:id(/((:from)(-:to))(/:top))' => 'topics#show', constraints: { id: /\d+/ }
     resources :wikis, only: %i[index create new]
     resources :users, only: %i[create update edit new]
     resources :site_configs, only: %i[index create update destroy]

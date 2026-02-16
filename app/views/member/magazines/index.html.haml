@@ -5,7 +5,7 @@
   \#{submit_tag "統合する", :confirm => "！危険！　雑誌の統合は元に戻せません！　実行して本当によろしいですか？？ "}
 %hr/
 - @magazines.each do |magazine|
-  = form_for magazine, :action => :update do |f|
+  = form_for [:member, magazine] do |f|
     = magazine.id
     = f.text_field :name
     = f.text_field :publisher

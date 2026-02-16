@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  magazines: 
-  series: 
+  magazine_id: 1
+  serie_id: 1
   placed: MyString
 
 two:
-  magazines: 
-  series: 
+  magazine_id: 2
+  serie_id: 2
   placed: MyString
