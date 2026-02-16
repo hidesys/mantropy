@@ -47,3 +47,10 @@ gem 'exception_notification-rake'
 gem 'net-imap'
 gem 'net-pop'
 gem 'net-smtp'
+
+# Ruby 3.4.8 対応
+gem 'thor', '>= 1.2.2'
+gem 'mutex_m'
+gem 'bigdecimal'
+gem 'drb'
+gem 'base64'
