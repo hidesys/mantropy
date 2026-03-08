@@ -11,7 +11,7 @@ gem 'devise-encryptable'
 
 # ビュー関連
 gem 'erb2haml'
-gem 'haml-rails'
+gem 'haml'
 gem 'jbuilder'
 gem 'rails_autolink'
 
