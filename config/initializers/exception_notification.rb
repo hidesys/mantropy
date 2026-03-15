@@ -4,11 +4,14 @@ module ExceptionNotifier
   class SlackAuthNotifier
     def initialize(options); end
 
-    def call(exception, _options = {})
+    def call(exception, options = {})
+      env = options[:env]
+      request_url = env ? "#{env['REQUEST_METHOD']} #{env['REQUEST_URI'] || env['PATH_INFO']}" : '不明'
       channel = '#2_mantropy'
       text = <<~TEXT
         エラーが発生しました！
         RAILS_HOST: #{ENV.fetch('RAILS_HOST', nil)}
+        URL: #{request_url}
         メッセージ: #{exception.class} #{exception.message}
         バックトレース: ```#{exception.backtrace.join("\n")[0..1000]}```
       TEXT
